@@ -19,6 +19,11 @@ namespace NegoSudLib.DAO
         [StringLength(30)]
         public string NomProduit { get; set; } = string.Empty;
 
+        public int ContenanceCl { get; set; }
+        public float DegreeAlcool { get; set; }
+
+        public int Millesime { get; set; }
+
         [StringLength(100)]
         public string DescriptionProduit { get; set; } = string.Empty;
         public int SeuilCommandeMin { get; set; }
@@ -37,16 +42,6 @@ namespace NegoSudLib.DAO
         [ForeignKey(nameof(Categorie))]
         public int CategorieId { get; set; }
         public Categorie Categorie { get; set; } = null!;
-
-        [ForeignKey(nameof(PrixAchat))]
-        public int PrixAchatId { get; set; }
-        public Categorie PrixAchat { get; set; } = null!;
-        
-        [ForeignKey(nameof(PrixVente))]
-        public int PrixVenteId { get; set; }
-        public Categorie PrixVente { get; set; } = null!;
-
-
 
     }
 }

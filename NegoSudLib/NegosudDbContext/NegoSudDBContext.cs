@@ -11,7 +11,6 @@ namespace NegoSudLib.NegosudDbContext
     public class NegoSudDBContext : DbContext
     {
         public DbSet<Produit> Produits { get; set; }
-        public DbSet<AjustementManuel> AjustementsManuels { get; set; }
         public DbSet<Categorie> Categories { get; set; }
         public DbSet<Domaine> Domaines { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -23,6 +22,7 @@ namespace NegoSudLib.NegosudDbContext
         public DbSet<PrixAchat> PrixAchats { get; set; }
         public DbSet<PrixVente> PrixVentes { get; set; }
         public DbSet<Vente> Ventes { get; set; }
+        public DbSet<TypeMouvement> TypesMouvement { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

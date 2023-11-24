@@ -21,11 +21,18 @@ namespace NegoSudLib.DAO
         [StringLength(255)]
         public string Commentaire { get; set; } = string.Empty;
 
+        [ForeignKey(nameof(Employe))]
+        public int EmployeId { get; set; }
+        public Employe Employe { get; set; } = null!;
+
+        [ForeignKey(nameof(TypeMouvement))]
+        public int TypeMouvementId { get; set; }
+        public TypeMouvement TypeMouvement { get; set; } = null!;
         //[ForeignKey(nameof(TypeMouvement))]
         //public int TypeMouvementId { get; set; }
         //public TypeMouvement TypeMouvement { get; set; } = null!;
 
-        public virtual ICollection<DetailMouvementStock> DetailMouvementStocks { get; set; } = null!;
+        //public virtual ICollection<DetailMouvementStock> DetailMouvementStocks { get; set; } = null!;
 
     }
 }

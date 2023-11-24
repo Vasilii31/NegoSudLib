@@ -11,7 +11,7 @@ namespace NegoSudLib.DAO
     {
         [Key]
         [Required]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [StringLength(50)]
         public string NomCategorie { get; set; } = string.Empty;

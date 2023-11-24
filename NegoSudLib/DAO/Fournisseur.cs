@@ -20,9 +20,9 @@ namespace NegoSudLib.DAO
         [StringLength(20)]
         public string EmailFournisseur { get; set; } = string.Empty;
 
-        public virtual ICollection<Produit>? Produits { get; set; } 
+        //public virtual ICollection<Produit>? Produits { get; set; } 
 
-        public virtual ICollection<Commande>? Commandes { get; set; }
+        //public virtual ICollection<Commande>? Commandes { get; set; }
 
 
     }

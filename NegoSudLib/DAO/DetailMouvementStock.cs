@@ -17,5 +17,9 @@ namespace NegoSudLib.DAO
         [ForeignKey(nameof(MouvementsStock))]
         public int MouvementStockId { get; set; }
         public MouvementStock MouvementsStock { get; set; } = null!;
+        
+        [ForeignKey(nameof(Produit))]
+        public int ProduitId { get; set; }
+        public Produit Produit { get; set; } = null!;
     }
 }

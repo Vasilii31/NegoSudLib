@@ -19,14 +19,14 @@ namespace NegoSudLib.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     NomCategorie = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.ID);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -120,55 +120,17 @@ namespace NegoSudLib.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MouvementsStocks",
+                name: "TypesMouvement",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    QteMouvement = table.Column<int>(type: "int", nullable: false),
-                    DateMouvement = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    EntreeOuSortie = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Commentaire = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Discriminator = table.Column<string>(type: "varchar(21)", maxLength: 21, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EmployeId = table.Column<int>(type: "int", nullable: true),
-                    StatutCommande = table.Column<int>(type: "int", nullable: true),
-                    NumCommande = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    FournisseurId = table.Column<int>(type: "int", nullable: true),
-                    NumFacture = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Vente_EmployeId = table.Column<int>(type: "int", nullable: true),
-                    ClientId = table.Column<int>(type: "int", nullable: true)
+                    NomTypeMouvement = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MouvementsStocks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MouvementsStocks_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MouvementsStocks_Employes_EmployeId",
-                        column: x => x.EmployeId,
-                        principalTable: "Employes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MouvementsStocks_Employes_Vente_EmployeId",
-                        column: x => x.Vente_EmployeId,
-                        principalTable: "Employes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MouvementsStocks_Fournisseurs_FournisseurId",
-                        column: x => x.FournisseurId,
-                        principalTable: "Fournisseurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_TypesMouvement", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -190,10 +152,7 @@ namespace NegoSudLib.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AlaVente = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     DomaineId = table.Column<int>(type: "int", nullable: false),
-                    CategorieId = table.Column<int>(type: "int", nullable: false),
-                    PrixAchatId = table.Column<int>(type: "int", nullable: false),
-                    PrixVenteId = table.Column<int>(type: "int", nullable: false),
-                    FournisseurId = table.Column<int>(type: "int", nullable: true)
+                    CategorieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,19 +161,7 @@ namespace NegoSudLib.Migrations
                         name: "FK_Produits_Categories_CategorieId",
                         column: x => x.CategorieId,
                         principalTable: "Categories",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Produits_Categories_PrixAchatId",
-                        column: x => x.PrixAchatId,
-                        principalTable: "Categories",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Produits_Categories_PrixVenteId",
-                        column: x => x.PrixVenteId,
-                        principalTable: "Categories",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Produits_Domaines_DomaineId",
@@ -222,32 +169,59 @@ namespace NegoSudLib.Migrations
                         principalTable: "Domaines",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Produits_Fournisseurs_FournisseurId",
-                        column: x => x.FournisseurId,
-                        principalTable: "Fournisseurs",
-                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DetailsMouvementStock",
+                name: "MouvementsStocks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    QteProduit = table.Column<int>(type: "int", nullable: false),
-                    PrixApresRistourne = table.Column<float>(type: "float", nullable: false),
-                    AuCarton = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    MouvementStockId = table.Column<int>(type: "int", nullable: false)
+                    QteMouvement = table.Column<int>(type: "int", nullable: false),
+                    DateMouvement = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EntreeOuSortie = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Commentaire = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EmployeId = table.Column<int>(type: "int", nullable: false),
+                    TypeMouvementId = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "varchar(21)", maxLength: 21, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DescriptionAjustement = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    StatutCommande = table.Column<int>(type: "int", nullable: true),
+                    NumCommande = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FournisseurId = table.Column<int>(type: "int", nullable: true),
+                    NumFacture = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DetailsMouvementStock", x => x.Id);
+                    table.PrimaryKey("PK_MouvementsStocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DetailsMouvementStock_MouvementsStocks_MouvementStockId",
-                        column: x => x.MouvementStockId,
-                        principalTable: "MouvementsStocks",
+                        name: "FK_MouvementsStocks_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MouvementsStocks_Employes_EmployeId",
+                        column: x => x.EmployeId,
+                        principalTable: "Employes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MouvementsStocks_Fournisseurs_FournisseurId",
+                        column: x => x.FournisseurId,
+                        principalTable: "Fournisseurs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MouvementsStocks_TypesMouvement_TypeMouvementId",
+                        column: x => x.TypeMouvementId,
+                        principalTable: "TypesMouvement",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -310,10 +284,45 @@ namespace NegoSudLib.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "DetailsMouvementStock",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    QteProduit = table.Column<int>(type: "int", nullable: false),
+                    PrixApresRistourne = table.Column<float>(type: "float", nullable: false),
+                    AuCarton = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    MouvementStockId = table.Column<int>(type: "int", nullable: false),
+                    ProduitId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetailsMouvementStock", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DetailsMouvementStock_MouvementsStocks_MouvementStockId",
+                        column: x => x.MouvementStockId,
+                        principalTable: "MouvementsStocks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DetailsMouvementStock_Produits_ProduitId",
+                        column: x => x.ProduitId,
+                        principalTable: "Produits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_DetailsMouvementStock_MouvementStockId",
                 table: "DetailsMouvementStock",
                 column: "MouvementStockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailsMouvementStock_ProduitId",
+                table: "DetailsMouvementStock",
+                column: "ProduitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MouvementsStocks_ClientId",
@@ -331,9 +340,9 @@ namespace NegoSudLib.Migrations
                 column: "FournisseurId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MouvementsStocks_Vente_EmployeId",
+                name: "IX_MouvementsStocks_TypeMouvementId",
                 table: "MouvementsStocks",
-                column: "Vente_EmployeId");
+                column: "TypeMouvementId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrixAchats_FournisseurId",
@@ -359,21 +368,6 @@ namespace NegoSudLib.Migrations
                 name: "IX_Produits_DomaineId",
                 table: "Produits",
                 column: "DomaineId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Produits_FournisseurId",
-                table: "Produits",
-                column: "FournisseurId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Produits_PrixAchatId",
-                table: "Produits",
-                column: "PrixAchatId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Produits_PrixVenteId",
-                table: "Produits",
-                column: "PrixVenteId");
         }
 
         /// <inheritdoc />
@@ -401,13 +395,16 @@ namespace NegoSudLib.Migrations
                 name: "Employes");
 
             migrationBuilder.DropTable(
+                name: "Fournisseurs");
+
+            migrationBuilder.DropTable(
+                name: "TypesMouvement");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Domaines");
-
-            migrationBuilder.DropTable(
-                name: "Fournisseurs");
         }
     }
 }
