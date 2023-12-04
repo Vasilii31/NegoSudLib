@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NegoSudLib.DAO
 {
-    public class CategorieDTO
+    public class Categorie
     {
         [Key]
         [Required]

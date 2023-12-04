@@ -41,7 +41,7 @@ namespace NegoSudLib.DAO
 
         [ForeignKey(nameof(Categorie))]
         public int CategorieId { get; set; }
-        public CategorieDTO Categorie { get; set; } = null!;
+        public Categorie Categorie { get; set; } = null!;
 
     }
 }

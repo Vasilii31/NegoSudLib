@@ -15,12 +15,12 @@ namespace ConsoleApp1
             using (var context = new NegoSudDBContext())
             {
                 if (context.Categories.Any()) { return; }
-                context.Categories.Add(new CategorieDTO { Id = 1, NomCategorie = "Rouge" });
-                context.Categories.Add(new CategorieDTO { Id = 2, NomCategorie = "Blanc" });
-                context.Categories.Add(new CategorieDTO { Id = 3, NomCategorie = "Rosé" });
-                context.Categories.Add(new CategorieDTO { Id = 4, NomCategorie = "Pétillant" });
-                context.Categories.Add(new CategorieDTO { Id = 5, NomCategorie = "Champagne" });
-                context.Categories.Add(new CategorieDTO { Id = 6, NomCategorie = "Digestifs" });
+                context.Categories.Add(new Categorie { Id = 1, NomCategorie = "Rouge" });
+                context.Categories.Add(new Categorie { Id = 2, NomCategorie = "Blanc" });
+                context.Categories.Add(new Categorie { Id = 3, NomCategorie = "Rosé" });
+                context.Categories.Add(new Categorie { Id = 4, NomCategorie = "Pétillant" });
+                context.Categories.Add(new Categorie { Id = 5, NomCategorie = "Champagne" });
+                context.Categories.Add(new Categorie { Id = 6, NomCategorie = "Digestifs" });
 
                 if (context.Domaines.Any()) { return; }
                 context.Domaines.Add(new Domaine{ Id = 1, NomDomaine = "Domaine des Roches Neuves" });

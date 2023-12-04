@@ -11,7 +11,7 @@ namespace NegoSudLib.NegosudDbContext
     public class NegoSudDBContext : DbContext
     {
         public DbSet<Produit> Produits { get; set; }
-        public DbSet<CategorieDTO> Categories { get; set; }
+        public DbSet<Categorie> Categories { get; set; }
         public DbSet<Domaine> Domaines { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Commande> Commandes { get; set; }
