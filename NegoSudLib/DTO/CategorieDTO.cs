@@ -5,15 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NegoSudLib.DAO
+namespace NegoSudLib.DTO
 {
     public class CategorieDTO
     {
-        [Key]
-        [Required]
+
         public int Id { get; set; }
 
-        [StringLength(50)]
         public string NomCategorie { get; set; } = string.Empty;
     }
 }
