@@ -15,8 +15,15 @@ public class ProduitDTO
     public string DescriptionProduit { get; set; } = string.Empty;
     public int QteCarton { get; set; }
     public string PhotoProduitPath { get; set; } = string.Empty;
-    public string Domaine { get; set; } = string.Empty;
-    public string Categorie { get; set; } = null!;
-    public float PrixVente { get; set; }
-    public float PrixAchat { get; set; }
+    public int DomaineId { get; set; }
+    public string NomDomaine { get; set; } = string.Empty;
+    public int CategorieId { get; set; }
+    public string NomCategorie { get; set; } = null!;
+    public float PrixVenteUnite { get; set; }
+    public float PrixVenteCarton{ get; set; }
+    public float PrixAchatUnite { get; set; }
+    public float PrixAchatCarton { get; set; }
+    public float Taxe { get; set; }
+    public int FournisseurId { get; set; }
+
 }

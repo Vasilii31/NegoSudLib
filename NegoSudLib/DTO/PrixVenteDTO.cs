@@ -1,27 +1,22 @@
-﻿using System;
+﻿using NegoSudLib.DAO;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NegoSudLib.DAO
+namespace NegoSudLib.DTO
 {
-    public abstract class Prix
+    public class PrixVenteDTO
     {
-        [Key]
-        [Required]
         public int Id { get; set; }
-
         public DateTime DateDebut { get; set; }
-
         public DateTime? DateFin { get; set; } = null;
         public float PrixCarton { get; set; }
-        public float PrixUnite{ get; set; }
-
-        [ForeignKey(nameof(Produit))]
-        public int ProduitId {  get; set; }
-        public Produit Produit { get; set; } = null!;
+        public float PrixUnite { get; set; }
+        public int ProduitId { get; set; }
+        public float Promotion { get; set; }
+        public float Taxe { get; set; }
     }
 }
