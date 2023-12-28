@@ -18,11 +18,29 @@ namespace NegoSudLib.Services
             _context = context;
         }
 
+        public PrixVenteDTO? getPrixventeActuel(int ProduitId)
+        {
+            return _context.PrixVentes
+                 .Where(prix => (prix.ProduitId == ProduitId && prix.DateFin == null))
+                 .Select(prix => new PrixVenteDTO
+                 {
+                     Id = prix.Id,
+                     PrixCarton = prix.PrixCarton,
+                     PrixUnite= prix.PrixUnite,
+                     DateDebut = prix.DateDebut,
+                     DateFin = prix.DateFin,
+                     ProduitId = prix.ProduitId,
+                     Promotion = prix.Promotion,
+                     Taxe = prix.Taxe
+                 })
+                 .FirstOrDefault();
+        }
+
         public void addPrixVente(PrixVenteDTO prixVente)
         {
             // On modifie l'ancien prix de vente s'il existe
             PrixVente? AncienPrixVente = _context.PrixVentes
-                .Where(prix => prix.ProduitId == prixVente.ProduitId && prixVente.DateFin == null).FirstOrDefault();
+                .Where(prix => prix.ProduitId == prixVente.ProduitId && prix.DateFin == null).FirstOrDefault();
 
             if (AncienPrixVente != null)
             {
@@ -44,7 +62,23 @@ namespace NegoSudLib.Services
             _context.PrixVentes.Add(PrixVenteEntity);
             _context.SaveChanges();
         }
-        
-        
+
+        public PrixVenteDTO? getPrixVenteByDate(int produitId, DateTime date)
+        {
+            return _context.PrixVentes
+                .Where(prix => (prix.ProduitId == produitId && prix.DateDebut < date && (prix.DateFin == null || prix.DateFin < date)))
+                 .Select(prix => new PrixVenteDTO
+                 {
+                     Id = prix.Id,
+                     PrixCarton = prix.PrixCarton,
+                     PrixUnite = prix.PrixUnite,
+                     DateDebut = prix.DateDebut,
+                     DateFin = prix.DateFin,
+                     ProduitId = prix.ProduitId,
+                     Promotion = prix.Promotion,
+                     Taxe = prix.Taxe
+                 })
+                 .FirstOrDefault();
+        }
     }
 }

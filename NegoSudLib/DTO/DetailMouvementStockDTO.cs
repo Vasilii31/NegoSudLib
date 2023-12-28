@@ -9,5 +9,6 @@ public class DetailMouvementStockDTO
     public int QteProduit { get; set; }
     public float PrixApresRistourne { get; set; }
     public bool AuCarton { get; set; }
-    public ProduitDTO Produit { get; set; } = null!;
+    public int produitId { get; set; }
+    public ProduitReadDTO Produit { get; set; } = null!;
 }

@@ -8,15 +8,6 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        //SeedService.SeedDatabase();
-
-        ICollection<ProduitDTO> produitDTOs = new List<ProduitDTO>();
-        NegoSudDBContext context = new NegoSudDBContext();
-        ProduitService produitService = new ProduitService(context);
-        produitDTOs = produitService.GetProduits();
-        foreach (ProduitDTO prod in produitDTOs)
-        {
-            Console.WriteLine(prod.NomProduit);
-        }
+        SeedService.SeedDatabase();
     }
 }

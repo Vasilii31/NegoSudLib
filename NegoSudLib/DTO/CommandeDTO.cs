@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NegoSudLib.DAO;
+using System;
 
 /// <summary>
 /// Summary description for Class1
@@ -19,7 +20,7 @@ public class CommandeDTO
     public string PrenomEmploye { get; set; } = string.Empty;
 
     public string NomFournisseur {  get; set; } = string.Empty;
-    public string StatutCommande { get; set; } = string.Empty;
+    public Statuts StatutCommande { get; set; }
 
     public ICollection<DetailMouvementStockDTO> DetailMouvementStocks { get; set; } = null!;
 }

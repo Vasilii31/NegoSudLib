@@ -18,20 +18,36 @@ namespace NegoSudLib.Services
             _context = context;
         }
 
-        public void addPrixAchat(PrixAchatDTO prixAchat)
+        public PrixAchatReadDTO? getPrixAchatActuel(int produitId) {
+            return _context.PrixAchats
+                .Where(prix => (prix.ProduitId == produitId && prix.DateFin == null))
+                .Select(prix => new PrixAchatReadDTO
+                {
+                    Id = prix.Id,
+                    ProduitId = prix.ProduitId,
+                    PrixCarton = prix.PrixCarton,
+                    PrixUnite = prix.PrixUnite,
+                    DateDebut = prix.DateDebut,
+                    DateFin = prix.DateFin,
+                    Fournisseur = prix.Fournisseur
+                })
+                .FirstOrDefault();
+        }
+
+        public void addPrixAchat(PrixAchatWriteDTO prixAchat)
         {
             // On modifie l'ancien prix d'achat s'il existe
-            PrixAchat? AncienPrixAchat = _context.PrixAchats
-                .Where(prix => prix.ProduitId == prixAchat.ProduitId && prix.FournisseurId == prixAchat.FournisseurId && prixAchat.DateFin == null).FirstOrDefault();
+            PrixAchat? PrixAchatOld = _context.PrixAchats
+                .Where(prix => prix.ProduitId == prixAchat.ProduitId && prix.FournisseurId == prixAchat.FournisseurId && prix.DateFin == null)
+                .FirstOrDefault();
 
-            if (AncienPrixAchat != null)
+            if (PrixAchatOld != null)
             {
-                AncienPrixAchat.DateFin = DateTime.Now;
+                PrixAchatOld.DateFin = DateTime.Now;
                 _context.SaveChanges();
             }
 
             // On ajoute le nouveau prix
-
             PrixAchat PrixAchatEntity = new PrixAchat
             {
                 DateDebut = prixAchat.DateDebut,
@@ -44,7 +60,23 @@ namespace NegoSudLib.Services
             _context.PrixAchats.Add(PrixAchatEntity);
             _context.SaveChanges();
         }
-        
-        
+
+        public PrixAchatReadDTO? getPrixAchatByDate(int produitId, DateTime date)
+        {
+            return _context.PrixAchats
+                .Where(prix => (prix.ProduitId == produitId && prix.DateDebut < date && (prix.DateFin == null || prix.DateFin < date) ))
+                .Select(prix => new PrixAchatReadDTO
+                {
+                    Id = prix.Id,
+                    ProduitId = prix.ProduitId,
+                    PrixCarton = prix.PrixCarton,
+                    PrixUnite = prix.PrixUnite,
+                    DateDebut = prix.DateDebut,
+                    DateFin = prix.DateFin,
+                    Fournisseur = prix.Fournisseur
+                })
+                .FirstOrDefault();
+        }
+
     }
 }

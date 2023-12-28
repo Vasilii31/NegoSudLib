@@ -16,65 +16,21 @@ namespace NegoSudLib.Services
     public class ProduitService
     {
         private readonly NegoSudDBContext _context;
-        private readonly PrixVenteService prixVenteService;
-        private readonly PrixAchatService prixAchatService;
+        private readonly PrixAchatService _prixAchatService;
+        private readonly PrixVenteService _prixVenteService;
+
         public ProduitService(NegoSudDBContext context)
         {
             _context = context;
+            _prixAchatService = new PrixAchatService(context);
+            _prixVenteService = new PrixVenteService(context);
         }
-
-
-        public ProduitDTO? produitVersProduitDTO(Produit p)
-        {
-            if (p == null)
-            {
-                return null;
-            }
-            ProduitDTO produitDTO = new ProduitDTO
-            {
-                Id = p.Id,
-                QteEnStock = p.QteEnStock,
-                NomProduit = p.NomProduit,
-                ContenanceCl = p.ContenanceCl,
-                DegreeAlcool = p.DegreeAlcool,
-                Millesime = p.Millesime,
-                DescriptionProduit = p.DescriptionProduit,
-                QteCarton = p.QteCarton,
-                PhotoProduitPath = p.PhotoProduitPath,
-                DomaineId = p.DomaineId,
-                NomDomaine = p.Domaine.NomDomaine,
-                CategorieId = p.CategorieId,
-                NomCategorie = p.Categorie.NomCategorie,
-                PrixVenteUnite = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                PrixVenteCarton = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                PrixAchatUnite = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                PrixAchatCarton = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                FournisseurId = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.FournisseurId)
-                                        .FirstOrDefault(),
-            };
-            return produitDTO;
-        }
-
 
         // recupérations de tout les produits
         // route: GET /produits/
-        public ICollection<ProduitDTO> GetProduits()
+        public ICollection<ProduitReadDTO> getProduits()
         {
-            return _context.Produits.Select(p => new ProduitDTO
+            ICollection<ProduitReadDTO> produits = _context.Produits.Select(p => new ProduitReadDTO
             {
                 Id = p.Id,
                 QteEnStock = p.QteEnStock,
@@ -85,40 +41,31 @@ namespace NegoSudLib.Services
                 DescriptionProduit = p.DescriptionProduit,
                 QteCarton = p.QteCarton,
                 PhotoProduitPath = p.PhotoProduitPath,
-                DomaineId = p.DomaineId,
-                NomDomaine = p.Domaine.NomDomaine,
-                CategorieId = p.CategorieId,
-                NomCategorie = p.Categorie.NomCategorie,
-                PrixVenteUnite = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                PrixVenteCarton = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                PrixAchatUnite = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                PrixAchatCarton = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                FournisseurId = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.FournisseurId)
-                                        .FirstOrDefault(),
+                Domaine = p.Domaine,
+                Categorie = p.Categorie,
             }).ToList();
+
+            if (produits.Count > 0)
+            {
+                foreach (var produit in produits)
+                {
+                    if (produit != null)
+                    {
+                        produit.PrixVente = _prixVenteService.getPrixventeActuel(produit.Id);
+                        produit.PrixAchat = _prixAchatService.getPrixAchatActuel(produit.Id);
+                    }
+                }
+            }
+            return produits;
         }
 
         // Renvoie les produits par domaine
         // route: GET produits/Domaine/{domaineId}
-        public ICollection<ProduitDTO> GetProduitsByDomaine(int domaineId)
+        public ICollection<ProduitReadDTO> GetProduitsByDomaine(int domaineId)
         {
-            return _context.Produits
+            ICollection<ProduitReadDTO> produits = _context.Produits
                 .Where(Produit => Produit.DomaineId == domaineId)
-                .Select(p => new ProduitDTO
+                .Select(p => new ProduitReadDTO
                 {
                     Id = p.Id,
                     QteEnStock = p.QteEnStock,
@@ -129,39 +76,30 @@ namespace NegoSudLib.Services
                     DescriptionProduit = p.DescriptionProduit,
                     QteCarton = p.QteCarton,
                     PhotoProduitPath = p.PhotoProduitPath,
-                    DomaineId = p.DomaineId,
-                    NomDomaine = p.Domaine.NomDomaine,
-                    CategorieId = p.CategorieId,
-                    NomCategorie = p.Categorie.NomCategorie,
-                    PrixVenteUnite = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    PrixVenteCarton = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    PrixAchatUnite = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    PrixAchatCarton = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    FournisseurId = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.FournisseurId)
-                                        .FirstOrDefault(),
+                    Domaine = p.Domaine,
+                    Categorie = p.Categorie
                 }).ToList();
+
+            if (produits.Count > 0)
+            {
+                foreach (var produit in produits)
+                {
+                    if (produit != null)
+                    {
+                        produit.PrixVente = _prixVenteService.getPrixventeActuel(produit.Id);
+                        produit.PrixAchat = _prixAchatService.getPrixAchatActuel(produit.Id);
+                    }
+                }
+            }
+            return produits;
         }
         // Renvoie les produits par categorie
         // route: /produits/categorie/{categorieId}
-        public ICollection<ProduitDTO> GetProduitsByCategorie(int categorieId)
+        public ICollection<ProduitReadDTO> GetProduitsByCategorie(int categorieId)
         {
-            return _context.Produits
+            ICollection<ProduitReadDTO> produits = _context.Produits
                 .Where(Produit => Produit.CategorieId == categorieId)
-                .Select(p => new ProduitDTO
+                .Select(p => new ProduitReadDTO
                 {
                     Id = p.Id,
                     QteEnStock = p.QteEnStock,
@@ -172,37 +110,93 @@ namespace NegoSudLib.Services
                     DescriptionProduit = p.DescriptionProduit,
                     QteCarton = p.QteCarton,
                     PhotoProduitPath = p.PhotoProduitPath,
-                    DomaineId = p.DomaineId,
-                    NomDomaine = p.Domaine.NomDomaine,
-                    CategorieId = p.CategorieId,
-                    NomCategorie = p.Categorie.NomCategorie,
-                    PrixVenteUnite = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    PrixVenteCarton = _context.PrixVentes
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    PrixAchatUnite = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    PrixAchatCarton = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.PrixUnite)
-                                        .FirstOrDefault(),
-                    FournisseurId = _context.PrixAchats
-                                        .Where(prix => (prix.ProduitId == p.Id && prix.DateFin == null))
-                                        .Select(prix => prix.FournisseurId)
-                                        .FirstOrDefault(),
+                    Domaine = p.Domaine,
+                    Categorie = p.Categorie
                 }).ToList();
+
+            if (produits.Count > 0)
+            {
+                foreach (var produit in produits)
+                {
+                    if (produit != null)
+                    {
+                        produit.PrixVente = _prixVenteService.getPrixventeActuel(produit.Id);
+                        produit.PrixAchat = _prixAchatService.getPrixAchatActuel(produit.Id);
+                    }
+                }
+            }
+            return produits;
         }
 
 
+        public ProduitReadDTO? getProduitById(int produitId)
+        {
+            Produit? p = _context.Produits.Find(produitId);
+            if (p == null)
+            {
+                return null;
+            }
+            ProduitReadDTO prod = produitToProduitReadDTO(p);
+            return prod;
+        }
+
+        public ProduitReadDTO? GetProduitByIdDate(int produitId, DateTime date) {         
+            ProduitReadDTO? produitDTO = _context.Produits
+                .Where(prod => prod.Id  == produitId)
+                .Select(p => new ProduitReadDTO
+                {
+                    Id = p.Id,
+                    NomProduit = p.NomProduit,
+                    PhotoProduitPath = p.PhotoProduitPath,
+                    DescriptionProduit = p.DescriptionProduit,
+                    ContenanceCl = p.ContenanceCl,
+                    DegreeAlcool = p.DegreeAlcool,
+                    QteEnStock = p.QteEnStock,
+                    Millesime = p.Millesime,
+                    QteCarton = p.QteCarton,
+                    Domaine = p.Domaine,
+                    Categorie = p.Categorie
+                }).FirstOrDefault();
+                
+            if (produitDTO.Id != 0)
+            {
+                produitDTO.PrixVente = _prixVenteService.getPrixVenteByDate(produitId, date);
+                produitDTO.PrixAchat = _prixAchatService.getPrixAchatByDate(produitId, date);
+
+                return produitDTO;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        // Transforme un produit en ProduitReadDTO
+        public ProduitReadDTO produitToProduitReadDTO(Produit p)
+        {
+
+            ProduitReadDTO prod = new ProduitReadDTO
+            {
+                Id = p.Id,
+                NomProduit = p.NomProduit,
+                PhotoProduitPath = p.PhotoProduitPath,
+                DescriptionProduit = p.DescriptionProduit,
+                ContenanceCl = p.ContenanceCl,
+                DegreeAlcool = p.DegreeAlcool,
+                QteEnStock = p.QteEnStock,
+                Millesime = p.Millesime,
+                QteCarton = p.QteCarton,
+                Domaine = p.Domaine,
+                Categorie = p.Categorie
+            };
+            prod.PrixVente = _prixVenteService.getPrixventeActuel(prod.Id);
+            prod.PrixAchat = _prixAchatService.getPrixAchatActuel(prod.Id);
+            return prod;
+        }
         // Ajout d'un produit et des prix achat et vente
         // route POST produit/
-        public void AddProduit(ProduitDTO produit)
+        public int AddProduit(ProduitWriteDTO produit)
         {
             Produit produitEntity = new Produit
             {
@@ -219,99 +213,105 @@ namespace NegoSudLib.Services
             };
 
             _context.Produits.Add(produitEntity);
-            _context.SaveChanges();
+            if (_context.SaveChanges() != 1)
+            {
+                return 0;
+            };
 
             // récuperation de l'id du produit crée
             int produitId = produitEntity.Id;
 
             // Ajout du prix de vente
-            PrixVenteDTO prixVente = new PrixVenteDTO
+            produit.PrixVenteActuel.ProduitId = produitId;
+            if (produit.PrixVenteActuel != null)
             {
-                DateDebut = DateTime.Now,
-                DateFin = null,
-                PrixCarton = produit.PrixVenteCarton,
-                PrixUnite = produit.PrixVenteUnite,
-                ProduitId = produitId,
-                Taxe = produit.Taxe
-            };
-            prixVenteService.addPrixVente(prixVente);
+                _prixVenteService.addPrixVente(produit.PrixVenteActuel);
+            }
 
 
             // Ajout du prix d'achat
-            PrixAchatDTO prixAchat = new PrixAchatDTO
+            produit.PrixAchatActuel.ProduitId = produitId;
+            if (produit.PrixAchatActuel != null)
             {
-                DateDebut = DateTime.Now,
-                DateFin = null,
-                PrixCarton = produit.PrixAchatCarton,
-                PrixUnite = produit.PrixAchatUnite,
-                ProduitId = produitId,
-                FournisseurId = produit.FournisseurId
-            };
-            prixAchatService.addPrixAchat(prixAchat);
+                _prixAchatService.addPrixAchat(produit.PrixAchatActuel);
+            }
+            _context.SaveChanges();
 
+
+            return produitId;
+        }
+
+        // Modifier un produit
+        // route: DELETE produit/{produitId}
+        public bool DeleteProduit(int id)
+        {
+            Produit? prod = _context.Produits.Find(id);
+            if (prod != null)
+            {
+                _context.Produits.Remove(prod);
+                if (_context.SaveChanges() == 1)
+                {
+                    return true;
+                };
+            }
+            return false;
         }
 
 
-
-        // Modifier un produit
-        // route: POST produit/{produitId}
-        public void updateProduit(ProduitDTO produit)
+        //Modifier un produit
+        //route: PUT produit/{produitId
+        public bool UpdateProduit(ProduitWriteDTO ProduitNew)
         {
-            Produit? produitAModifier = _context.Produits.Find(produit.Id);
-            if (produitAModifier == null)
+            Produit? produitOld = _context.Produits.Find(ProduitNew.Id);
+            if (produitOld == null)
             {
                 // on gère le cas où l'entité n'est pas trouvée
-                throw new ArgumentException("Produit non trouvé");
+                return false;
             }
-            ProduitDTO produitAModifierDTO = produitVersProduitDTO(produitAModifier);
 
-
-            produitAModifier.QteEnStock = produit.QteEnStock;
-            produitAModifier.NomProduit = produit.NomProduit;
-            produitAModifier.ContenanceCl = produit.ContenanceCl;
-            produitAModifier.DegreeAlcool = produit.DegreeAlcool;
-            produitAModifier.Millesime = produit.Millesime;
-            produitAModifier.DescriptionProduit = produit.DescriptionProduit;
-            produitAModifier.QteCarton = produit.QteCarton;
-            produitAModifier.PhotoProduitPath = produit.PhotoProduitPath;
-            produitAModifier.DomaineId = produit.DomaineId;
-            produitAModifier.CategorieId = produit.CategorieId;
+            // modif de la table Produit
+            produitOld.QteEnStock = ProduitNew.QteEnStock;
+            produitOld.NomProduit = ProduitNew.NomProduit;
+            produitOld.ContenanceCl = ProduitNew.ContenanceCl;
+            produitOld.DegreeAlcool = ProduitNew.DegreeAlcool;
+            produitOld.Millesime = ProduitNew.Millesime;
+            produitOld.DescriptionProduit = ProduitNew.DescriptionProduit;
+            produitOld.QteCarton = ProduitNew.QteCarton;
+            produitOld.PhotoProduitPath = ProduitNew.PhotoProduitPath;
+            produitOld.DomaineId = ProduitNew.DomaineId;
+            produitOld.CategorieId = ProduitNew.CategorieId;
             _context.SaveChanges();
 
+            ProduitReadDTO produitOldDTO = produitToProduitReadDTO(produitOld);
+
             // Ajout du nouveaux prix de vente si modifié
-            if (produitAModifierDTO.PrixVenteCarton != produit.PrixVenteCarton || produitAModifierDTO.PrixVenteUnite != produit.PrixVenteUnite)
+            if (ProduitNew.PrixVenteActuel != null && produitOldDTO.PrixVente != null)
             {
-                PrixVenteDTO prixVente = new PrixVenteDTO
+                if (produitOldDTO.PrixVente.PrixCarton != ProduitNew.PrixVenteActuel.PrixCarton ||
+                    produitOldDTO.PrixVente.PrixUnite != ProduitNew.PrixVenteActuel.PrixUnite ||
+                    produitOldDTO.PrixVente.Promotion != ProduitNew.PrixVenteActuel.Promotion ||
+                    produitOldDTO.PrixVente.Taxe != ProduitNew.PrixVenteActuel.Taxe
+                    )
                 {
-                    DateDebut = DateTime.Now,
-                    DateFin = null,
-                    PrixCarton = produit.PrixVenteCarton,
-                    PrixUnite = produit.PrixVenteUnite,
-                    ProduitId = produit.Id,
-                    Taxe = produit.Taxe
-                };
-                prixVenteService.addPrixVente(prixVente);
+                    _prixVenteService.addPrixVente(ProduitNew.PrixVenteActuel);
+                }
             }
 
             // Ajout du prix d'achat si modifié
-            if (produitAModifierDTO.PrixAchatCarton != produit.PrixAchatCarton || produitAModifierDTO.PrixAchatUnite != produit.PrixAchatUnite)
+            if (ProduitNew.PrixAchatActuel != null && produitOldDTO.PrixAchat != null)
             {
-
-                PrixAchatDTO prixAchat = new PrixAchatDTO
+                if (produitOldDTO.PrixAchat.PrixCarton != ProduitNew.PrixAchatActuel.PrixCarton ||
+                produitOldDTO.PrixAchat.PrixUnite != ProduitNew.PrixAchatActuel.PrixUnite ||
+                produitOldDTO.PrixAchat.Fournisseur.Id != ProduitNew.PrixAchatActuel.FournisseurId
+                )
                 {
-                    DateDebut = DateTime.Now,
-                    DateFin = null,
-                    PrixCarton = produit.PrixAchatCarton,
-                    PrixUnite = produit.PrixAchatUnite,
-                    ProduitId = produit.Id,
-                    FournisseurId = produit.FournisseurId
-                };
-                prixAchatService.addPrixAchat(prixAchat);
+                    _prixAchatService.addPrixAchat(ProduitNew.PrixAchatActuel);
+                }
 
             }
 
+            return true;
+
         }
-
     }
-
 }

@@ -1,15 +1,13 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NegoSudLib.DTO
 {
-    public class PrixVenteDTO
+    public class PrixAchatWriteDTO
     {
         public int Id { get; set; }
         public DateTime DateDebut { get; set; }
@@ -17,7 +15,7 @@ namespace NegoSudLib.DTO
         public float PrixCarton { get; set; }
         public float PrixUnite { get; set; }
         public int ProduitId { get; set; }
-        public float Promotion { get; set; }
-        public float Taxe { get; set; }
+        public int FournisseurId { get; set; }
+
     }
 }
