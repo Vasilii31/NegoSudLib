@@ -42,8 +42,19 @@ namespace ConsoleApp1
                 
 
                 if (context.Produits.Any()) { return; }
-                context.Produits.Add(new Produit { Id = 1, NomProduit = "Gros et Petit Manseng", QteEnStock = 0, AlaVente = true, DescriptionProduit= "Domaine D'Uby Tortues Gros Et Petit Manseng Blanc 2021",
-                    SeuilCommandeMin = 10, CommandeMin = 10, QteCarton = 12, PhotoProduitPath="", DomaineId = 4, CategorieId = 2, ContenanceCl=75, DegreeAlcool = 11f, Millesime =2021});
+                context.Produits.Add(new Produit { 
+                    Id = 1, NomProduit = "Gros et Petit Manseng", QteEnStock = 0, 
+                    AlaVente = true,
+                    DescriptionProduit= "Domaine D'Uby Tortues Gros Et Petit Manseng Blanc 2021",
+                    SeuilCommandeMin = 10,
+                    CommandeMin = 10,
+                    QteCarton = 12, 
+                    PhotoProduitPath="",
+                    DomaineId = 4,
+                    CategorieId = 2,
+                    ContenanceCl=75,
+                    DegreeAlcool = 11f,
+                    Millesime =2021});
                 context.Produits.Add(new Produit
                 {
                     Id = 2,
@@ -280,8 +291,87 @@ namespace ConsoleApp1
                     DegreeAlcool = 13.5f
                 });
 
+                context.Fournisseurs.Add(new Fournisseur
+                {
+                    Id = 1,
+                    NomFournisseur = "Cave du Jurançon"
+                });
 
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    DateDebut = DateTime.Now,
+                    DateFin = null,
+                    ProduitId = 1,
+                    PrixCarton = 12,
+                    PrixUnite = 3,
+                    FournisseurId = 1
+                });
 
+                context.PrixVentes.Add(new PrixVente
+                {
+                    DateDebut = DateTime.Now,
+                    DateFin = null,
+                    ProduitId = 1,
+                    PrixCarton = 50,
+                    PrixUnite = 7,
+                    Taxe = 20
+                });
+
+                context.Employes.Add(new Employe
+                {
+                    Id=1,
+                    NomUtilisateur = "Blanc",
+                    PrenomUtilisateur = "Christopher",
+                    Gerant = false,
+                    MailUtilisateur = "test@test.fr",
+                    AdresseUtilisateur = "12 rue du test",
+                }) ;
+
+                context.TypesMouvement.Add(new TypeMouvement
+                {
+                    Id = 1,
+                    NomTypeMouvement = "Vente"
+                });
+
+                context.TypesMouvement.Add(new TypeMouvement
+                {
+                    Id = 2,
+                    NomTypeMouvement = "Commande"
+                });
+
+                context.Clients.Add(new Client
+                {
+                    Id=1,
+                    NomUtilisateur = "Dupont",
+                    PrenomUtilisateur = "José",
+                    NumClient = "12F3",
+                    MailUtilisateur = "test@test.fr",
+                    AdresseUtilisateur = "12 rue du test",
+                    NumTelUtilisateur = "010101010"
+                });
+                context.SaveChanges();
+
+                context.Ventes.Add(new Vente
+                {
+                    ClientId = 1,
+                    QteMouvement = 1,
+                    EntreeOuSortie = true,
+                    Commentaire = "test",
+                    NumFacture = "123",
+                    DateMouvement = DateTime.Now,
+                    EmployeId = 1,
+                });
+                context.SaveChanges();
+
+                context.DetailsMouvementStock.Add(new DetailMouvementStock
+                {
+                    Id = 1,
+                    QteProduit = 1,
+                    AuCarton = true,
+                    PrixApresRistourne = 12,
+                    MouvementStockId = 1,
+                    ProduitId = 1
+                });
 
                 context.SaveChanges();
             }
