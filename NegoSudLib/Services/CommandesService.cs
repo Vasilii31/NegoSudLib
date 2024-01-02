@@ -39,7 +39,7 @@ namespace NegoSudLib.Services
             if (commandes.Count == 0) { return null; }
             foreach (var commande in commandes)
             {
-                commande.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(commande.Id);
+                //commande.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(commande.Id);
             }
             return commandes;
         }

@@ -10,6 +10,6 @@ namespace NegoSudLib.DAO
 
         [ForeignKey(nameof(Client))] 
         public int ClientId { get; set; }
-        public Client Client { get; set; } = null!;
+        public virtual Client? Client { get; set; }
     }
 }

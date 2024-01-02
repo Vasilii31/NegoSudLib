@@ -22,7 +22,7 @@ namespace NegoSudLib.Services
         }
         public ICollection<EmployeDTO> GetEmployes()
         {
-            ICollection<EmployeDTO> employes = _context.Employes.Select(e => new EmployeDTO
+            ICollection<EmployeDTO> employes =   _context.Employes.Select(e => new EmployeDTO
             {
                 Id = e.Id,
                 NomUtilisateur = e.NomUtilisateur,
@@ -33,7 +33,7 @@ namespace NegoSudLib.Services
                 Gerant = e.Gerant,
             }).ToList();
 
-            return employes;
+            return  employes;
         }
 
         public EmployeDetailDTO? getEmployeById(int id)
@@ -106,10 +106,11 @@ namespace NegoSudLib.Services
 
 
 
+
         public EmployeDetailDTO employeToEmployeDetailDTO(Employe e)
         {
 
-            EmployeDetailDTO employe = new EmployeDetailDTO
+            EmployeDetailDTO employeDTO = new EmployeDetailDTO
             {
                 Id = e.Id,
                 NomUtilisateur = e.NomUtilisateur,
@@ -120,11 +121,11 @@ namespace NegoSudLib.Services
                 Gerant = e.Gerant,
 
             };
-            employe.HistoriqueVentes = _ventesService.getVentesByEmploye(e.Id);
-            employe.HistoriqueCommandes = _commandesService.getCommandesByEmploye(e.Id);
+            employeDTO.HistoriqueVentes = _ventesService.getVentesByEmploye(e.Id);
+            employeDTO.HistoriqueCommandes = _commandesService.getCommandesByEmploye(e.Id);
             //TODO HistoriqueMvt 
 
-            return employe;
+            return employeDTO;
         }
 
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NegoSudLib.DAO
 {
-    public class MouvementStock
+    public abstract class MouvementStock
     {
         [Key]
         [Required] 
@@ -25,14 +25,12 @@ namespace NegoSudLib.DAO
         public int EmployeId { get; set; }
         public Employe Employe { get; set; } = null!;
 
-        [ForeignKey(nameof(TypeMouvement))]
-        public int TypeMouvementId { get; set; }
-        public TypeMouvement TypeMouvement { get; set; } = null!;
+       
         //[ForeignKey(nameof(TypeMouvement))]
         //public int TypeMouvementId { get; set; }
         //public TypeMouvement TypeMouvement { get; set; } = null!;
 
-        //public virtual ICollection<DetailMouvementStock> DetailMouvementStocks { get; set; } = null!;
+        public virtual ICollection<DetailMouvementStock> DetailMouvementStocks { get; set; } = null!;
 
     }
 }

@@ -40,7 +40,7 @@ namespace NegoSudLib.Services
             if (ventes.Count == 0) { return null; }
             foreach (var vente in ventes)
             {
-                vente.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(vente.Id);
+                //vente.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(vente.Id);
             }
             return ventes;
         }
@@ -58,7 +58,7 @@ namespace NegoSudLib.Services
                 DateMouvement = v.DateMouvement
                 };
 
-            venteDTO.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(v.Id);
+            //venteDTO.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(v.Id);
 
             return venteDTO;
         }

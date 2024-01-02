@@ -20,28 +20,28 @@ namespace NegoSudLib.Services
             _produitService = new ProduitService(context);
         }
 
-        public ICollection<DetailMouvementStockDTO> getDetailByMouvementId(int mouvementId)
-        {
-            MouvementStock Mvt = _context.MouvementsStocks.Find(mouvementId);
-            DateTime dateMvt = Mvt.DateMouvement;
+        //public ICollection<DetailMouvementStockDTO> getDetailByMouvementId(int mouvementId)
+        //{
+        //    //MouvementStock Mvt = _context.MouvementsStocks.Find(mouvementId);
+        //    //DateTime dateMvt = Mvt.DateMouvement;
 
-            ICollection<DetailMouvementStockDTO> details = _context.DetailsMouvementStock
-                .Where(detail => detail.MouvementStockId == mouvementId)
-                .Select(detail => new DetailMouvementStockDTO
-                {
-                    QteProduit = detail.QteProduit,
-                    PrixApresRistourne = detail.PrixApresRistourne,
-                    AuCarton = detail.AuCarton,
-                    produitId = detail.ProduitId
-                })
-                .ToList();
+        //    //ICollection<DetailMouvementStockDTO> details = _context.DetailsMouvementStock
+        //    //    .Where(detail => detail.MouvementStockId == mouvementId)
+        //    //    .Select(detail => new DetailMouvementStockDTO
+        //    //    {
+        //    //        QteProduit = detail.QteProduit,
+        //    //        PrixApresRistourne = detail.PrixApresRistourne,
+        //    //        AuCarton = detail.AuCarton,
+        //    //        produitId = detail.ProduitId
+        //    //    })
+        //    //    .ToList();
 
             
 
-             foreach (var detail in details) {
-                detail.Produit = _produitService.GetProduitByIdDate(detail.produitId,dateMvt);
-             }
-            return details;
-        }
+        //    // foreach (var detail in details) {
+        //    //    detail.Produit = _produitService.GetProduitByIdDate(detail.produitId,dateMvt);
+        //    // }
+        //    //return details;
+        //}
     }
 }

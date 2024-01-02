@@ -360,7 +360,6 @@ namespace ConsoleApp1
                     NumFacture = "123",
                     DateMouvement = DateTime.Now,
                     EmployeId = 1,
-                    TypeMouvementId = 1
                 });
                 context.SaveChanges();
 
