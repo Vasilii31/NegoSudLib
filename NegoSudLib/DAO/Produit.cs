@@ -28,7 +28,6 @@ namespace NegoSudLib.DAO
         public string DescriptionProduit { get; set; } = string.Empty;
         public int SeuilCommandeMin { get; set; }
         public int CommandeMin { get; set; }
-        //Qte carton Varchar ou Int ?
         public int QteCarton { get; set; }
 
         [StringLength(80)]
@@ -42,6 +41,7 @@ namespace NegoSudLib.DAO
         [ForeignKey(nameof(Categorie))]
         public int CategorieId { get; set; }
         public Categorie Categorie { get; set; } = null!;
-
+        public virtual ICollection<PrixAchat> PrixAchats { get; set; } = null!;
+        public virtual ICollection<PrixVente> PrixVentes { get; set; } = null!;
     }
 }

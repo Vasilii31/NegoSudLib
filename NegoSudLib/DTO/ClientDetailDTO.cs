@@ -2,9 +2,8 @@
 // client
 namespace NegoSudLib.DTO;
 
-public class ClientDetailDTO
+public class ClientDTO
 {
- 
     public int Id { get; set; }
 
     public string NomUtilisateur { get; set; } = string.Empty;
@@ -20,6 +19,4 @@ public class ClientDetailDTO
     public string HMotDePasse { get; set; } = string.Empty;
 
     public string NumClient { get; set; } = string.Empty;
-
-    public virtual ICollection<VenteDTO>? HistoriqueVentes { get; set; }
 }

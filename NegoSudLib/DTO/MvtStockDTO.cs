@@ -1,26 +1,16 @@
 ﻿using NegoSudLib.DAO;
 using System;
+namespace NegoSudLib.DTO;
 
 /// <summary>
 /// Summary description for Class1
 /// </summary>
-namespace NegoSudLib.DTO;
-
-public class CommandeDTO
+public class MvtStockDTO
 {
     public int Id { get; set; }
-
-    public string NumCommande { get; set; } = string.Empty;
-
     public DateTime DateMouvement { get; set; }
-
     public string Commentaire { get; set; } = string.Empty;
-
     public string NomEmploye { get; set; } = string.Empty;
     public string PrenomEmploye { get; set; } = string.Empty;
-
-    public string NomFournisseur {  get; set; } = string.Empty;
-    public Statuts StatutCommande { get; set; }
-
-    public ICollection<DetailMouvementStockDTO> DetailMouvementStocks { get; set; } = null!;
+    public  ICollection<DetailMouvementStockDTO> DetailMouvementStocks { get; set; } = null!;
 }

@@ -2,7 +2,7 @@
 // Employé
 namespace NegoSudLib.DTO;
 
-public class EmployeDetailDTO
+public class EmployeDTO
 {
  
     public int Id { get; set; }
@@ -17,9 +17,7 @@ public class EmployeDetailDTO
 
     public string NumTelUtilisateur { get; set; } = string.Empty;
 
-    public bool Gerant { get; set; }
+    public string HMotDePasse { get; set; } = string.Empty;
 
-    public virtual ICollection<VenteDTO>? HistoriqueVentes { get; set; }
-    public virtual ICollection<CommandeDTO>? HistoriqueCommandes {  get; set; }
-    public virtual ICollection<AjustementManuelDTO>? HistoriqueAjustements {  get; set; }
+    public bool Gerant { get; set; }
 }

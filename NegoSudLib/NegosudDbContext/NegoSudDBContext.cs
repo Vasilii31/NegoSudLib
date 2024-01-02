@@ -18,7 +18,7 @@ namespace NegoSudLib.NegosudDbContext
         public DbSet<DetailMouvementStock> DetailsMouvementStock { get; set; }
         public DbSet<Employe> Employes { get; set; }
         public DbSet<Fournisseur> Fournisseurs { get; set; }
-        public DbSet<MouvementStock> MouvementsStocks { get; set; }
+        public DbSet<AutreMouvement> AutreMouvements{ get; set; }
         public DbSet<PrixAchat> PrixAchats { get; set; }
         public DbSet<PrixVente> PrixVentes { get; set; }
         public DbSet<Vente> Ventes { get; set; }
