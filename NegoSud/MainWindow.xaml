@@ -1,0 +1,109 @@
+﻿<Window x:Class="NegoSud.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NegoSud" 
+        xmlns:viewModel="clr-namespace:NegoSud.MVVM.ViewModel"
+        mc:Ignorable="d" Height="600" Width="920"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+    
+    <Border Background="#460A26"
+            CornerRadius="20">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="NegoSud" VerticalAlignment="Center"
+           HorizontalAlignment="Center"
+           Foreground="Wheat"
+           FontSize="30"/>
+
+            <StackPanel Grid.Row="1">
+                <RadioButton Content="Acceuil"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Produits"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/> 
+                <RadioButton Content="Commandes"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Ventes"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Domaines"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Catégories"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Employés"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Fournisseurs"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Statistiques"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+            </StackPanel>
+
+            <TextBox Width="250"
+                     Height="40"
+                     VerticalContentAlignment="Center"
+                     HorizontalAlignment="Left"
+                     Margin="5"
+                     Grid.Column="1"
+                     Style="{StaticResource ModernTextbox}"/>
+            <ContentControl Grid.Row="1" Grid.Column="1"
+                            Margin="10"
+                            Content="{Binding CurrentView}"/>
+
+
+        </Grid>
+
+        
+    </Border>
+    
+</Window>
