@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NegoSud" 
         xmlns:viewModel="clr-namespace:NegoSud.MVVM.ViewModel"
-        mc:Ignorable="d" Height="600" Width="920"
-        WindowStyle="None"
+        xmlns:CustomControls="clr-namespace:NegoSud.CustomControls"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="False"
+        Height="600" Width="920">
 
     <Window.DataContext>
         <viewModel:MainViewModel/>
