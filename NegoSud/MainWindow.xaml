@@ -9,13 +9,14 @@
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
         Background="Transparent"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         AllowsTransparency="False"
         Height="600" Width="920">
 
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
-    
+
     <Border Background="#460A26"
             CornerRadius="20">
         <Grid>
@@ -28,13 +29,13 @@
                 <RowDefinition Height="75"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            
-            <TextBlock Text="NegoSud" VerticalAlignment="Center"
-           HorizontalAlignment="Center"
-           Foreground="Wheat"
-           FontSize="30"/>
 
-            <StackPanel Grid.Row="1">
+            <TextBlock Text="NegoSud" VerticalAlignment="Top"
+           HorizontalAlignment="Left"
+           Foreground="Wheat"
+           FontSize="30" Margin="63,12,0,0"/>
+
+            <StackPanel Grid.Row="1" Grid.Column="0">
                 <RadioButton Content="Acceuil"
                              Height="50"
                              Foreground="Wheat"
@@ -46,7 +47,7 @@
                              Foreground="Wheat"
                              FontSize="22"
                              FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/> 
+                             Style="{StaticResource MenuButtonTheme}"/>
                 <RadioButton Content="Commandes"
                              Height="50"
                              Foreground="Wheat"
@@ -91,21 +92,17 @@
                              Style="{StaticResource MenuButtonTheme}"/>
             </StackPanel>
 
-            <TextBox Width="250"
-                     Height="40"
-                     VerticalContentAlignment="Center"
-                     HorizontalAlignment="Left"
-                     Margin="5"
-                     Grid.Column="1"
-                     Style="{StaticResource ModernTextbox}"/>
-            <ContentControl Grid.Row="1" Grid.Column="1"
-                            Margin="10"
-                            Content="{Binding CurrentView}"/>
+            <materialDesign:PackIcon Grid.Column="0" Kind="Menu" Foreground="#F9D9D9" Height="42" Width="54" RenderTransformOrigin="0.726,0.502" Grid.ColumnSpan="2" Margin="7,14,0,0"/>
 
+            <TextBlock Grid.Column="1" Foreground="#F9D9D9" VerticalAlignment="Top" FontSize="30" Margin="73,11,695,0" RenderTransformOrigin="0.368,0.762"/>
+
+            <materialDesign:PackIcon Grid.Column="1" Kind="Login" Foreground="#F9D9D9" Height="42" Width="54" Margin="641,0,0,0" VerticalAlignment="Center"/>
+
+            <materialDesign:PackIcon Grid.Column="1" Kind="ShoppingCart" Foreground="#F9D9D9" Height="42" Width="54" VerticalAlignment="Center" Margin="582,0,0,0" />
 
         </Grid>
 
-        
+
     </Border>
-    
+
 </Window>
