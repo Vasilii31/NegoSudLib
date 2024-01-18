@@ -12,7 +12,6 @@
     <Folder Include="Fonts\" />
     <Folder Include="Images\" />
     <Folder Include="MVVM\View\Uc\" />
-    <Folder Include="MVVM\View\Page\" />
   </ItemGroup>
 
   <ItemGroup>
