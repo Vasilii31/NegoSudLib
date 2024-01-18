@@ -7,43 +7,56 @@
              xmlns:local="clr-namespace:NegoSud.MVVM.View.Page"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    
-        <Grid>
 
-            <Grid.RowDefinitions>
+    <Grid>
 
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="49*"/>
+            <RowDefinition Height="5.888" />
+            <RowDefinition Height="10.112"/>
+            <RowDefinition Height="166*"/>
+        </Grid.RowDefinitions>
 
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-        <Border Grid.Row="1" Grid.Column="3" BorderBrush="#F9D9D9" BorderThickness="1" VerticalAlignment="Center" CornerRadius="10" Background="#F9D9D9" Margin="10, 0, 10, 0">
+        <Border Grid.Row="1" BorderBrush="#F9D9D9" BorderThickness="1" VerticalAlignment="Center" CornerRadius="10" Background="#F9D9D9" Margin="300,0,300,0" Height="40">
             <TextBlock Text="Domaine" TextAlignment="Center" FontSize="30"  FontStyle="Italic" Foreground="#460A26" />
         </Border>
 
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-            <Template:ButtonAjouter Margin="60, 0, 10, 0" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="40,0,0,330" Grid.RowSpan="3">
+            <Template:ButtonAjouter Margin="0, 0, 10, 0" />
             <Template:ButtonModifier Margin="0, 0, 10, 0"/>
             <Template:ButtonConsultation  Margin="0, 0, 10, 0"/>
-            <Template:ButtonDeleteAll  Margin="0, 0, 10, 0"/>
+            <Template:ButtonDeleteAll  Margin="0, 0, 500, 0"/>
+            <Border CornerRadius="10,10,10,10" Background="#F9D9D9" BorderBrush="#F9D9D9" BorderThickness="1">
+                <Grid Width="116">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="rechercher"  BorderThickness="0" Background="Transparent"/>
+                    <Border>
+                        <materialDesign:PackIcon Kind="Search" Grid.Column="1" VerticalAlignment="Center" Height="20" Background="#F9D9D9" Margin="92,0,0,0" Width="15"/>
+                    </Border>
+                </Grid>
+            </Border>
         </StackPanel>
 
-        </Grid> 
 
-   
+
+        <WrapPanel Grid.Row="4" Margin="10,10,10,0" Orientation="Horizontal" VerticalAlignment="Top">
+            <TextBox  Margin="10,0 ,80, 0" Width="340" Height="139"/>
+            <TextBox Width="340"/>
+            <TextBox Width="340" Margin="10,30 ,80, 0" Height="139"/>
+            <TextBox Width="340" Margin="0,30 ,0, 0"/>
+        </WrapPanel>
+
+
+
+
+
+
+    </Grid>
+
+
 </UserControl>
