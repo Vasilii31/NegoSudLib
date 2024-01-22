@@ -15,8 +15,7 @@ public class FournisseurDetailDTO
 
     public string EmailFournisseur { get; set; } = string.Empty;
 
-    public virtual ICollection<ProduitReadDTO>? Produits { get; set; } 
-
+    public virtual ICollection<ProduitLightDTO>? Produits { get; set; } 
     public virtual ICollection<CommandeDTO>? Commandes { get; set; }
 
 }

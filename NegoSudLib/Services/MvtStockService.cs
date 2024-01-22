@@ -14,11 +14,11 @@ namespace NegoSudLib.Services
     public class MvtStocksServices
     {
         private readonly NegoSudDBContext _context;
-        private readonly DetailMouvementStockService _detailMouvementStockService;
+        private readonly DetailMvtService _detailMouvementStockService;
         public MvtStocksServices(NegoSudDBContext context)
         {
             _context = context;
-            _detailMouvementStockService = new DetailMouvementStockService(context);
+            //_detailMouvementStockService = new DetailMouvementStockService(context);
         }
 
         //public ICollection<MvtStockDTO>? getMvtByEmploye(int employeId)

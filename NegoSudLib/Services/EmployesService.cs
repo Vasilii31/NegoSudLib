@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DAO;
 using NegoSudLib.DTO;
+using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
 using System;
 using System.Collections.Generic;
@@ -9,124 +10,48 @@ using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
-    public class EmployesService
+    public class EmployesService : IEmployesService
     {
-        private readonly NegoSudDBContext _context;
-        private readonly VentesService _ventesService;
-        private readonly CommandesService _commandesService;
-        public EmployesService(NegoSudDBContext context)
-        {
-            _context = context;
-            _ventesService = new VentesService(context);
-            _commandesService = new CommandesService(context);
-        }
-        public ICollection<EmployeDTO> GetEmployes()
-        {
-            ICollection<EmployeDTO> employes =   _context.Employes.Select(e => new EmployeDTO
-            {
-                Id = e.Id,
-                NomUtilisateur = e.NomUtilisateur,
-                PrenomUtilisateur = e.PrenomUtilisateur,
-                AdresseUtilisateur = e.AdresseUtilisateur,
-                MailUtilisateur = e.MailUtilisateur,
-                NumTelUtilisateur = e.NumTelUtilisateur,
-                Gerant = e.Gerant,
-            }).ToList();
 
-            return  employes;
+        private readonly IEmployesRepository _employesRepository;
+        public EmployesService(IEmployesRepository employesRepository)
+        {
+            this._employesRepository = employesRepository;
+        }
+        public async Task<IEnumerable<Employe>> GetAll()
+        {
+            return await _employesRepository.GetAll();
+        }
+        public async Task<Employe?> GetById(int id)
+        {
+            return await _employesRepository.GetById(id);
         }
 
-        public EmployeDetailDTO? getEmployeById(int id)
+        public async Task<Employe?> GetByMail(string mail)
         {
-            Employe? employeEntitty = _context.Employes.Find(id);
-            if (employeEntitty == null)
-            {
-                return null;
-            }
+            return await _employesRepository.GetByMail(mail);
 
-            EmployeDetailDTO employe = employeToEmployeDetailDTO(employeEntitty);
-            return employe;
-
-         }
-
-        public EmployeDTO? getEmployeByEmail(string email)
-        {
-            EmployeDTO? emp = _context.Employes
-                .Where(e => e.MailUtilisateur == email)
-                .Select( e => new EmployeDTO
-                {
-                    Id = e.Id,
-                    NomUtilisateur = e.NomUtilisateur,
-                    PrenomUtilisateur = e.PrenomUtilisateur,
-                    AdresseUtilisateur = e.AdresseUtilisateur,
-                    MailUtilisateur = e.MailUtilisateur,
-                    NumTelUtilisateur = e.NumTelUtilisateur,
-                    Gerant = e.Gerant
-                }
-                ).FirstOrDefault();
-            if ( emp == null) {  return null; } 
-            return emp;
         }
 
-        public int addEmploye(EmployeDTO employe)
+        public async Task<Employe?> Post(Employe employe)
         {
-            Employe employeEntity = new Employe
-            {
-                Id = employe.Id,
-                NomUtilisateur = employe.NomUtilisateur,
-                PrenomUtilisateur = employe.PrenomUtilisateur,
-                AdresseUtilisateur = employe.AdresseUtilisateur,
-                MailUtilisateur = employe.MailUtilisateur,
-                NumTelUtilisateur = employe.NumTelUtilisateur,
-                Gerant = employe.Gerant,
-            };
-
-            _context.Employes.Add(employeEntity);
-            if (_context.SaveChanges() != 1)
-            {
-                return 0;
-            };
-            return employeEntity.Id;
+            return await _employesRepository.Post(employe);
         }
-
-        public bool deleteEmploye(int id)
+        public async Task<Employe?> Put(Employe employe)
         {
-
-            Employe? emp = _context.Employes.Find(id);
-            if (emp != null)
-            {
-                _context.Employes.Remove(emp);
-                if (_context.SaveChanges() == 1)
-                {
-                    return true;
-                };
-            }
-            return false;
+            return await _employesRepository.Put(employe);
+        }
+        public async Task Delete(int id)
+        {
+            await _employesRepository.Delete(id);
+        }
+        public Task<bool> Exists(int id)
+        {
+            return _employesRepository.Exists(id);
         }
 
 
 
-
-        public EmployeDetailDTO employeToEmployeDetailDTO(Employe e)
-        {
-
-            EmployeDetailDTO employeDTO = new EmployeDetailDTO
-            {
-                Id = e.Id,
-                NomUtilisateur = e.NomUtilisateur,
-                PrenomUtilisateur = e.PrenomUtilisateur,
-                AdresseUtilisateur = e.AdresseUtilisateur,
-                MailUtilisateur = e.MailUtilisateur,
-                NumTelUtilisateur = e.NumTelUtilisateur,
-                Gerant = e.Gerant,
-
-            };
-            employeDTO.HistoriqueVentes = _ventesService.getVentesByEmploye(e.Id);
-            employeDTO.HistoriqueCommandes = _commandesService.getCommandesByEmploye(e.Id);
-            //TODO HistoriqueMvt 
-
-            return employeDTO;
-        }
 
     }
 }

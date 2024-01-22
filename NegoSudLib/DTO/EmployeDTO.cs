@@ -20,4 +20,5 @@ public class EmployeDTO
     public string HMotDePasse { get; set; } = string.Empty;
 
     public bool Gerant { get; set; }
+
 }

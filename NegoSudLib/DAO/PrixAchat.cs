@@ -11,6 +11,6 @@ namespace NegoSudLib.DAO
     {
         [ForeignKey(nameof(Fournisseur))]
         public int FournisseurId { get; set; }
-        public Fournisseur Fournisseur { get; set; } = null!;
+        public virtual Fournisseur? Fournisseur { get; set; }
     }
 }

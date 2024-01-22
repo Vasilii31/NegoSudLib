@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NegoSudLib.DTO
 {
-    public class PrixAchatReadDTO
+    public class PrixAchatDTO
     {
         public int Id { get; set; }
         public DateTime DateDebut { get; set; }
@@ -15,7 +15,7 @@ namespace NegoSudLib.DTO
         public float PrixCarton { get; set; }
         public float PrixUnite { get; set; }
         public int ProduitId { get; set; }
-        public Fournisseur Fournisseur { get; set; } = null!;
+        public string NomFournisseur { get; set; } = string.Empty;
 
     }
 }
