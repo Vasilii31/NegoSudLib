@@ -1,12 +1,7 @@
-﻿using NegoSudLib.DAO;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-/// <summary>
+﻿/// <summary>
 /// Summary description for Class1
 /// </summary>
-namespace NegoSudLib.DTO;
+namespace NegoSudLib.DTO.Read;
 
 public class VentesDTO
 {

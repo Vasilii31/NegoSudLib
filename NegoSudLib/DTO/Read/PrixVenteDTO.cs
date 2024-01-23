@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NegoSudLib.DTO
+namespace NegoSudLib.DTO.Read
 {
     public class PrixVenteDTO
     {

@@ -1,7 +1,7 @@
 ﻿using NegoSudLib.DAO;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace NegoSudLib.DTO;
+namespace NegoSudLib.DTO.Read   ;
 
 /// <summary>
 /// Summary description for Class1

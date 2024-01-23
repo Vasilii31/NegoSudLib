@@ -2,7 +2,7 @@
 using NegoSudLib.DAO;
 using NegoSudLib.NegosudDbContext;
 using System;
-namespace NegoSudLib.DTO;
+namespace NegoSudLib.DTO.Read;
 
 // DTO pour l'affichage simple des produits pour les listes
 public class ProduitLightDTO

@@ -1,7 +1,7 @@
 ﻿using System;
 // Fourniseur avec tous les détails
 
-namespace NegoSudLib.DTO;
+namespace NegoSudLib.DTO.Read;
 
 public class FournisseurDetailDTO
 {

@@ -1,12 +1,11 @@
 ﻿using NegoSudLib.DAO;
-using System;
 
 /// <summary>
 /// Summary description for Class1
 /// </summary>
-namespace NegoSudLib.DTO;
+namespace NegoSudLib.DTO.Read;
 
-public class AutreMvtDTO
+public class CommandeDTO
 {
     public int Id { get; set; }
     public string NumCommande { get; set; } = string.Empty;
@@ -14,8 +13,8 @@ public class AutreMvtDTO
     public string Commentaire { get; set; } = string.Empty;
     public string NomEmploye { get; set; } = string.Empty;
     public string PrenomEmploye { get; set; } = string.Empty;
-    public int TypeMouvementId { get; set; }
-    public TypeMouvement TypeMouvement { get; set; } = null!;
+    public string NomFournisseur {  get; set; } = string.Empty;
+    public Statuts StatutCommande { get; set; }
     public IEnumerable<DetailMouvementStockDTO>? DetailMouvementStocks { get; set; }
     public float Total { get; set; }
     public void SetTotaux()

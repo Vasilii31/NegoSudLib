@@ -1,16 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Repositories
 {
@@ -57,29 +52,33 @@ namespace NegoSudLib.Repositories
             Vente.SetTotaux();
             return Vente;
         }
-        public async Task<VentesDTO?> Post(Vente Vente)
+        public async Task<VentesDTO?> Post(VentesWriteDTO VenteDTO)
         {
+            Vente Vente = new Vente
+            {
+                DateMouvement = DateTime.Now,
+                EmployeId = VenteDTO.EmployeId,
+                ClientId = VenteDTO.ClientId,
+                EntreeOuSortie = false,
+                Commentaire = VenteDTO.Commentaire
+            };
             await _context.Ventes.AddAsync(Vente);
             await _context.SaveChangesAsync();
-            return await this.GetById(Vente.Id);
+            Vente.NumFacture = "FAC" + Vente.Id;
+            await _context.SaveChangesAsync();
+            return await GetById(Vente.Id);
         }
 
-        public async Task<VentesDTO?> Put(Vente Vente)
+        public async Task<VentesDTO?> Put(int id ,VentesWriteDTO Vente)
         {
-            var result = await _context.Ventes
-                .FirstOrDefaultAsync(com => com.Id == Vente.Id);
+            var result = await _context.Ventes.FindAsync(id);
 
             if (result != null)
             {
-                result.EntreeOuSortie = Vente.EntreeOuSortie;
-                result.NumFacture = Vente.NumFacture;
-                result.QteMouvement = Vente.QteMouvement;
                 result.Commentaire = Vente.Commentaire;
                 result.EmployeId = Vente.EmployeId;
-                result.DateMouvement = Vente.DateMouvement;
                 result.ClientId = Vente.ClientId;
                 await _context.SaveChangesAsync();
-
                 var resultDTO = result.ToDTO();
                 resultDTO.SetTotaux();
                 return resultDTO;

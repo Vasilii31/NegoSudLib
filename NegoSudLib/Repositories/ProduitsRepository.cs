@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
@@ -100,7 +101,6 @@ namespace NegoSudLib.Repositories
        {
             Produit prodEntity = new Produit()
             {
-                Id = ProdNew.Id,
                 QteEnStock = ProdNew.QteEnStock,
                 NomProduit = ProdNew.NomProduit,
                 ContenanceCl = ProdNew.ContenanceCl,

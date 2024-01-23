@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using System;
 using System.Collections.Generic;
 using System.Linq;
