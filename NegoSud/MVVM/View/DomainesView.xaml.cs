@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NegoSud.MVVM.View.Template;
+using NegoSud.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,21 +26,22 @@ namespace NegoSud.MVVM.View
         public DomainesView()
         {
             InitializeComponent();
+
+
+            // Écouter l'événement AjouterButtonClick du bouton Ajouter
+            ButtonAjouter.AjouterButtonClick += ButtonAjouter_Click;
+            ButtonConsultation.ConsultationButtonClick += ButtonView_Click;
         }
 
-        private void ButtonAjouter_Loaded(object sender, RoutedEventArgs e)
+        private void ButtonAjouter_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Ajout d'un domaine");
 
         }
 
-        private void ButtonAjouter_Loaded_1(object sender, RoutedEventArgs e)
+        private void ButtonView_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void ButtonAjouter_Loaded_2(object sender, RoutedEventArgs e)
-        {
-
+            
         }
     }
 }

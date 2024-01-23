@@ -1,9 +1,12 @@
 ﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:Page="clr-namespace:NegoSud.MVVM.View.Page" x:Class="NegoSud.MVVM.View.Template.ButtonAjouter">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:Page="clr-namespace:NegoSud.MVVM.View.Page" 
+             x:Class="NegoSud.MVVM.View.Template.ButtonAjouter">
 
-    <Button x:Name="ButtonAdd" Background="#460A26" Foreground="White" BorderBrush="Transparent" BorderThickness="0">
+    <Button x:Name="ButtonAdd"  Background="#460A26" Foreground="Wheat" BorderBrush="Transparent" BorderThickness="0" Click="ButtonAdd_Click" 
+            MouseEnter="ButtonAdd_MouseEnter" MouseLeave="ButtonAdd_MouseLeave">
         <Button.Template>
             <ControlTemplate TargetType="Button">
                 <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
@@ -13,5 +16,5 @@
         </Button.Template>
         <materialDesign:PackIcon Kind="Add" VerticalAlignment="Center"/>
     </Button>
-    
+         
 </UserControl>
