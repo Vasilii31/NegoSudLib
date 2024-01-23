@@ -63,10 +63,19 @@ namespace NegoSudAPI.Controllers
                     return NotFound();
                 }
                 return Ok(commande);
+            }      
+        }
+         // GET api/Commandes/5
+        [HttpGet("statut/{statut}")]
+        public async Task<ActionResult<IEnumerable<CommandeDTO?>>> GetByStatut(Statuts statut)
+        {
+            var Commandes = await _commandeservice.GetByStatut(statut);
+            if (Commandes.Any())
+            {
+                return Ok(Commandes);
             }
+            return NotFound();
 
-
-            
         }
 
         // POST api/<ValuesController>

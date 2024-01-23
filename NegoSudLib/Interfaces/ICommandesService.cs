@@ -11,6 +11,7 @@ namespace NegoSudLib.Interfaces
     public interface ICommandesService
     {
         Task<IEnumerable<CommandeDTO>> GetAll();
+        Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut);
         Task<CommandeDTO?> GetById(int id);
         Task<CommandeDTO?> GetByNum(string num);
         Task<CommandeDTO?> Post(Commande commande);

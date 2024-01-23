@@ -26,6 +26,14 @@ namespace NegoSudLib.Repositories
                 .Select(c=> c.ToDTO())
                 .ToListAsync();
         }
+        public async Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut)
+        {
+            return await _context.Commandes
+                .Include(c => c.Fournisseur)
+                .Where(c => c.StatutCommande == statut)
+                .Select(c=> c.ToDTO())
+                .ToListAsync();
+        }
 
         public async Task<CommandeDTO?> GetById(int id)
         {

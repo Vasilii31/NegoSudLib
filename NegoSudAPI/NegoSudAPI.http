@@ -16,8 +16,11 @@ Accept: application/json
 GET {{NegoSudAPI_HostAddress}}/api/Categories/1
 Accept: application/json
 ###
+GET {{NegoSudAPI_HostAddress}}/api/statut/0
+Accept: application/json
+###
 
-POST 
+ 
 
 POST {{NegoSudAPI_HostAddress}}/api/produits
 Content-Type: application/json
