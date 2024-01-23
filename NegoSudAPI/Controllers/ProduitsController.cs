@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
 
 
@@ -113,15 +115,22 @@ namespace NegoSudAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<ProduitFullDTO?>> AddProduit([FromBody] ProduitWriteDTO produit)
         {
-            if (produit != null)
+            if (produit == null)
             {
-                var produitCreated = await _produitService.Post(produit);
-                if (produitCreated != null) return Ok(produitCreated);
-
-                return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
+                return BadRequest("Impossible d'ajouter un produit sans données");
             }
-                // Retourne un statut 400 Bad Request si l'objet dans le corps de la requête est nul.
-                return BadRequest("L'objet produit est null.");
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); 
+            }
+
+            var produitCreated = await _produitService.Post(produit);
+            if (produitCreated != null) return CreatedAtAction(nameof(GetbyId), new { id = produitCreated.Id }, produitCreated);
+
+            return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
+            
+               
         }
 
         // PUT api/<ValuesController>/5
@@ -131,6 +140,11 @@ namespace NegoSudAPI.Controllers
         {
             // Renvoyer un code 404 si le produit n'est pas trouvé
             if (!(await _produitService.Exists(id))) return NotFound();
+
+            if (produitNew == null)  return BadRequest("Impossible de modifier un produit sans données");
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
 
             var produitUpdated = await _produitService.Put(produitNew);
             if ( produitUpdated != null) return Ok(produitNew);

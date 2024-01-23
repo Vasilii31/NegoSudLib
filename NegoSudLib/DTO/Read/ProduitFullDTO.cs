@@ -3,7 +3,7 @@ using Microsoft.VisualBasic;
 using NegoSudLib.DAO;
 using NegoSudLib.NegosudDbContext;
 using System;
-namespace NegoSudLib.DTO;
+namespace NegoSudLib.DTO.Read;
 
 // Produit entier avec historique achats
 public class ProduitFullDTO

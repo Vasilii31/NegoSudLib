@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
@@ -59,16 +60,16 @@ namespace NegoSudLib.Services
             }
             return com;
         }
-        public async Task<VentesDTO?> Post(Vente vente)
+        public async Task<VentesDTO?> Post(VentesWriteDTO vente)
         {
             var comAdded =  await _ventesRepository.Post(vente);
             if (comAdded == null) { return null; }
             return comAdded;
         }
 
-        public async Task<VentesDTO?> Put(Vente vente)
+        public async Task<VentesDTO?> Put(int id,VentesWriteDTO vente)
         {
-            return await _ventesRepository.Put(vente);
+            return await _ventesRepository.Put(id,vente);
         }
 
         public async Task Delete(int id)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
@@ -56,25 +57,30 @@ namespace NegoSudLib.Repositories
                  .Select(c => c.ToDTO())
                  .ToListAsync();
         }
-        public async Task<AutreMvtDTO?> Post(AutreMouvement autreMvt)
+        public async Task<AutreMvtDTO?> Post(AutreMvtWriteDTO autreMvt)
         {
-            await _context.AutreMouvements.AddAsync(autreMvt);
+            AutreMouvement autreMvtEntity = new AutreMouvement()
+            {
+                EntreeOuSortie = autreMvt.EntreeOuSortie,
+                Commentaire = autreMvt.Commentaire,
+                EmployeId = autreMvt.EmployeId,
+                TypeMouvementId = autreMvt.TypeMouvementId,
+                DateMouvement = DateTime.Now
+            };
+            await _context.AutreMouvements.AddAsync(autreMvtEntity);
             await _context.SaveChangesAsync();
-            return await GetById(autreMvt.Id);
+            return await this.GetById(autreMvtEntity.Id);
         }
 
-        public async Task<AutreMvtDTO?> Put(AutreMouvement autreMvt)
+        public async Task<AutreMvtDTO?> Put(int id,AutreMvtWriteDTO autreMvt)
         {
-            var result = await _context.AutreMouvements
-                .FirstOrDefaultAsync(com => com.Id == autreMvt.Id);
+            var result = await _context.AutreMouvements.FindAsync(id);
 
             if (result != null)
             {
                 result.EntreeOuSortie = autreMvt.EntreeOuSortie;
-                result.QteMouvement = autreMvt.QteMouvement;
                 result.Commentaire = autreMvt.Commentaire;
                 result.EmployeId = autreMvt.EmployeId;
-                result.DateMouvement = autreMvt.DateMouvement;
                 await _context.SaveChangesAsync();
 
                 var resultDTO = result.ToDTO();

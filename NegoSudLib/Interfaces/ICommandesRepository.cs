@@ -1,10 +1,6 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.write;
 
 namespace NegoSudLib.Interfaces
 {
@@ -14,8 +10,8 @@ namespace NegoSudLib.Interfaces
         Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut);
         Task<CommandeDTO?> GetById(int id);
         Task<CommandeDTO?> GetByNum(string num);
-        Task<CommandeDTO?> Post(Commande commande);
-        Task<CommandeDTO?> Put(Commande commande);
+        Task<CommandeDTO?> Post(CommandeWriteDTO commande);
+        Task<CommandeDTO?> Put(int id,CommandeWriteDTO commande);
         Task Delete(int id);
         Task<bool> Exists(int id);
     }

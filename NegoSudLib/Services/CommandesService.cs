@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
@@ -57,16 +58,16 @@ namespace NegoSudLib.Services
             com.SetTotaux();
             return com;
         }
-        public async Task<CommandeDTO?> Post(Commande com)
+        public async Task<CommandeDTO?> Post(CommandeWriteDTO com)
         {
             var comAdded =  await _commandesRepository.Post(com);
             if (comAdded == null) { return null; }
             return comAdded;
         }
 
-        public async Task<CommandeDTO?> Put(Commande com)
+        public async Task<CommandeDTO?> Put(int id,CommandeWriteDTO com)
         {
-            return await _commandesRepository.Put(com);
+            return await _commandesRepository.Put(id,com);
         }
 
         public async Task Delete(int id)

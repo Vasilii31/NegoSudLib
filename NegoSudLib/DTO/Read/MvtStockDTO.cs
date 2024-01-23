@@ -1,6 +1,6 @@
 ﻿using NegoSudLib.DAO;
 using System;
-namespace NegoSudLib.DTO;
+namespace NegoSudLib.DTO.Read;
 
 /// <summary>
 /// Summary description for Class1

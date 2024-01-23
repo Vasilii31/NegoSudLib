@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
 using System;

@@ -1,10 +1,9 @@
 ﻿using System;
-// Employé
-namespace NegoSudLib.DTO;
+// client
+namespace NegoSudLib.DTO.Read;
 
-public class EmployeDTO
+public class ClientDTO
 {
- 
     public int Id { get; set; }
 
     public string NomUtilisateur { get; set; } = string.Empty;
@@ -19,6 +18,5 @@ public class EmployeDTO
 
     public string HMotDePasse { get; set; } = string.Empty;
 
-    public bool Gerant { get; set; }
-
+    public string NumClient { get; set; } = string.Empty;
 }

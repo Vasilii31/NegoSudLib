@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
 using NegoSudLib.Services;
 using System;
@@ -72,29 +74,32 @@ namespace NegoSudAPI.Controllers
         // POST api/<ValuesController>
         //[Authorize]
         [HttpPost]
-        public async Task<ActionResult<VentesDTO?>> Post([FromBody] Vente vente)
+        public async Task<ActionResult<VentesDTO?>> Post([FromBody] VentesWriteDTO vente)
         {
-            if (vente != null)
-            {
-                var produitCreated = await _ventesService.Post(vente);
-                if (produitCreated != null) return Ok(produitCreated);
+            if (vente == null) return BadRequest("Impossible d'ajouter une vente sans données");
 
-                return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
-            }
-                // Retourne un statut 400 Bad Request si l'objet dans le corps de la requête est nul.
-                return BadRequest("L'objet produit est null.");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var venteCreated = await _ventesService.Post(vente);
+            if (venteCreated != null) return Created();
+
+            return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
 
         // PUT api/<ValuesController>/5
         //[Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Commande?>> Put(int id, [FromBody] Vente vente)
+        public async Task<ActionResult<Commande?>> Put(int id, [FromBody] VentesWriteDTO vente)
         {
             // Renvoyer un code 404 si le produit n'est pas trouvé
             if (!(await _ventesService.Exists(id))) return NotFound();
+            if (vente == null) return BadRequest("Impossible d'ajouter une vente sans données");
 
-            var produitUpdated = await _ventesService.Put(vente);
-            if ( produitUpdated != null) return Ok(vente);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+
+            var venteUpdated = await _ventesService.Put(id,vente);
+            if ( venteUpdated != null) return Ok(vente);
            
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }

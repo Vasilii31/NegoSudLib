@@ -1,8 +1,9 @@
-﻿using System;
-// Employé
-namespace NegoSudLib.DTO;
+﻿using NegoSudLib.DTO.Write;
+using System;
+// client
+namespace NegoSudLib.DTO.Read;
 
-public class EmployeDetailDTO
+public class ClientDetailDTO
 {
  
     public int Id { get; set; }
@@ -17,9 +18,9 @@ public class EmployeDetailDTO
 
     public string NumTelUtilisateur { get; set; } = string.Empty;
 
-    public bool Gerant { get; set; }
+    public string HMotDePasse { get; set; } = string.Empty;
+
+    public string NumClient { get; set; } = string.Empty;
 
     public virtual ICollection<VentesDTO>? HistoriqueVentes { get; set; }
-    public virtual ICollection<CommandeDTO>? HistoriqueCommandes {  get; set; }
-    public virtual ICollection<AjustementManuelDTO>? HistoriqueAjustements {  get; set; }
 }

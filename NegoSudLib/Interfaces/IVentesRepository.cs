@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace NegoSudLib.Interfaces
         Task<IEnumerable<VentesDTO>> GetAll();
         Task<VentesDTO?> GetById(int id);
         Task<VentesDTO?> GetByNum(string num);
-        Task<VentesDTO?> Post(Vente vente);
-        Task<VentesDTO?> Put(Vente vente);
+        Task<VentesDTO?> Post(VentesWriteDTO vente);
+        Task<VentesDTO?> Put(int id, VentesWriteDTO vente);
         Task Delete(int id);
         Task<bool> Exists(int id);
     }

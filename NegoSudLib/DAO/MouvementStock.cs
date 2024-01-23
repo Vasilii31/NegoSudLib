@@ -11,7 +11,6 @@ namespace NegoSudLib.DAO
     public abstract class MouvementStock
     {
         public int Id { get; set; }
-        public int QteMouvement {  get; set; } //Nombre de ligne
         public DateTime DateMouvement { get; set; }
         public bool EntreeOuSortie { get; set; }
         public string Commentaire { get; set; } = string.Empty;

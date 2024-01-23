@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.write;
 using NegoSudLib.Interfaces;
-using NegoSudLib.Services;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,7 +24,7 @@ namespace NegoSudAPI.Controllers
 
         // GET: api/Commandes    => Tous les Commandes 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CommandeDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CommandeWriteDTO>>> GetAll()
         {
 
             var Commandes = await _commandeservice.GetAll();
@@ -41,7 +37,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // GET api/Commandes/5
-        [HttpGet("{idNum}")]
+        [HttpGet("{idNum}",Name = "Getby")]
         public async Task<ActionResult<CommandeDTO?>> Getby(string idNum)
         {
             if (int.TryParse(idNum ,out int id))
@@ -81,28 +77,34 @@ namespace NegoSudAPI.Controllers
         // POST api/<ValuesController>
         //[Authorize]
         [HttpPost]
-        public async Task<ActionResult<CommandeDTO?>> Post([FromBody] Commande commande)
+        public async Task<ActionResult<CommandeDTO?>> Post([FromBody] CommandeWriteDTO commande)
         {
-            if (commande != null)
-            {
-                var produitCreated = await _commandeservice.Post(commande);
-                if (produitCreated != null) return Ok(produitCreated);
+            if (commande == null) return BadRequest("Impossible d'ajouter une commande sans données");
 
-                return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
-            }
-                // Retourne un statut 400 Bad Request si l'objet dans le corps de la requête est nul.
-                return BadRequest("L'objet produit est null.");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var ComCreated = await _commandeservice.Post(commande);
+            if (ComCreated != null) return Created();
+
+
+            return StatusCode(500, "Une erreur interne du serveur s'est produite.");
+            
         }
 
         // PUT api/<ValuesController>/5
         //[Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Commande?>> Put(int id, [FromBody] Commande commande)
+        public async Task<ActionResult<Commande?>> Put(int id, [FromBody] CommandeWriteDTO commande)
         {
             // Renvoyer un code 404 si le produit n'est pas trouvé
             if (!(await _commandeservice.Exists(id))) return NotFound();
 
-            var produitUpdated = await _commandeservice.Put(commande);
+
+            if (commande == null) return BadRequest("Impossible d'ajouter une commande sans données");
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var produitUpdated = await _commandeservice.Put(id,commande);
             if ( produitUpdated != null) return Ok(commande);
            
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");

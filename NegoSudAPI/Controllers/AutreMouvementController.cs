@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
 using NegoSudLib.Services;
 using System;
@@ -70,28 +72,28 @@ namespace NegoSudAPI.Controllers
         // POST api/<ValuesController>
         //[Authorize]
         [HttpPost]
-        public async Task<ActionResult<AutreMvtDTO?>> Post([FromBody] AutreMouvement autreMvt)
+        public async Task<ActionResult<AutreMvtDTO?>> Post([FromBody] AutreMvtWriteDTO autreMvt)
         {
-            if (autreMvt != null)
-            {
-                var produitCreated = await _autreMvtService.Post(autreMvt);
-                if (produitCreated != null) return Ok(produitCreated);
+            if (autreMvt == null) return BadRequest("Impossible d'ajouter un mouvement de stock sans données");
 
-                return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
-            }
-                // Retourne un statut 400 Bad Request si l'objet dans le corps de la requête est nul.
-                return BadRequest("L'objet produit est null.");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var mvtCreated = await _autreMvtService.Post(autreMvt);
+            if (mvtCreated != null) return CreatedAtAction(nameof(GetbyId), new { id = mvtCreated.Id }, mvtCreated);
+
+
+            return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
 
         // PUT api/<ValuesController>/5
         //[Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Commande?>> Put(int id, [FromBody] AutreMouvement autreMvt)
+        public async Task<ActionResult<Commande?>> Put(int id, [FromBody] AutreMvtWriteDTO autreMvt)
         {
             // Renvoyer un code 404 si le produit n'est pas trouvé
             if (!(await _autreMvtService.Exists(id))) return NotFound();
 
-            var produitUpdated = await _autreMvtService.Put(autreMvt);
+            var produitUpdated = await _autreMvtService.Put(id, autreMvt);
             if ( produitUpdated != null) return Ok(autreMvt);
            
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");

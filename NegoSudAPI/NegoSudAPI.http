@@ -29,7 +29,7 @@ POST {{NegoSudAPI_HostAddress}}/api/produits
 Content-Type: application/json
 
 {
-  "nomProduit": "Vino testo",
+
   "contenanceCl": 750,
   "qteEnStock": 100,
   "degreeAlcool": 13.5,
@@ -99,13 +99,11 @@ GET {{NegoSudAPI_HostAddress}}/api/ventes/7
 ###
 
 
-POST {{NegoSudAPI_HostAddress}}/api/ventes
+POST {{NegoSudAPI_HostAddress}}/api/ventes/
 Content-Type: application/json
 
 {
   "qteMouvement": 1,
-  "dateMouvement": "2024-01-24T12:59:57.737Z",
-  "entreeOuSortie": true,
   "commentaire": "Ceci est une vente TEST",
   "employeId": 1,
   "detailMouvementStocks": [
@@ -132,9 +130,6 @@ POST {{NegoSudAPI_HostAddress}}/api/autreMouvement
 Content-Type: application/json
 
 {
-  "qteMouvement": 1,
-  "dateMouvement": "2024-01-24T12:59:57.737Z",
-  "entreeOuSortie": true,
   "commentaire": "Ceci est un autre mouvement TEST",
   "employeId": 1,
   "detailMouvementStocks": [

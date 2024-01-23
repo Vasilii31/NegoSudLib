@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
@@ -47,16 +48,16 @@ namespace NegoSudLib.Services
         {
            return await _autreMvtRepository.GetByType(typeId);
         }
-        public async Task<AutreMvtDTO?> Post(AutreMouvement autreMvt)
+        public async Task<AutreMvtDTO?> Post(AutreMvtWriteDTO autreMvt)
         {
             var comAdded =  await _autreMvtRepository.Post(autreMvt);
             if (comAdded == null) { return null; }
             return comAdded;
         }
 
-        public async Task<AutreMvtDTO?> Put(AutreMouvement autreMvt)
+        public async Task<AutreMvtDTO?> Put(int id,AutreMvtWriteDTO autreMvt)
         {
-            return await _autreMvtRepository.Put(autreMvt);
+            return await _autreMvtRepository.Put(id,autreMvt);
         }
 
         public async Task Delete(int id)

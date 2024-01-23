@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
@@ -70,8 +71,17 @@ namespace NegoSudLib.Repositories
             commande.SetTotaux();
             return commande;
         }
-        public async Task<CommandeDTO?> Post(Commande commande)
+        public async Task<CommandeDTO?> Post(CommandeWriteDTO commandeDTO)
         {
+            Commande commande = new Commande
+            {
+                DateMouvement = DateTime.Now,
+                EmployeId = commandeDTO.EmployeId,
+                FournisseurId = commandeDTO.FournisseurId,
+                StatutCommande = commandeDTO.StatutCommande,
+                EntreeOuSortie = true,
+                Commentaire = commandeDTO.Commentaire
+            };
             await _context.Commandes.AddAsync(commande);
             await _context.SaveChangesAsync();
             commande.NumCommande = "COM" + commande.Id;
@@ -79,23 +89,17 @@ namespace NegoSudLib.Repositories
             return await GetById(commande.Id);
         }
 
-        public async Task<CommandeDTO?> Put(Commande commande)
+        public async Task<CommandeDTO?> Put(int id, CommandeWriteDTO commande)
         {
-            var result = await _context.Commandes
-                .FirstOrDefaultAsync(com => com.Id == commande.Id);
+            var result = await _context.Commandes.FindAsync(id);
 
             if (result != null)
             {
                 result.FournisseurId = commande.FournisseurId;
-                result.NumCommande = commande.NumCommande;
                 result.StatutCommande = commande.StatutCommande;
-                result.EntreeOuSortie = commande.EntreeOuSortie;
-                result.QteMouvement = commande.QteMouvement;
                 result.Commentaire = commande.Commentaire;
                 result.EmployeId = commande.EmployeId;
-                result.DateMouvement = commande.DateMouvement;                
                 await _context.SaveChangesAsync();
-
                 var resultDTO = result.ToDTO();
                 resultDTO.SetTotaux();
                 return resultDTO;
