@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace NegoSud.MVVM.ViewModel
 {
-    internal class DomaineViewModel
+    public class DomaineViewModel : ViewModelBase
     {
+
     }
 }

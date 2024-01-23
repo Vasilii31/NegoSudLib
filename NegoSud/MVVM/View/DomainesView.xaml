@@ -1,10 +1,10 @@
-﻿<UserControl xmlns:Template="clr-namespace:NegoSud.MVVM.View.Template"  x:Class="NegoSud.MVVM.View.Page.Domaines"
+﻿<UserControl xmlns:Template="clr-namespace:NegoSud.MVVM.View.Template"  x:Class="NegoSud.MVVM.View.DomainesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:NegoSud.MVVM.View.Page"
+             xmlns:local="clr-namespace:NegoSud.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" Background="White" Width="700">
 

@@ -16,28 +16,13 @@ using System.Windows.Shapes;
 namespace NegoSud.MVVM.View.Page
 {
     /// <summary>
-    /// Logique d'interaction pour Domaines.xaml
+    /// Logique d'interaction pour AjoutDomaine.xaml
     /// </summary>
-    public partial class Domaines : UserControl
+    public partial class AjoutDomaine : UserControl
     {
-        public Domaines()
+        public AjoutDomaine()
         {
             InitializeComponent();
-        }
-
-        private void ButtonAjouter_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonAjouter_Loaded_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonAjouter_Loaded_2(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
