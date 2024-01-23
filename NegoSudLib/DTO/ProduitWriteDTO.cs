@@ -4,25 +4,24 @@ using NegoSudLib.NegosudDbContext;
 using System;
 namespace NegoSudLib.DTO;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
+// Produit pour l'écriture dans la BDD
 public class ProduitWriteDTO
 
 {
-    
     public int Id { get; set; }
-    public int QteEnStock { get; set; }
     public string NomProduit { get; set; } = string.Empty;
     public int ContenanceCl { get; set; }
+    public int QteEnStock { get; set; }
     public float DegreeAlcool { get; set; }
     public int Millesime { get; set; }
-    public string DescriptionProduit { get; set; } = string.Empty;
     public int QteCarton { get; set; }
     public string PhotoProduitPath { get; set; } = string.Empty;
-    public int DomaineId { get; set; }
-    public int CategorieId { get; set; }
-    public PrixVenteDTO PrixVenteActuel { get; set; } = null!;
-    public PrixAchatWriteDTO PrixAchatActuel {  get; set; } = null!; 
-
+    public string DescriptionProduit { get; set; } = string.Empty;
+    public int SeuilCommandeMin { get; set; }
+    public int CommandeMin { get; set; }
+    public int IdDomaine { get; set; }
+    public int IdCategorie{ get; set; }
+    public bool AlaVente { get; set; }
+    public PrixAchat? PrixAchat { get; set; }
+    public PrixVente? PrixVente { get; set; }
 }

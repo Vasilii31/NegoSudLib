@@ -21,5 +21,5 @@ public class ClientDetailDTO
 
     public string NumClient { get; set; } = string.Empty;
 
-    public virtual ICollection<VenteDTO>? HistoriqueVentes { get; set; }
+    public virtual ICollection<VentesDTO>? HistoriqueVentes { get; set; }
 }

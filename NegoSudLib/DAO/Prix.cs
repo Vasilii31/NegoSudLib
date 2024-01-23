@@ -13,15 +13,12 @@ namespace NegoSudLib.DAO
         [Key]
         [Required]
         public int Id { get; set; }
-
         public DateTime DateDebut { get; set; }
-
         public DateTime? DateFin { get; set; } = null;
         public float PrixCarton { get; set; }
         public float PrixUnite{ get; set; }
 
         [ForeignKey(nameof(Produit))]
         public int ProduitId {  get; set; }
-        public Produit Produit { get; set; } = null!;
     }
 }

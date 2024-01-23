@@ -10,27 +10,14 @@ namespace NegoSudLib.DAO
 {
     public abstract class MouvementStock
     {
-        [Key]
-        [Required] 
         public int Id { get; set; }
-        public int QteMouvement {  get; set; }
+        public int QteMouvement {  get; set; } //Nombre de ligne
         public DateTime DateMouvement { get; set; }
-
         public bool EntreeOuSortie { get; set; }
-
-        [StringLength(255)]
         public string Commentaire { get; set; } = string.Empty;
-
-        [ForeignKey(nameof(Employe))]
         public int EmployeId { get; set; }
-        public Employe Employe { get; set; } = null!;
-
-       
-        //[ForeignKey(nameof(TypeMouvement))]
-        //public int TypeMouvementId { get; set; }
-        //public TypeMouvement TypeMouvement { get; set; } = null!;
-
-        public virtual ICollection<DetailMouvementStock> DetailMouvementStocks { get; set; } = null!;
+        public virtual Employe? Employe { get; set; }
+        public virtual IEnumerable<DetailMouvementStock>? DetailMouvementStocks { get; set; }
 
     }
 }

@@ -13,7 +13,7 @@ namespace NegoSudLib.DAO
         [StringLength(80)]
         public string NumClient { get; set; } = string.Empty;
 
-        public virtual ICollection<Vente>? HistoriqueVentes { get; set;}
+        public virtual IEnumerable<Vente>? HistoriqueVentes { get; set;}
 
     }
 }

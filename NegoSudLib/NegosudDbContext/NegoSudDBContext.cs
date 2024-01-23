@@ -21,8 +21,13 @@ namespace NegoSudLib.NegosudDbContext
         public DbSet<AutreMouvement> AutreMouvements{ get; set; }
         public DbSet<PrixAchat> PrixAchats { get; set; }
         public DbSet<PrixVente> PrixVentes { get; set; }
+        public DbSet<Prix> Prix{ get; set; }
         public DbSet<Vente> Ventes { get; set; }
         public DbSet<TypeMouvement> TypesMouvement { get; set; }
+        public DbSet<Utilisateur> Utilisateurs { get; set; }
+        public DbSet<MouvementStock> MouvementStocks { get; set; }
+
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
