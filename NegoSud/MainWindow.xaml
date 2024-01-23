@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NegoSud" 
         xmlns:viewModel="clr-namespace:NegoSud.MVVM.ViewModel"
+        xmlns:nav="clr-namespace:NegoSud.Services.Navigator"
         mc:Ignorable="d" Height="600" Width="920"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="False">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <viewModel:MainViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     
     <Border Background="#460A26"
             CornerRadius="20">
@@ -23,82 +24,112 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <!--<RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>-->
                 <RowDefinition Height="75"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            
-            <TextBlock Text="NegoSud" VerticalAlignment="Center"
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Authenticator.isLoggedIn}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <TextBlock Text="NegoSud" VerticalAlignment="Center"
            HorizontalAlignment="Center"
            Foreground="Wheat"
            FontSize="30"/>
 
-            <StackPanel Grid.Row="1">
-                <RadioButton Content="Acceuil"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Produits"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/> 
-                <RadioButton Content="Commandes"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Ventes"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Domaines"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Catégories"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Employés"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Fournisseurs"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Statistiques"
-                             Height="50"
-                             Foreground="Wheat"
-                             FontSize="22"
-                             FontWeight="Bold"
-                             Style="{StaticResource MenuButtonTheme}"/>
-            </StackPanel>
-
-            <TextBox Width="250"
+                <!--<TextBox Width="250"
                      Height="40"
                      VerticalContentAlignment="Center"
                      HorizontalAlignment="Left"
                      Margin="5"
                      Grid.Column="1"
-                     Style="{StaticResource ModernTextbox}"/>
+                     Style="{StaticResource ModernTextbox}"/>-->
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Authenticator.isLoggedIn}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <StackPanel  Grid.Row="1">
+                    <RadioButton Content="Acceuil"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Home}"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Produits"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Products}"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Commandes"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Ventes"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Domaines"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Catégories"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Employés"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Fournisseurs"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Statistiques"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                </StackPanel>
+            
+
+            </Grid>
             <ContentControl Grid.Row="1" Grid.Column="1"
                             Margin="10"
-                            Content="{Binding CurrentView}"/>
+                            Content="{Binding Navigator.CurrentViewModel}"/>
 
 
         </Grid>

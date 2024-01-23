@@ -19,9 +19,10 @@ namespace NegoSud.MVVM.View
     /// </summary>
     public partial class LoginFormView : Window
     {
-        public LoginFormView()
+        public LoginFormView(object dataContext)
         {
             InitializeComponent();
+            DataContext = dataContext;
         }
     }
 }
