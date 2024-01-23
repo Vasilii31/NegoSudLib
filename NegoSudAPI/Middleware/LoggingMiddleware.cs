@@ -1,4 +1,4 @@
-﻿namespace AirFranceAPI.Middleware;
+﻿namespace NegoSudAPI.Middleware;
 
 public class LoggingMiddleware
 {

@@ -1,4 +1,4 @@
-using AirFranceAPI.Middleware;
+using NegoSudAPI.Middleware;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
 using NegoSudLib.Repositories;
@@ -32,7 +32,6 @@ builder.Services.AddScoped<IVentesRepository, VentesRepository>();
 builder.Services.AddScoped<IVentesService, VentesService>();
 builder.Services.AddScoped<IAutreMvtRepository, AutreMvtRepository>();
 builder.Services.AddScoped<IAutreMvtService, AutreMvtService>();
-
 
 // Configuration nLog
 builder.Logging.ClearProviders();
