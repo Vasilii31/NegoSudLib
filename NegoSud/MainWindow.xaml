@@ -13,10 +13,10 @@
         AllowsTransparency="False"
         Height="600" Width="920">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <viewModel:MainViewModel/>
-    </Window.DataContext>
-
+    </Window.DataContext>-->
+    
     <Border Background="#460A26"
             CornerRadius="20">
         <Grid>
@@ -26,23 +26,58 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <!--<RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>-->
                 <RowDefinition Height="75"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="NegoSud" VerticalAlignment="Top"
-           HorizontalAlignment="Left"
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Authenticator.isLoggedIn}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <TextBlock Text="NegoSud" VerticalAlignment="Center"
+           HorizontalAlignment="Center"
            Foreground="Wheat"
            FontSize="30" Margin="63,12,0,0"/>
 
-            <StackPanel Grid.Row="1" Grid.Column="0">
-                <RadioButton Content="Acceuil"
+                <!--<TextBox Width="250"
+                     Height="40"
+                     VerticalContentAlignment="Center"
+                     HorizontalAlignment="Left"
+                     Margin="5"
+                     Grid.Column="1"
+                     Style="{StaticResource ModernTextbox}"/>-->
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Authenticator.isLoggedIn}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <StackPanel  Grid.Row="1">
+                    <RadioButton Content="Acceuil"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Home}"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Produits"
+                    <RadioButton Content="Produits"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Products}"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
@@ -54,37 +89,37 @@
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Ventes"
+                    <RadioButton Content="Ventes"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Domaines"
+                    <RadioButton Content="Domaines"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Catégories"
+                    <RadioButton Content="Catégories"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Employés"
+                    <RadioButton Content="Employés"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Fournisseurs"
+                    <RadioButton Content="Fournisseurs"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Statistiques"
+                    <RadioButton Content="Statistiques"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
@@ -97,6 +132,13 @@
             <TextBlock Grid.Column="1" Foreground="#F9D9D9" VerticalAlignment="Top" FontSize="30" Margin="73,11,695,0" RenderTransformOrigin="0.368,0.762"/>
 
             <materialDesign:PackIcon Grid.Column="1" Kind="Login" Foreground="#F9D9D9" Height="42" Width="54" Margin="641,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+            
+
+            </Grid>
+            <ContentControl Grid.Row="1" Grid.Column="1"
+                            Margin="10"
+                            Content="{Binding Navigator.CurrentViewModel}"/>
 
             <materialDesign:PackIcon Grid.Column="1" Kind="ShoppingCart" Foreground="#F9D9D9" Height="42" Width="54" VerticalAlignment="Center" Margin="582,0,0,0" />
 
