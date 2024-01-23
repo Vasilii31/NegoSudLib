@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:NegoSud" 
         xmlns:viewModel="clr-namespace:NegoSud.MVVM.ViewModel"
         xmlns:CustomControls="clr-namespace:NegoSud.CustomControls"
+        xmlns:nav="clr-namespace:NegoSud.Services.Navigator"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
         Background="Transparent"
@@ -132,7 +133,7 @@
             <TextBlock Grid.Column="1" Foreground="#F9D9D9" VerticalAlignment="Top" FontSize="30" Margin="73,11,695,0" RenderTransformOrigin="0.368,0.762"/>
 
             <materialDesign:PackIcon Grid.Column="1" Kind="Login" Foreground="#F9D9D9" Height="42" Width="54" Margin="641,0,0,0" VerticalAlignment="Center"/>
-                </StackPanel>
+                
             
 
             </Grid>
