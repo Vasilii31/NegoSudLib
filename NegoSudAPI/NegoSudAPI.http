@@ -16,45 +16,15 @@ Accept: application/json
 GET {{NegoSudAPI_HostAddress}}/api/Categories/1
 Accept: application/json
 ###
-GET {{NegoSudAPI_HostAddress}}/api/statut/0
+GET {{NegoSudAPI_HostAddress}}/api/Commandes/statut/3
+Accept: application/json
+###
+GET {{NegoSudAPI_HostAddress}}/api/Commandes/
 Accept: application/json
 ###
 
  
 
-POST {{NegoSudAPI_HostAddress}}/api/produits
-Content-Type: application/json
-
-{
-  "nomProduit": "Vino testo",
-  "contenanceCl": 750,
-  "qteEnStock": 100,
-  "degreeAlcool": 13.5,
-  "millesime": 2020,
-  "qteCarton": 12,
-  "photoProduitPath": "",
-  "descriptionProduit": "A vin à tester.",
-  "seuilCommandeMin": 20,
-  "commandeMin": 5,
-  "idDomaine": 1,
-  "idCategorie": 1,
-  "alaVente": true,
-  "prixAchat": {
-    "dateDebut": "2024-01-22T09:47:58.224Z",
-    "prixCarton": 120,
-    "prixUnite": 10,
-    "fournisseurId": 1
-  },
-  "prixVente": {
-    "dateDebut": "2024-01-22T09:47:58.224Z",
-    "prixCarton": 150,
-    "prixUnite": 15,
-    "promotion": 0.1,
-    "taxe": 0.05
-  }
-}
-
-###
 POST {{NegoSudAPI_HostAddress}}/api/produits
 Content-Type: application/json
 
@@ -113,7 +83,6 @@ Content-Type: application/json
     }
   ],
   "statutCommande": 0,
-  "numCommande": "COM002",
   "fournisseurId": 1
 }
 
@@ -121,7 +90,7 @@ Content-Type: application/json
 
   
 
-GET {{NegoSudAPI_HostAddress}}/api/commandes/COM002
+GET {{NegoSudAPI_HostAddress}}/api/commandes/COM001
 
 ###
 
@@ -155,7 +124,6 @@ Content-Type: application/json
         "produitId": 2
      }
   ],
-  "numFacture": "FAC001",
   "clientId": 4
 }
 

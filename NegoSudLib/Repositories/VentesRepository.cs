@@ -61,7 +61,9 @@ namespace NegoSudLib.Repositories
         {
             await _context.Ventes.AddAsync(Vente);
             await _context.SaveChangesAsync();
-            return await this.GetById(Vente.Id);
+            Vente.NumFacture = "FAC" + Vente.Id;
+            await _context.SaveChangesAsync();
+            return await GetById(Vente.Id);
         }
 
         public async Task<VentesDTO?> Put(Vente Vente)

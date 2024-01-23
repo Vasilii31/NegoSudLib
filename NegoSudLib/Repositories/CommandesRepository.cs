@@ -23,13 +23,19 @@ namespace NegoSudLib.Repositories
         {
             return await _context.Commandes
                 .Include(c => c.Fournisseur)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+                 .Include(c => c.Employe)
                 .Select(c=> c.ToDTO())
                 .ToListAsync();
         }
         public async Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut)
         {
-            return await _context.Commandes
-                .Include(c => c.Fournisseur)
+            return await _context.Commandes.
+                Include(c => c.Fournisseur)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+                 .Include(c => c.Employe)
                 .Where(c => c.StatutCommande == statut)
                 .Select(c=> c.ToDTO())
                 .ToListAsync();
@@ -68,7 +74,9 @@ namespace NegoSudLib.Repositories
         {
             await _context.Commandes.AddAsync(commande);
             await _context.SaveChangesAsync();
-            return await this.GetById(commande.Id);
+            commande.NumCommande = "COM" + commande.Id;
+            await _context.SaveChangesAsync();
+            return await GetById(commande.Id);
         }
 
         public async Task<CommandeDTO?> Put(Commande commande)

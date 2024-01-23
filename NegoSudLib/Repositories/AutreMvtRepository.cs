@@ -60,7 +60,7 @@ namespace NegoSudLib.Repositories
         {
             await _context.AutreMouvements.AddAsync(autreMvt);
             await _context.SaveChangesAsync();
-            return await this.GetById(autreMvt.Id);
+            return await GetById(autreMvt.Id);
         }
 
         public async Task<AutreMvtDTO?> Put(AutreMouvement autreMvt)
