@@ -21,6 +21,9 @@
             <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
                 <view:ProductsView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:DomaineViewModel}">
+                <view:DomainesView/>
+            </DataTemplate>
         </ResourceDictionary>
 
         

@@ -20,6 +20,7 @@ namespace NegoSud.MVVM.View.Template
     /// </summary>
     public partial class ButtonModifier : UserControl
     {
+        public static event EventHandler ModifierButtonClick;
         public ButtonModifier()
         {
             InitializeComponent();
@@ -27,7 +28,17 @@ namespace NegoSud.MVVM.View.Template
 
         private void ButtonPencil_Click(object sender, RoutedEventArgs e)
         {
+            ModifierButtonClick?.Invoke(this, EventArgs.Empty);
+        }
 
+        private void ButtonAdd_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ButtonPencil.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#300117"));
+        }
+
+        private void ButtonAdd_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonPencil.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#460A26"));
         }
     }
 }

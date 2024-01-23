@@ -4,7 +4,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     
     <Grid>
-        <Button x:Name="ButtonDelete" Background="#460A26" Foreground="White" BorderBrush="Transparent" BorderThickness="0" Click="ButtonDelete_Click">
+        <Button x:Name="ButtonDelete" Background="#460A26" Foreground="Wheat" BorderBrush="Transparent" BorderThickness="0" Click="ButtonDelete_Click"
+                MouseEnter="ButtonAdd_MouseEnter" MouseLeave="ButtonAdd_MouseLeave">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
