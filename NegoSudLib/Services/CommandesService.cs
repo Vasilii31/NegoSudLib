@@ -27,6 +27,10 @@ namespace NegoSudLib.Services
         {
             return await _commandesRepository.GetAll();
         }
+         public async Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut)
+        {
+            return await _commandesRepository.GetByStatut(statut);
+        }
         public async Task<CommandeDTO?> GetById(int id)
         {
           var com =  await _commandesRepository.GetById(id);

@@ -20,6 +20,7 @@ namespace NegoSudLib.DAO
     {
         ENVOYE,
         ENPREPARATION,
+        AVALIDER,
         RECU,
         ANNULE
     }

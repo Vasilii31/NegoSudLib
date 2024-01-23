@@ -508,6 +508,7 @@ namespace ConsoleApp1
                     Taxe = 20,
                     Promotion = 0
                 });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 14,
