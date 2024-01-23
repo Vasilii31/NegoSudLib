@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using NegoSudLib.DAO;
+﻿using NegoSudLib.DAO;
 using NegoSudLib.DTO;
+using NegoSudLib.Extensions;
+using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
 using System;
 using System.Collections.Generic;
@@ -11,56 +12,73 @@ using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
-    public class VentesService
+    public class VentesService : IVentesService
     {
-        private readonly NegoSudDBContext _context;
-        private readonly DetailMouvementStockService _detailMouvementStockService;
-        public VentesService(NegoSudDBContext context)
+        private readonly IVentesRepository _ventesRepository;
+        private readonly IDetailMvtService _detMvtService;
+        private readonly IProduitsServices _produitService;
+        public VentesService(IVentesRepository VentesRepository, IDetailMvtService detMvtService, IProduitsServices produitService)
         {
-            _context = context;
-            _detailMouvementStockService = new DetailMouvementStockService(context);
+            this._ventesRepository = VentesRepository;
+            this._detMvtService = detMvtService;
+            this._produitService = produitService;
         }
-
-        public ICollection<VenteDTO>? getVentesByEmploye(int employeId)
+        public async Task<IEnumerable<VentesDTO>> GetAll()
         {
-            ICollection<VenteDTO> ventes = _context.Ventes
-                .Where(vente => vente.EmployeId == employeId)
-                .Select(vente => new VenteDTO
-                {
-                    Id = vente.EmployeId,
-                    NumFacture = vente.NumFacture,
-                    NomClient = vente.Client.NomUtilisateur,
-                    PrenomClient = vente.Client.PrenomUtilisateur,
-                    NomEmploye = vente.Employe.NomUtilisateur,
-                    PrenomEmploye = vente.Employe.PrenomUtilisateur,
-                    Commentaire = vente.Commentaire,
-                    DateMouvement = vente.DateMouvement
-                })
-                .ToList();
-            if (ventes.Count == 0) { return null; }
-            foreach (var vente in ventes)
+            return await _ventesRepository.GetAll();
+        }
+        public async Task<VentesDTO?> GetById(int id)
+        {
+          var com =  await _ventesRepository.GetById(id);
+            if (com != null)
             {
-                //vente.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(vente.Id);
+                if (com.DetailMouvementStocks.Any())
+                {
+                    foreach (var DetMvt in com.DetailMouvementStocks)
+                    {
+                        DetMvt.Produit = await _produitService.GetByIdDate(DetMvt.ProduitId, com.DateMouvement);
+                    }
+                }
+                com.SetTotaux();
             }
-            return ventes;
+            return com;
+        }
+        public async Task<VentesDTO?> GetByNum(string num)
+        {
+            var com = await _ventesRepository.GetByNum(num);
+            if (com != null)
+            {
+                if (com.DetailMouvementStocks.Any())
+                {
+                    foreach (var DetMvt in com.DetailMouvementStocks)
+                    {
+                        DetMvt.Produit = await _produitService.GetByIdDate(DetMvt.ProduitId, com.DateMouvement);
+                    }
+                }
+                com.SetTotaux();
+            }
+            return com;
+        }
+        public async Task<VentesDTO?> Post(Vente vente)
+        {
+            var comAdded =  await _ventesRepository.Post(vente);
+            if (comAdded == null) { return null; }
+            return comAdded;
         }
 
-        public VenteDTO venteToVenteDTO(Vente v)
+        public async Task<VentesDTO?> Put(Vente vente)
         {
-            VenteDTO venteDTO = new VenteDTO{
-                Id = v.Id,
-                NumFacture = v.NumFacture,
-                NomClient = v.Client.NomUtilisateur,
-                PrenomClient = v.Client.PrenomUtilisateur,
-                NomEmploye = v.Employe.NomUtilisateur,
-                PrenomEmploye = v.Employe.PrenomUtilisateur,
-                Commentaire = v.Commentaire,
-                DateMouvement = v.DateMouvement
-                };
+            return await _ventesRepository.Put(vente);
+        }
 
-            //venteDTO.DetailMouvementStocks = _detailMouvementStockService.getDetailByMouvementId(v.Id);
+        public async Task Delete(int id)
+        {
+            await _ventesRepository.Delete(id);
+        }
+        public async Task<bool> Exists(int id)
+        {
+            return await _ventesRepository.Exists(id);
 
-            return venteDTO;
         }
     }
 }

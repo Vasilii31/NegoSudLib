@@ -39,7 +39,14 @@ namespace ConsoleApp1
                 context.Domaines.Add(new Domaine{ Id = 14, NomDomaine = "Château Belgrave" });
                 context.Domaines.Add(new Domaine{ Id = 15, NomDomaine = "Domaine la Rêverie" });
                 context.Domaines.Add(new Domaine{ Id = 16, NomDomaine = "Moët et Chandon" });
-                
+
+                context.Fournisseurs.Add(new Fournisseur
+                {
+                    Id = 1,
+                    NomFournisseur = "Cave du Jurançon"
+                });
+
+                context.SaveChanges();
 
                 if (context.Produits.Any()) { return; }
                 context.Produits.Add(new Produit { 
@@ -54,7 +61,26 @@ namespace ConsoleApp1
                     CategorieId = 2,
                     ContenanceCl=75,
                     DegreeAlcool = 11f,
-                    Millesime =2021});
+                    Millesime =2021
+                });
+                context.PrixAchats.Add(new PrixAchat
+                { 
+                        ProduitId = 1,
+                        DateDebut = DateTime.Now,
+                        PrixCarton = 120,
+                        PrixUnite = 10,
+                        FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                { 
+                        ProduitId = 1,
+                        DateDebut = DateTime.Now,
+                        PrixCarton = 120,
+                        PrixUnite = 10,
+                        Taxe = 20,
+                        Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 2,
@@ -70,7 +96,26 @@ namespace ConsoleApp1
                     CategorieId = 2,
                     ContenanceCl = 75,
                     DegreeAlcool = 11f,
-                    Millesime = 2020});
+                    Millesime = 2020
+                });
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 2,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 2,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 3,
@@ -88,6 +133,24 @@ namespace ConsoleApp1
                     DegreeAlcool = 13.5f,
                     Millesime = 2019
                 });
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 3,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 3,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 4,
@@ -105,6 +168,25 @@ namespace ConsoleApp1
                     DegreeAlcool = 13.5f,
                     Millesime = 2018
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 4,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 4,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 5,
@@ -122,6 +204,25 @@ namespace ConsoleApp1
                     DegreeAlcool = 13.5f,
                     Millesime = 2018
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 5,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 5,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 6,
@@ -139,6 +240,25 @@ namespace ConsoleApp1
                     DegreeAlcool = 13.5f,
                     Millesime = 2018
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 6,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 6,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 7,
@@ -156,6 +276,25 @@ namespace ConsoleApp1
                     DegreeAlcool = 13.5f,
                     Millesime = 2019
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 7,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 7,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 8,
@@ -173,6 +312,25 @@ namespace ConsoleApp1
                     DegreeAlcool = 14f,
                     Millesime = 2011
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 8,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 8,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 9,
@@ -190,6 +348,24 @@ namespace ConsoleApp1
                     DegreeAlcool = 13f,
                     Millesime = 2020
                 });
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 9,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 9,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 10,
@@ -206,6 +382,24 @@ namespace ConsoleApp1
                     ContenanceCl = 75,
                     DegreeAlcool = 14.5f,
                     Millesime = 2019
+                });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 10,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 10,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
                 });
                 context.Produits.Add(new Produit
                 {
@@ -224,6 +418,25 @@ namespace ConsoleApp1
                     DegreeAlcool = 14.5f,
                     Millesime = 2019
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 11,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 11,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 12,
@@ -241,6 +454,25 @@ namespace ConsoleApp1
                     DegreeAlcool = 13f,
                     Millesime = 2019
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 12,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 12,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 13,
@@ -258,6 +490,24 @@ namespace ConsoleApp1
                     DegreeAlcool = 12.5f,
                     Millesime = 2008
                 });
+
+                context.PrixAchats.Add(new PrixAchat
+                {
+                    ProduitId = 13,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    FournisseurId = 1
+                });
+                context.PrixVentes.Add(new PrixVente
+                {
+                    ProduitId = 13,
+                    DateDebut = DateTime.Now,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
+                });
                 context.Produits.Add(new Produit
                 {
                     Id = 14,
@@ -274,6 +524,7 @@ namespace ConsoleApp1
                     ContenanceCl = 75,
                     DegreeAlcool = 12f
                 });
+
                 context.Produits.Add(new Produit
                 {
                     Id = 15,
@@ -291,38 +542,71 @@ namespace ConsoleApp1
                     DegreeAlcool = 13.5f
                 });
 
-                context.Fournisseurs.Add(new Fournisseur
-                {
-                    Id = 1,
-                    NomFournisseur = "Cave du Jurançon"
-                });
-
                 context.PrixAchats.Add(new PrixAchat
                 {
+                    ProduitId = 15,
                     DateDebut = DateTime.Now,
-                    DateFin = null,
-                    ProduitId = 1,
-                    PrixCarton = 12,
-                    PrixUnite = 3,
+                    PrixCarton = 120,
+                    PrixUnite = 10,
                     FournisseurId = 1
                 });
-
                 context.PrixVentes.Add(new PrixVente
                 {
+                    ProduitId = 15,
                     DateDebut = DateTime.Now,
-                    DateFin = null,
-                    ProduitId = 1,
-                    PrixCarton = 50,
-                    PrixUnite = 7,
-                    Taxe = 20
+                    PrixCarton = 120,
+                    PrixUnite = 10,
+                    Taxe = 20,
+                    Promotion = 0
                 });
 
+               
+                context.Employes.Add(new Employe
+                { 
+                            Id=1,
+                            NomUtilisateur = "Legendre",
+                            PrenomUtilisateur = "Juliette",
+                            Gerant = true,
+                            MailUtilisateur = "test@test.fr",
+                            AdresseUtilisateur = "12 rue du test",
+                 }) ;
                 context.Employes.Add(new Employe
                 {
-                    Id=1,
+                    Id = 2,
+                    NomUtilisateur = "Franco",
+                    PrenomUtilisateur = "Olivier",
+                    Gerant = true,
+                    MailUtilisateur = "test@test.fr",
+                    AdresseUtilisateur = "12 rue du test",
+                });
+                context.Employes.Add(new Employe
+                {
+                    Id=3,
                     NomUtilisateur = "Blanc",
                     PrenomUtilisateur = "Christopher",
-                    Gerant = false,
+                    Gerant = true,
+                    MailUtilisateur = "test@test.fr",
+                    AdresseUtilisateur = "12 rue du test",
+                }) ;
+
+
+
+                context.Clients.Add(new Client
+                {
+                    Id=4,
+                    NomUtilisateur = "Chopin",
+                    PrenomUtilisateur = "Victor",
+                    NumClient = "CL0001",
+                    MailUtilisateur = "test@test.fr",
+                    AdresseUtilisateur = "12 rue du test",
+                }) ;
+            
+                context.Clients.Add(new Client
+                {
+                    Id=5,
+                    NomUtilisateur = "Laclef",
+                    PrenomUtilisateur = "David",
+                    NumClient = "CL0002",
                     MailUtilisateur = "test@test.fr",
                     AdresseUtilisateur = "12 rue du test",
                 }) ;
@@ -330,47 +614,13 @@ namespace ConsoleApp1
                 context.TypesMouvement.Add(new TypeMouvement
                 {
                     Id = 1,
-                    NomTypeMouvement = "Vente"
+                    NomTypeMouvement = "Casse"
                 });
 
-                context.TypesMouvement.Add(new TypeMouvement
+                 context.TypesMouvement.Add(new TypeMouvement
                 {
                     Id = 2,
-                    NomTypeMouvement = "Commande"
-                });
-
-                context.Clients.Add(new Client
-                {
-                    Id=1,
-                    NomUtilisateur = "Dupont",
-                    PrenomUtilisateur = "José",
-                    NumClient = "12F3",
-                    MailUtilisateur = "test@test.fr",
-                    AdresseUtilisateur = "12 rue du test",
-                    NumTelUtilisateur = "010101010"
-                });
-                context.SaveChanges();
-
-                context.Ventes.Add(new Vente
-                {
-                    ClientId = 1,
-                    QteMouvement = 1,
-                    EntreeOuSortie = true,
-                    Commentaire = "test",
-                    NumFacture = "123",
-                    DateMouvement = DateTime.Now,
-                    EmployeId = 1,
-                });
-                context.SaveChanges();
-
-                context.DetailsMouvementStock.Add(new DetailMouvementStock
-                {
-                    Id = 1,
-                    QteProduit = 1,
-                    AuCarton = true,
-                    PrixApresRistourne = 12,
-                    MouvementStockId = 1,
-                    ProduitId = 1
+                    NomTypeMouvement = "Perte"
                 });
 
                 context.SaveChanges();

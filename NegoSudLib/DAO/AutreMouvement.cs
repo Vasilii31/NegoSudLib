@@ -11,6 +11,6 @@ namespace NegoSudLib.DAO
     {
         [ForeignKey(nameof(TypeMouvement))]
         public int TypeMouvementId { get; set; }
-        public TypeMouvement TypeMouvement { get; set; } = null!;
+        public virtual TypeMouvement? TypeMouvement { get; set; }
     }
 }

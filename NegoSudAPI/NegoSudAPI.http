@@ -1,6 +1,188 @@
-@NegoSudAPI_HostAddress = http://localhost:5170
+@NegoSudAPI_HostAddress = https://localhost:7211
 
 GET {{NegoSudAPI_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+GET {{NegoSudAPI_HostAddress}}/api/produits/Categorie/1
+Accept: application/json
+###
+
+GET {{NegoSudAPI_HostAddress}}/api/produits/dd
+Accept: application/json
+###
+
+GET {{NegoSudAPI_HostAddress}}/api/Categories/1
+Accept: application/json
+###
+
+POST 
+
+POST {{NegoSudAPI_HostAddress}}/api/produits
+Content-Type: application/json
+
+{
+  "nomProduit": "Vino testo",
+  "contenanceCl": 750,
+  "qteEnStock": 100,
+  "degreeAlcool": 13.5,
+  "millesime": 2020,
+  "qteCarton": 12,
+  "photoProduitPath": "",
+  "descriptionProduit": "A vin à tester.",
+  "seuilCommandeMin": 20,
+  "commandeMin": 5,
+  "idDomaine": 1,
+  "idCategorie": 1,
+  "alaVente": true,
+  "prixAchat": {
+    "dateDebut": "2024-01-22T09:47:58.224Z",
+    "prixCarton": 120,
+    "prixUnite": 10,
+    "fournisseurId": 1
+  },
+  "prixVente": {
+    "dateDebut": "2024-01-22T09:47:58.224Z",
+    "prixCarton": 150,
+    "prixUnite": 15,
+    "promotion": 0.1,
+    "taxe": 0.05
+  }
+}
+
+###
+POST {{NegoSudAPI_HostAddress}}/api/produits
+Content-Type: application/json
+
+{
+  "nomProduit": "Vino testo",
+  "contenanceCl": 750,
+  "qteEnStock": 100,
+  "degreeAlcool": 13.5,
+  "millesime": 2020,
+  "qteCarton": 12,
+  "photoProduitPath": "",
+  "descriptionProduit": "A vin à tester.",
+  "seuilCommandeMin": 20,
+  "commandeMin": 5,
+  "idDomaine": 1,
+  "idCategorie": 1,
+  "alaVente": true,
+  "prixAchat": {
+    "dateDebut": "2024-01-22T09:47:58.224Z",
+    "prixCarton": 120,
+    "prixUnite": 10,
+    "fournisseurId": 1
+  },
+  "prixVente": {
+    "dateDebut": "2024-01-22T09:47:58.224Z",
+    "prixCarton": 150,
+    "prixUnite": 15,
+    "promotion": 0.1,
+    "taxe": 0.05
+  }
+}
+
+###
+
+POST {{NegoSudAPI_HostAddress}}/api/commandes
+Content-Type: application/json
+
+{
+  "qteMouvement": 0,
+  "dateMouvement": "2024-01-25T10:17:01.912Z",
+  "entreeOuSortie": true,
+  "commentaire": "Ceci est un commentaire",
+  "employeId": 1,
+  "detailMouvementStocks": [
+    {
+      "qteProduit": 6,
+      "prixApresRistourne": -1,
+      "auCarton": false,
+      "produitId": 1
+    },
+    {
+      "qteProduit": 2,
+      "prixApresRistourne": 12,
+      "auCarton": false,
+      "produitId": 2
+    }
+  ],
+  "statutCommande": 0,
+  "numCommande": "COM002",
+  "fournisseurId": 1
+}
+
+###
+
+  
+
+GET {{NegoSudAPI_HostAddress}}/api/commandes/COM002
+
+###
+
+GET {{NegoSudAPI_HostAddress}}/api/ventes/7
+
+###
+
+
+POST {{NegoSudAPI_HostAddress}}/api/ventes
+Content-Type: application/json
+
+{
+  "qteMouvement": 1,
+  "dateMouvement": "2024-01-24T12:59:57.737Z",
+  "entreeOuSortie": true,
+  "commentaire": "Ceci est une vente TEST",
+  "employeId": 1,
+  "detailMouvementStocks": [
+    {
+      "qteProduit": 1,
+      "prixApresRistourne": 12,
+      "auCarton": false,
+      "mouvementStockId": 0,
+      "produitId": 1
+    },
+    {
+        "qteProduit": 2,
+        "prixApresRistourne": -1,
+        "auCarton": false,
+        "mouvementStockId": 0,
+        "produitId": 2
+     }
+  ],
+  "numFacture": "FAC001",
+  "clientId": 4
+}
+
+###
+POST {{NegoSudAPI_HostAddress}}/api/autreMouvement
+Content-Type: application/json
+
+{
+  "qteMouvement": 1,
+  "dateMouvement": "2024-01-24T12:59:57.737Z",
+  "entreeOuSortie": true,
+  "commentaire": "Ceci est un autre mouvement TEST",
+  "employeId": 1,
+  "detailMouvementStocks": [
+    {
+      "qteProduit": 1,
+      "prixApresRistourne": 12,
+      "auCarton": false,
+      "mouvementStockId": 0,
+      "produitId": 1
+    },
+    {
+        "qteProduit": 2,
+        "prixApresRistourne": -1,
+        "auCarton": false,
+        "mouvementStockId": 0,
+        "produitId": 2
+     }
+  ],
+  "typeMouvementId": 1
+}
 
 ###

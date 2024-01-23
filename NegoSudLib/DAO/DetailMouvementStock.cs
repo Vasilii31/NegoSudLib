@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NegoSudLib.DTO;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NegoSudLib.DAO
@@ -13,13 +14,10 @@ namespace NegoSudLib.DAO
 
         public float PrixApresRistourne { get; set; }
         public bool AuCarton { get; set; }
-
-        [ForeignKey(nameof(MouvementsStock))]
         public int MouvementStockId { get; set; }
-        public MouvementStock MouvementsStock { get; set; } = null!;
         
         [ForeignKey(nameof(Produit))]
         public int ProduitId { get; set; }
-        public Produit Produit { get; set; } = null!;
+        public virtual Produit? Produit { get; set; }
     }
 }

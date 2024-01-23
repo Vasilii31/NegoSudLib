@@ -36,12 +36,12 @@ namespace NegoSudLib.DAO
 
         [ForeignKey(nameof(Domaine))]
         public int DomaineId { get; set; }
-        public Domaine? Domaine { get; set; }
+        public virtual Domaine? Domaine { get; set; }
 
         [ForeignKey(nameof(Categorie))]
         public int CategorieId { get; set; }
-        public Categorie Categorie { get; set; } = null!;
-        public virtual ICollection<PrixAchat> PrixAchats { get; set; } = null!;
-        public virtual ICollection<PrixVente> PrixVentes { get; set; } = null!;
+        public virtual Categorie? Categorie { get; set; }
+        public virtual ICollection<PrixAchat>? PrixAchats { get; set; }
+        public virtual ICollection<PrixVente>? PrixVentes { get; set; }
     }
 }

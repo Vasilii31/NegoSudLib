@@ -16,7 +16,7 @@ namespace NegoSudLib.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("NegoSudLib.DAO.Categorie", b =>
@@ -33,52 +33,6 @@ namespace NegoSudLib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("NegoSudLib.DAO.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("AdresseUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("HMotDePasse")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("MailUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("NomUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("varchar(80)");
-
-                    b.Property<string>("NumClient")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("varchar(80)");
-
-                    b.Property<string>("NumTelUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<string>("PrenomUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("varchar(80)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.DetailMouvementStock", b =>
@@ -127,50 +81,6 @@ namespace NegoSudLib.Migrations
                     b.ToTable("Domaines");
                 });
 
-            modelBuilder.Entity("NegoSudLib.DAO.Employe", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("AdresseUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<bool>("Gerant")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("HMotDePasse")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("MailUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("NomUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("varchar(80)");
-
-                    b.Property<string>("NumTelUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<string>("PrenomUtilisateur")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("varchar(80)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employes");
-                });
-
             modelBuilder.Entity("NegoSudLib.DAO.Fournisseur", b =>
                 {
                     b.Property<int>("Id")
@@ -210,8 +120,7 @@ namespace NegoSudLib.Migrations
 
                     b.Property<string>("Commentaire")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateMouvement")
                         .HasColumnType("datetime(6)");
@@ -232,9 +141,7 @@ namespace NegoSudLib.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeId");
-
-                    b.ToTable("MouvementStock");
+                    b.ToTable("MouvementStocks");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("MouvementStock");
 
@@ -384,12 +291,64 @@ namespace NegoSudLib.Migrations
                     b.ToTable("TypesMouvement");
                 });
 
+            modelBuilder.Entity("NegoSudLib.DAO.Utilisateur", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AdresseUtilisateur")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("varchar(13)");
+
+                    b.Property<string>("HMotDePasse")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("MailUtilisateur")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("NomUtilisateur")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
+
+                    b.Property<string>("NumTelUtilisateur")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("PrenomUtilisateur")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Utilisateurs");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Utilisateur");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("NegoSudLib.DAO.AutreMouvement", b =>
                 {
                     b.HasBaseType("NegoSudLib.DAO.MouvementStock");
 
                     b.Property<int>("TypeMouvementId")
                         .HasColumnType("int");
+
+                    b.HasIndex("EmployeId");
 
                     b.HasIndex("TypeMouvementId");
 
@@ -411,6 +370,8 @@ namespace NegoSudLib.Migrations
                     b.Property<int>("StatutCommande")
                         .HasColumnType("int");
 
+                    b.HasIndex("EmployeId");
+
                     b.HasIndex("FournisseurId");
 
                     b.HasDiscriminator().HasValue("Commande");
@@ -430,12 +391,36 @@ namespace NegoSudLib.Migrations
 
                     b.HasIndex("ClientId");
 
+                    b.HasIndex("EmployeId");
+
                     b.HasDiscriminator().HasValue("Vente");
+                });
+
+            modelBuilder.Entity("NegoSudLib.DAO.Client", b =>
+                {
+                    b.HasBaseType("NegoSudLib.DAO.Utilisateur");
+
+                    b.Property<string>("NumClient")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
+
+                    b.HasDiscriminator().HasValue("Client");
+                });
+
+            modelBuilder.Entity("NegoSudLib.DAO.Employe", b =>
+                {
+                    b.HasBaseType("NegoSudLib.DAO.Utilisateur");
+
+                    b.Property<bool>("Gerant")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasDiscriminator().HasValue("Employe");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.DetailMouvementStock", b =>
                 {
-                    b.HasOne("NegoSudLib.DAO.MouvementStock", "MouvementsStock")
+                    b.HasOne("NegoSudLib.DAO.MouvementStock", null)
                         .WithMany("DetailMouvementStocks")
                         .HasForeignKey("MouvementStockId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -447,20 +432,7 @@ namespace NegoSudLib.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MouvementsStock");
-
                     b.Navigation("Produit");
-                });
-
-            modelBuilder.Entity("NegoSudLib.DAO.MouvementStock", b =>
-                {
-                    b.HasOne("NegoSudLib.DAO.Employe", "Employe")
-                        .WithMany()
-                        .HasForeignKey("EmployeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employe");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.PrixAchat", b =>
@@ -471,26 +443,22 @@ namespace NegoSudLib.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NegoSudLib.DAO.Produit", "Produit")
+                    b.HasOne("NegoSudLib.DAO.Produit", null)
                         .WithMany("PrixAchats")
                         .HasForeignKey("ProduitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Fournisseur");
-
-                    b.Navigation("Produit");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.PrixVente", b =>
                 {
-                    b.HasOne("NegoSudLib.DAO.Produit", "Produit")
+                    b.HasOne("NegoSudLib.DAO.Produit", null)
                         .WithMany("PrixVentes")
                         .HasForeignKey("ProduitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Produit");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.Produit", b =>
@@ -514,22 +482,38 @@ namespace NegoSudLib.Migrations
 
             modelBuilder.Entity("NegoSudLib.DAO.AutreMouvement", b =>
                 {
+                    b.HasOne("NegoSudLib.DAO.Employe", "Employe")
+                        .WithMany("HistoriqueAutreMouvements")
+                        .HasForeignKey("EmployeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("NegoSudLib.DAO.TypeMouvement", "TypeMouvement")
                         .WithMany()
                         .HasForeignKey("TypeMouvementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Employe");
+
                     b.Navigation("TypeMouvement");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.Commande", b =>
                 {
+                    b.HasOne("NegoSudLib.DAO.Employe", "Employe")
+                        .WithMany("HistoriqueCommandes")
+                        .HasForeignKey("EmployeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("NegoSudLib.DAO.Fournisseur", "Fournisseur")
                         .WithMany()
                         .HasForeignKey("FournisseurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employe");
 
                     b.Navigation("Fournisseur");
                 });
@@ -542,12 +526,15 @@ namespace NegoSudLib.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
-                });
+                    b.HasOne("NegoSudLib.DAO.Employe", "Employe")
+                        .WithMany("HistoriqueVentes")
+                        .HasForeignKey("EmployeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("NegoSudLib.DAO.Client", b =>
-                {
-                    b.Navigation("HistoriqueVentes");
+                    b.Navigation("Client");
+
+                    b.Navigation("Employe");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.MouvementStock", b =>
@@ -560,6 +547,20 @@ namespace NegoSudLib.Migrations
                     b.Navigation("PrixAchats");
 
                     b.Navigation("PrixVentes");
+                });
+
+            modelBuilder.Entity("NegoSudLib.DAO.Client", b =>
+                {
+                    b.Navigation("HistoriqueVentes");
+                });
+
+            modelBuilder.Entity("NegoSudLib.DAO.Employe", b =>
+                {
+                    b.Navigation("HistoriqueAutreMouvements");
+
+                    b.Navigation("HistoriqueCommandes");
+
+                    b.Navigation("HistoriqueVentes");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,7 +19,7 @@ public class EmployeDetailDTO
 
     public bool Gerant { get; set; }
 
-    public virtual ICollection<VenteDTO>? HistoriqueVentes { get; set; }
+    public virtual ICollection<VentesDTO>? HistoriqueVentes { get; set; }
     public virtual ICollection<CommandeDTO>? HistoriqueCommandes {  get; set; }
     public virtual ICollection<AjustementManuelDTO>? HistoriqueAjustements {  get; set; }
 }

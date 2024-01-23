@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO;
+using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
 using System;
 using System.Collections.Generic;
@@ -13,305 +14,112 @@ using System.Threading.Tasks;
 namespace NegoSudLib.Services
 {
 
-    public class ProduitService
+    public class ProduitService : IProduitsServices
     {
-        private readonly NegoSudDBContext _context;
-        private readonly PrixAchatService _prixAchatService;
-        private readonly PrixVenteService _prixVenteService;
-
-        public ProduitService(NegoSudDBContext context)
+        private readonly IProduitsRepository _produitRepository;
+        private readonly IPrixRepository _prixRepository;
+        public ProduitService(IProduitsRepository produitRepository, IPrixRepository prixRepository)
         {
-            _context = context;
-            _prixAchatService = new PrixAchatService(context);
-            _prixVenteService = new PrixVenteService(context);
+            this._produitRepository = produitRepository;
+            this._prixRepository = prixRepository;
         }
 
         // recupérations de tout les produits
         // route: GET /produits/
-        public ICollection<ProduitReadDTO> getProduits()
+        public async Task<IEnumerable<ProduitLightDTO>> GetAll(bool? AlaVente)
         {
-            ICollection<ProduitReadDTO> produits = _context.Produits.Select(p => new ProduitReadDTO
-            {
-                Id = p.Id,
-                QteEnStock = p.QteEnStock,
-                NomProduit = p.NomProduit,
-                ContenanceCl = p.ContenanceCl,
-                DegreeAlcool = p.DegreeAlcool,
-                Millesime = p.Millesime,
-                DescriptionProduit = p.DescriptionProduit,
-                QteCarton = p.QteCarton,
-                PhotoProduitPath = p.PhotoProduitPath,
-                Domaine = p.Domaine,
-                Categorie = p.Categorie,
-            }).ToList();
-
-            if (produits.Count > 0)
-            {
-                foreach (var produit in produits)
-                {
-                    if (produit != null)
-                    {
-                        produit.PrixVente = _prixVenteService.getPrixventeActuel(produit.Id);
-                        produit.PrixAchat = _prixAchatService.getPrixAchatActuel(produit.Id);
-                    }
-                }
-            }
-            return produits;
+           return await this._produitRepository.GetAll(AlaVente);
         }
 
-        // Renvoie les produits par domaine
-        // route: GET produits/Domaine/{domaineId}
-        public ICollection<ProduitReadDTO> GetProduitsByDomaine(int domaineId)
-        {
-            ICollection<ProduitReadDTO> produits = _context.Produits
-                .Where(Produit => Produit.DomaineId == domaineId)
-                .Select(p => new ProduitReadDTO
-                {
-                    Id = p.Id,
-                    QteEnStock = p.QteEnStock,
-                    NomProduit = p.NomProduit,
-                    ContenanceCl = p.ContenanceCl,
-                    DegreeAlcool = p.DegreeAlcool,
-                    Millesime = p.Millesime,
-                    DescriptionProduit = p.DescriptionProduit,
-                    QteCarton = p.QteCarton,
-                    PhotoProduitPath = p.PhotoProduitPath,
-                    Domaine = p.Domaine,
-                    Categorie = p.Categorie
-                }).ToList();
-
-            if (produits.Count > 0)
-            {
-                foreach (var produit in produits)
-                {
-                    if (produit != null)
-                    {
-                        produit.PrixVente = _prixVenteService.getPrixventeActuel(produit.Id);
-                        produit.PrixAchat = _prixAchatService.getPrixAchatActuel(produit.Id);
-                    }
-                }
-            }
-            return produits;
-        }
         // Renvoie les produits par categorie
-        // route: /produits/categorie/{categorieId}
-        public ICollection<ProduitReadDTO> GetProduitsByCategorie(int categorieId)
+        // route: GET produits/Categorie/{CatId}
+        public async Task<IEnumerable<ProduitLightDTO>> GetByCat(int catId)
         {
-            ICollection<ProduitReadDTO> produits = _context.Produits
-                .Where(Produit => Produit.CategorieId == categorieId)
-                .Select(p => new ProduitReadDTO
-                {
-                    Id = p.Id,
-                    QteEnStock = p.QteEnStock,
-                    NomProduit = p.NomProduit,
-                    ContenanceCl = p.ContenanceCl,
-                    DegreeAlcool = p.DegreeAlcool,
-                    Millesime = p.Millesime,
-                    DescriptionProduit = p.DescriptionProduit,
-                    QteCarton = p.QteCarton,
-                    PhotoProduitPath = p.PhotoProduitPath,
-                    Domaine = p.Domaine,
-                    Categorie = p.Categorie
-                }).ToList();
-
-            if (produits.Count > 0)
-            {
-                foreach (var produit in produits)
-                {
-                    if (produit != null)
-                    {
-                        produit.PrixVente = _prixVenteService.getPrixventeActuel(produit.Id);
-                        produit.PrixAchat = _prixAchatService.getPrixAchatActuel(produit.Id);
-                    }
-                }
-            }
-            return produits;
+            return await this._produitRepository.GetByCat(catId);
         }
-
-
-        public ProduitReadDTO? getProduitById(int produitId)
+        
+        // Renvoie les produits par domaine
+        // route: GET produits/Domaine/{domId}
+        public async Task<IEnumerable<ProduitLightDTO>> GetByDom(int domId)
         {
-            Produit? p = _context.Produits.Find(produitId);
-            if (p == null)
-            {
-                return null;
-            }
-            ProduitReadDTO prod = produitToProduitReadDTO(p);
-            return prod;
+            return await this._produitRepository.GetByDom(domId);
         }
 
-        public ProduitReadDTO? GetProduitByIdDate(int produitId, DateTime date) {         
-            ProduitReadDTO? produitDTO = _context.Produits
-                .Where(prod => prod.Id  == produitId)
-                .Select(p => new ProduitReadDTO
-                {
-                    Id = p.Id,
-                    NomProduit = p.NomProduit,
-                    PhotoProduitPath = p.PhotoProduitPath,
-                    DescriptionProduit = p.DescriptionProduit,
-                    ContenanceCl = p.ContenanceCl,
-                    DegreeAlcool = p.DegreeAlcool,
-                    QteEnStock = p.QteEnStock,
-                    Millesime = p.Millesime,
-                    QteCarton = p.QteCarton,
-                    Domaine = p.Domaine,
-                    Categorie = p.Categorie
-                }).FirstOrDefault();
-                
-            if (produitDTO.Id != 0)
-            {
-                produitDTO.PrixVente = _prixVenteService.getPrixVenteByDate(produitId, date);
-                produitDTO.PrixAchat = _prixAchatService.getPrixAchatByDate(produitId, date);
 
-                return produitDTO;
-            }
-            else
-            {
-                return null;
-            }
-
-        }
-
-        // Transforme un produit en ProduitReadDTO
-        public ProduitReadDTO produitToProduitReadDTO(Produit p)
+        // renvoi le produit par Id
+        public async Task<ProduitFullDTO?> GetById(int id)
         {
-
-            ProduitReadDTO prod = new ProduitReadDTO
-            {
-                Id = p.Id,
-                NomProduit = p.NomProduit,
-                PhotoProduitPath = p.PhotoProduitPath,
-                DescriptionProduit = p.DescriptionProduit,
-                ContenanceCl = p.ContenanceCl,
-                DegreeAlcool = p.DegreeAlcool,
-                QteEnStock = p.QteEnStock,
-                Millesime = p.Millesime,
-                QteCarton = p.QteCarton,
-                Domaine = p.Domaine,
-                Categorie = p.Categorie
-            };
-            prod.PrixVente = _prixVenteService.getPrixventeActuel(prod.Id);
-            prod.PrixAchat = _prixAchatService.getPrixAchatActuel(prod.Id);
-            return prod;
+            return await this._produitRepository.GetById(id);
         }
+
+        public async Task<ProduitLightDTO?> GetByIdDate(int id, DateTime date)
+        {
+            return await this._produitRepository.GetByIdDate(id,date);
+        }
+
+
         // Ajout d'un produit et des prix achat et vente
         // route POST produit/
-        public int AddProduit(ProduitWriteDTO produit)
+        public async Task<ProduitFullDTO?> Post(ProduitWriteDTO produit)
         {
-            Produit produitEntity = new Produit
+            //Ajout du produit
+            ProduitFullDTO? prodFullDTO = await _produitRepository.Post(produit);
+            if (prodFullDTO == null)
             {
-                QteEnStock = produit.QteEnStock,
-                NomProduit = produit.NomProduit,
-                ContenanceCl = produit.ContenanceCl,
-                DegreeAlcool = produit.DegreeAlcool,
-                Millesime = produit.Millesime,
-                DescriptionProduit = produit.DescriptionProduit,
-                QteCarton = produit.QteCarton,
-                PhotoProduitPath = produit.PhotoProduitPath,
-                DomaineId = produit.DomaineId,
-                CategorieId = produit.CategorieId,
-            };
-
-            _context.Produits.Add(produitEntity);
-            if (_context.SaveChanges() != 1)
-            {
-                return 0;
-            };
-
-            // récuperation de l'id du produit crée
-            int produitId = produitEntity.Id;
-
-            // Ajout du prix de vente
-            produit.PrixVenteActuel.ProduitId = produitId;
-            if (produit.PrixVenteActuel != null)
-            {
-                _prixVenteService.addPrixVente(produit.PrixVenteActuel);
+                return null;
             }
-
-
-            // Ajout du prix d'achat
-            produit.PrixAchatActuel.ProduitId = produitId;
-            if (produit.PrixAchatActuel != null)
+            //Ajout des prix 
+            if (produit.PrixAchat != null)
             {
-                _prixAchatService.addPrixAchat(produit.PrixAchatActuel);
+                produit.PrixAchat.ProduitId = prodFullDTO.Id;
+                var prixAchatAdded = await _prixRepository.PostPrixAchat(produit.PrixAchat);
+                if (prixAchatAdded != null) prodFullDTO.HistoriquePrixAchats = [prixAchatAdded];
+             
             }
-            _context.SaveChanges();
-
-
-            return produitId;
+            if (produit.PrixVente != null)
+                {
+                    produit.PrixVente.ProduitId=prodFullDTO.Id;
+                    var prixVenteAdded = await _prixRepository.PostPrixVente(produit.PrixVente);
+                    if (prixVenteAdded != null) prodFullDTO.HistoriquePrixVentes = [prixVenteAdded];
+             }
+            return prodFullDTO;
         }
 
-        // Modifier un produit
+        // Supprimer un produit
         // route: DELETE produit/{produitId}
-        public bool DeleteProduit(int id)
+        public async Task Delete(int id)
         {
-            Produit? prod = _context.Produits.Find(id);
-            if (prod != null)
-            {
-                _context.Produits.Remove(prod);
-                if (_context.SaveChanges() == 1)
-                {
-                    return true;
-                };
-            }
-            return false;
+            await _produitRepository.Delete(id);
         }
 
 
         //Modifier un produit
         //route: PUT produit/{produitId
-        public bool UpdateProduit(ProduitWriteDTO ProduitNew)
+        public async Task<ProduitFullDTO?> Put(ProduitWriteDTO ProdNew)
         {
-            Produit? produitOld = _context.Produits.Find(ProduitNew.Id);
-            if (produitOld == null)
+            var prod = await _produitRepository.Put(ProdNew);
+            if (prod == null) return null;
+
+            //Ajout des prix 
+            if (ProdNew.PrixAchat != null)
             {
-                // on gère le cas où l'entité n'est pas trouvée
-                return false;
+                var prixAchatNew = await _prixRepository.PostPrixAchat(ProdNew.PrixAchat);
+                if (prixAchatNew != null)   prod.HistoriquePrixAchats.Add(prixAchatNew);  
             }
 
-            // modif de la table Produit
-            produitOld.QteEnStock = ProduitNew.QteEnStock;
-            produitOld.NomProduit = ProduitNew.NomProduit;
-            produitOld.ContenanceCl = ProduitNew.ContenanceCl;
-            produitOld.DegreeAlcool = ProduitNew.DegreeAlcool;
-            produitOld.Millesime = ProduitNew.Millesime;
-            produitOld.DescriptionProduit = ProduitNew.DescriptionProduit;
-            produitOld.QteCarton = ProduitNew.QteCarton;
-            produitOld.PhotoProduitPath = ProduitNew.PhotoProduitPath;
-            produitOld.DomaineId = ProduitNew.DomaineId;
-            produitOld.CategorieId = ProduitNew.CategorieId;
-            _context.SaveChanges();
-
-            ProduitReadDTO produitOldDTO = produitToProduitReadDTO(produitOld);
-
-            // Ajout du nouveaux prix de vente si modifié
-            if (ProduitNew.PrixVenteActuel != null && produitOldDTO.PrixVente != null)
+            if (ProdNew.PrixVente != null)
             {
-                if (produitOldDTO.PrixVente.PrixCarton != ProduitNew.PrixVenteActuel.PrixCarton ||
-                    produitOldDTO.PrixVente.PrixUnite != ProduitNew.PrixVenteActuel.PrixUnite ||
-                    produitOldDTO.PrixVente.Promotion != ProduitNew.PrixVenteActuel.Promotion ||
-                    produitOldDTO.PrixVente.Taxe != ProduitNew.PrixVenteActuel.Taxe
-                    )
-                {
-                    _prixVenteService.addPrixVente(ProduitNew.PrixVenteActuel);
-                }
-            }
+                var prixVenteNew = await _prixRepository.PostPrixVente(ProdNew.PrixVente);
+                if (prixVenteNew != null)   prod.HistoriquePrixVentes.Add(prixVenteNew);  
+            }          
+            return prod;
 
-            // Ajout du prix d'achat si modifié
-            if (ProduitNew.PrixAchatActuel != null && produitOldDTO.PrixAchat != null)
-            {
-                if (produitOldDTO.PrixAchat.PrixCarton != ProduitNew.PrixAchatActuel.PrixCarton ||
-                produitOldDTO.PrixAchat.PrixUnite != ProduitNew.PrixAchatActuel.PrixUnite ||
-                produitOldDTO.PrixAchat.Fournisseur.Id != ProduitNew.PrixAchatActuel.FournisseurId
-                )
-                {
-                    _prixAchatService.addPrixAchat(ProduitNew.PrixAchatActuel);
-                }
+        }
 
-            }
-
-            return true;
-
+        public async Task<bool> Exists(int id)
+        {
+            return await _produitRepository.Exists(id);
         }
     }
 }
+
