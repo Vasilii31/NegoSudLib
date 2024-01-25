@@ -1,6 +1,7 @@
 ﻿using NegoSud.Core;
 using NegoSud.Services;
 using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace NegoSud.MVVM.ViewModel
         {
             EmployeDTO = employe;
             NomPrenom = employe.NomUtilisateur + " " + employe.PrenomUtilisateur;
-            Role = employe.Gerant ? "Gérant" : "Employé";
+            //Role = employe.Gerant ? "Gérant" : "Employé";
             ClickDeleteCommand = new RelayCommand(ClickDelete);
             ClickModifyCommand = new RelayCommand(ClickModify);
         }

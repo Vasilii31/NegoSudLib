@@ -18,16 +18,13 @@ namespace NegoSud.MVVM.ViewModel.Factories
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
             IViewModelFactory<LoginViewModel> loginFormViewModelFactory,
-            IViewModelFactory<DomaineViewModel> domaineViewModelFactory)
-            IViewModelFactory<ProductsViewModel> productsViewModelFactory, 
-            IViewModelFactory<LoginViewModel> loginViewModelFactory,
+            IViewModelFactory<DomaineViewModel> domaineViewModelFactory, 
             IViewModelFactory<EmployesViewModel> employesViewModelFactory)
         {
             _HomeViewModelFactory = homeViewModelFactory;
             _ProductsViewModelFactory = productsViewModelFactory;
             _LoginViewModelFactory = loginFormViewModelFactory;
             _DomaineViewModelFactory = domaineViewModelFactory;
-            _LoginViewModelFactory = loginViewModelFactory;
             _EmployesViewModelFactory = employesViewModelFactory;
         }
 

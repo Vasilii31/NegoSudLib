@@ -19,10 +19,10 @@ namespace NegoSud.Services.Authentification
             var employe = await httpClientService.GetEmployeByMail(email);
             if(employe.Id != 0)
             {
-                if (BCrypt.Net.BCrypt.EnhancedVerify(password, employe.HMotDePasse, HashType.SHA384))
-                {
-                    return new EmployeAccount(employe);
-                }
+                //if (BCrypt.Net.BCrypt.EnhancedVerify(password, employe.HMotDePasse, HashType.SHA384))
+                //{
+                //    return new EmployeAccount(employe);
+                //}
             }
             //var res = BCrypt.Net.BCrypt.EnhancedVerify(password, employe.HMotDePasse, HashType.SHA384);
 

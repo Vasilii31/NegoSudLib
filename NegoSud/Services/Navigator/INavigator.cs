@@ -12,8 +12,7 @@ namespace NegoSud.Services.Navigator
     {
         Home,
         Login,
-        Products,
-        Domaines
+        Domaines,
         Products,
         Employes
     }
