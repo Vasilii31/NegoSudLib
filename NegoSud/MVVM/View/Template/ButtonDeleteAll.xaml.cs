@@ -18,7 +18,7 @@ namespace NegoSud.MVVM.View.Template
     /// <summary>
     /// Logique d'interaction pour ButtonDelete.xaml
     /// </summary>
-    public partial class ButtonDeleteAll : UserControl
+    public partial class ButtonDeleteAll : Button
     {
         public static event EventHandler DeleteAllButtonClick;
         public ButtonDeleteAll()

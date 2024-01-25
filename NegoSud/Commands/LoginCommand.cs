@@ -46,6 +46,11 @@ namespace NegoSud.Commands
             {
                 _redirector.Redirect();
             }
+            else
+            {
+                _lfvm.FailedAuth = System.Windows.Visibility.Visible;
+            }
+            
         }
     }   
 }

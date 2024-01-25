@@ -19,6 +19,9 @@
                                             Height="30" Margin="0,5,0,0">
 
             </CustomControls:BindablePasswordBox>
+
+            <TextBlock Text="Nom d'utilisateur ou mot de passe incorrect." Visibility="{Binding FailedAuth}" Foreground="Red"/>
+            
             <Button x:Name="btnSubmit" Command="{Binding LoginCommand}" Content="Se connecter" Margin="60 10" Foreground="White" FontSize="14">
                 <Button.Style>
                     <Style TargetType="Button">
@@ -43,6 +46,7 @@
                 </Button.Template>
             </Button>
 
+            
 
         </StackPanel>
     </Border>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NegoSudLib.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,12 @@ namespace NegoSud.MVVM.Model
 
         public int Id { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public EmployeAccount(int id, string email, string password)
+        //public string Password { get; set; }
+        public EmployeAccount(EmployeDTO employe)
         {
-            Id = id;
-            Email = email;
-            Password = password;
+            Id = employe.Id;
+            Email = employe.MailUtilisateur;
+            //Password = password;
         }
 
     }

@@ -31,6 +31,9 @@
             <DataTemplate DataType="{x:Type viewModel:DomaineViewModel}">
                 <view:DomainesView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:EmployesViewModel}">
+                <view:EmployesView/>
+            </DataTemplate>
         </ResourceDictionary>
 
 
