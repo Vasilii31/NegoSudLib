@@ -5,12 +5,6 @@ using NegoSudLib.DTO.write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Repositories
 {
@@ -19,7 +13,7 @@ namespace NegoSudLib.Repositories
         public CommandesRepository(NegoSudDBContext context) : base(context)
         {
         }
-        
+
         public async Task<IEnumerable<CommandeDTO>> GetAll()
         {
             return await _context.Commandes
@@ -27,7 +21,7 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
                  .Include(c => c.Employe)
-                .Select(c=> c.ToDTO())
+                .Select(c => c.ToDTO())
                 .ToListAsync();
         }
         public async Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut)
@@ -38,7 +32,7 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
                  .Include(c => c.Employe)
                 .Where(c => c.StatutCommande == statut)
-                .Select(c=> c.ToDTO())
+                .Select(c => c.ToDTO())
                 .ToListAsync();
         }
 
@@ -60,9 +54,9 @@ namespace NegoSudLib.Repositories
         {
             var commande = await _context.Commandes
                  .Include(c => c.Fournisseur)
-                 .Include(c => c.DetailMouvementStocks).ThenInclude(p=>p.Produit).ThenInclude(prix => prix.PrixAchats)
-                 .Include(c => c.DetailMouvementStocks).ThenInclude(p=>p.Produit).ThenInclude(prix => prix.PrixVentes)
-                 .Include(c=> c.Employe)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+                 .Include(c => c.Employe)
                  .Where(c => c.NumCommande == num)
                  .Select(c => c.ToDTO())
                  .FirstOrDefaultAsync();
@@ -80,6 +74,7 @@ namespace NegoSudLib.Repositories
                 FournisseurId = commandeDTO.FournisseurId,
                 StatutCommande = commandeDTO.StatutCommande,
                 EntreeOuSortie = true,
+                DetailMouvementStocks = commandeDTO.DetailMouvementStocks,
                 Commentaire = commandeDTO.Commentaire
             };
             await _context.Commandes.AddAsync(commande);

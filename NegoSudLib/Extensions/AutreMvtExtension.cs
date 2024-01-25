@@ -1,12 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using NegoSudLib.DAO;
+﻿using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
-using NegoSudLib.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Extensions
 {
@@ -20,7 +13,7 @@ namespace NegoSudLib.Extensions
             {
                 Id = autreMvt.Id,
                 DateMouvement = autreMvt.DateMouvement,
-                Commentaire = autreMvt.Commentaire,             
+                Commentaire = autreMvt.Commentaire,
                 NomEmploye = autreMvt.Employe.NomUtilisateur,
                 PrenomEmploye = autreMvt.Employe.PrenomUtilisateur,
                 TypeMouvement = autreMvt.TypeMouvement,

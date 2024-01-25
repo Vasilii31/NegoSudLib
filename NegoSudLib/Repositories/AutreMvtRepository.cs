@@ -5,13 +5,6 @@ using NegoSudLib.DTO.Write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Repositories
 {
@@ -20,7 +13,7 @@ namespace NegoSudLib.Repositories
         public AutreMvtRepository(NegoSudDBContext context) : base(context)
         {
         }
-        
+
         public async Task<IEnumerable<AutreMvtDTO>> GetAll()
         {
             return await _context.AutreMouvements
@@ -28,7 +21,7 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.TypeMouvement)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
-                .Select(c=> c.ToDTO())
+                .Select(c => c.ToDTO())
                 .ToListAsync();
         }
 
@@ -65,14 +58,16 @@ namespace NegoSudLib.Repositories
                 Commentaire = autreMvt.Commentaire,
                 EmployeId = autreMvt.EmployeId,
                 TypeMouvementId = autreMvt.TypeMouvementId,
+                DetailMouvementStocks = autreMvt.DetailMouvementStocks,
                 DateMouvement = DateTime.Now
             };
             await _context.AutreMouvements.AddAsync(autreMvtEntity);
+
             await _context.SaveChangesAsync();
             return await this.GetById(autreMvtEntity.Id);
         }
 
-        public async Task<AutreMvtDTO?> Put(int id,AutreMvtWriteDTO autreMvt)
+        public async Task<AutreMvtDTO?> Put(int id, AutreMvtWriteDTO autreMvt)
         {
             var result = await _context.AutreMouvements.FindAsync(id);
 

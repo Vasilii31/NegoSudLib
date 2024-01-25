@@ -1,12 +1,6 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
+using NegoSudLib.DTO.Read;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
@@ -33,11 +27,11 @@ namespace NegoSudLib.Services
 
         }
 
-        public async Task<Employe?> Post(Employe employe)
+        public async Task<EmployeDTO?> Post(EmployeDTO employe)
         {
             return await _employesRepository.Post(employe);
         }
-        public async Task<Employe?> Put(Employe employe)
+        public async Task<Employe?> Put(EmployeDTO employe)
         {
             return await _employesRepository.Put(employe);
         }

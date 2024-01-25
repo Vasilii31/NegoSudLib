@@ -1,6 +1,4 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 /// <summary>
@@ -20,6 +18,6 @@ public class CommandeWriteDTO
     public int FournisseurId { get; set; }
     [Required]
     public Statuts StatutCommande { get; set; }
-    public IEnumerable<DetailMouvementStockDTO>? DetailMouvementStocks { get; set; }
-    
+    public IEnumerable<DetailMouvementStock>? DetailMouvementStocks { get; set; }
+
 }

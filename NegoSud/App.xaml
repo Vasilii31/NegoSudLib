@@ -7,9 +7,12 @@
              Startup="ApplicationStart">
     <Application.Resources>
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/TextBoxTheme.xaml"/>
+                <ResourceDictionary Source="Styles/Styles.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
@@ -21,12 +24,16 @@
             <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
                 <view:ProductsView/>
             </DataTemplate>
+            <Color x:Key="MainColor">#FF460A26</Color>
+            <SolidColorBrush x:Key="MainColorBrush" Color="{StaticResource MainColor}"/>
+            <Color x:Key="SecondColor">#F5DEB3</Color>
+            <SolidColorBrush x:Key="SecondColorBrush" Color="{StaticResource SecondColor}"/>
             <DataTemplate DataType="{x:Type viewModel:DomaineViewModel}">
                 <view:DomainesView/>
             </DataTemplate>
         </ResourceDictionary>
 
-        
+
 
     </Application.Resources>
 </Application>

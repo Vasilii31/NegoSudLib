@@ -1,27 +1,24 @@
 ﻿using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Extensions
 {
     public static class EmployeExtension
     {
-        public static EmployeDetailDTO ToDTO(this Employe emp)
+        public static EmployeDTO ToDTO(this Employe emp)
         {
-            return new EmployeDetailDTO
+
+            EmployeDTO empDTO = new EmployeDTO
             {
                 Id = emp.Id,
-               NomUtilisateur = emp.NomUtilisateur,
-               PrenomUtilisateur = emp.PrenomUtilisateur,
-               AdresseUtilisateur = emp.AdresseUtilisateur,
-               MailUtilisateur  = emp.MailUtilisateur,
-               NumTelUtilisateur =  emp.NumTelUtilisateur,
-               Gerant = emp.Gerant
+                UserName = emp.User.UserName,
+                NomUtilisateur = emp.NomUtilisateur,
+                PrenomUtilisateur = emp.PrenomUtilisateur,
+                AdresseUtilisateur = emp.AdresseUtilisateur,
+                MailUtilisateur = emp.User.Email,
+                NumTelUtilisateur = emp.NumTelUtilisateur
             };
+            return empDTO;
         }
     }
 }

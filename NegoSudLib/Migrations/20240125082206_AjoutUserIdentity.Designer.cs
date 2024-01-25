@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NegoSudLib.NegosudDbContext;
 
@@ -10,9 +11,11 @@ using NegoSudLib.NegosudDbContext;
 namespace NegoSudLib.Migrations
 {
     [DbContext(typeof(NegoSudDBContext))]
-    partial class NegoSudDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240125082206_AjoutUserIdentity")]
+    partial class AjoutUserIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -464,6 +467,16 @@ namespace NegoSudLib.Migrations
                         .HasMaxLength(13)
                         .HasColumnType("varchar(13)");
 
+                    b.Property<string>("HMotDePasse")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("MailUtilisateur")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("NomUtilisateur")
                         .IsRequired()
                         .HasMaxLength(80)
@@ -479,13 +492,7 @@ namespace NegoSudLib.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("varchar(80)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Utilisateurs");
 
@@ -594,6 +601,9 @@ namespace NegoSudLib.Migrations
                 {
                     b.HasBaseType("NegoSudLib.DAO.Utilisateur");
 
+                    b.Property<bool>("Gerant")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasDiscriminator().HasValue("Employe");
                 });
 
@@ -682,17 +692,6 @@ namespace NegoSudLib.Migrations
                     b.Navigation("Categorie");
 
                     b.Navigation("Domaine");
-                });
-
-            modelBuilder.Entity("NegoSudLib.DAO.Utilisateur", b =>
-                {
-                    b.HasOne("NegoSudLib.DAO.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.AutreMouvement", b =>
