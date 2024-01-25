@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace NegoSud.MVVM.View.Template
 {
     /// <summary>
-    /// Logique d'interaction pour ButtonDelete.xaml
+    /// Logique d'interaction pour Tableau.xaml
     /// </summary>
-    public partial class ButtonDeleteAll : Button
+    public partial class TableauEmployes : UserControl
     {
-        public ButtonDeleteAll()
+        public TableauEmployes()
         {
             InitializeComponent();
-        }
-
-        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

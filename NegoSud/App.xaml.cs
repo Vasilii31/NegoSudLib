@@ -65,6 +65,7 @@ namespace NegoSud
                 new ViewModelFactoryRedirector<HomeViewModel>(services.GetRequiredService<INavigator>(),
                 services.GetRequiredService<IViewModelFactory<HomeViewModel>>())));
             services.AddSingleton<IViewModelFactory<ProductsViewModel>, ProductsViewModelFactory>();
+            services.AddSingleton<IViewModelFactory<EmployesViewModel>, EmployesViewModelFactory>();
             services.AddSingleton<IViewModelFactory<ProductsViewModel>, ProductsViewModelFactory>();
 
             services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));

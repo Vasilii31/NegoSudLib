@@ -18,7 +18,7 @@ namespace NegoSud.MVVM.View.Template
     /// <summary>
     /// Logique d'interaction pour ButtonModifier.xaml
     /// </summary>
-    public partial class ButtonModifier : UserControl
+    public partial class ButtonModifier : Button
     {
         public ButtonModifier()
         {

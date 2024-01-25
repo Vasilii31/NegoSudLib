@@ -13,19 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NegoSud.MVVM.View.Template
+namespace NegoSud.MVVM.View
 {
     /// <summary>
-    /// Logique d'interaction pour ButtonDelete.xaml
+    /// Logique d'interaction pour EmployesView.xaml
     /// </summary>
-    public partial class ButtonDeleteAll : Button
+    public partial class EmployesView : UserControl
     {
-        public ButtonDeleteAll()
+        public EmployesView()
         {
             InitializeComponent();
         }
 
-        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
+        private void NewEmploye_Click(object sender, RoutedEventArgs e)
         {
 
         }
