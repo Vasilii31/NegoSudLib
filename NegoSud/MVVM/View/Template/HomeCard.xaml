@@ -16,7 +16,7 @@
         <TextBlock Text="Title"
              TextWrapping="Wrap"
              TextAlignment="Center"
-             Foreground="White"
+             Foreground="Wheat"
              FontSize="22"
              HorizontalAlignment="Center"
              Width="150"

@@ -4,7 +4,8 @@
     
     
     <Grid>
-        <Button x:Name="ButtonRed" Background="#460A26" Content="Content" Foreground="White" BorderBrush="Transparent" BorderThickness="0" Click="ButtonRed_Click">
+
+        <Button x:Name="ButtonRed" Background="#460A26" Content="Button" Foreground="Wheat" BorderBrush="Transparent" BorderThickness="0" Click="ButtonRed_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="15">

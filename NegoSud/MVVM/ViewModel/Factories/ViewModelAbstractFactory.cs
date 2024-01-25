@@ -12,14 +12,17 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<HomeViewModel> _HomeViewModelFactory;
         private readonly IViewModelFactory<ProductsViewModel> _ProductsViewModelFactory;
         private readonly IViewModelFactory<LoginViewModel> _LoginViewModelFactory;
+        private readonly IViewModelFactory<DomaineViewModel> _DomaineViewModelFactory;
 
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
-            IViewModelFactory<LoginViewModel> loginFormViewModelFactory)
+            IViewModelFactory<LoginViewModel> loginFormViewModelFactory,
+            IViewModelFactory<DomaineViewModel> domaineViewModelFactory)
         {
             _HomeViewModelFactory = homeViewModelFactory;
             _ProductsViewModelFactory = productsViewModelFactory;
             _LoginViewModelFactory = loginFormViewModelFactory;
+            _DomaineViewModelFactory = domaineViewModelFactory;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -32,6 +35,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _LoginViewModelFactory.CreateViewModel();
                 case ViewType.Products:
                     return _ProductsViewModelFactory.CreateViewModel();
+                case ViewType.Domaines:
+                    return _DomaineViewModelFactory.CreateViewModel();
                 default:
                     throw new ArgumentException("View Type does not have an existing View Model", "viewType");
             }

@@ -20,6 +20,7 @@ namespace NegoSud.MVVM.View.Template
     /// </summary>
     public partial class ButtonDeleteAll : UserControl
     {
+        public static event EventHandler DeleteAllButtonClick;
         public ButtonDeleteAll()
         {
             InitializeComponent();
@@ -27,7 +28,17 @@ namespace NegoSud.MVVM.View.Template
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
+            DeleteAllButtonClick?.Invoke(this, EventArgs.Empty);
+        }
 
+        private void ButtonAdd_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ButtonDelete.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#300117"));
+        }
+
+        private void ButtonAdd_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonDelete.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#460A26"));
         }
     }
 }
