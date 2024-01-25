@@ -21,6 +21,9 @@ namespace NegoSud.MVVM.ViewModel
 
         public ICommand ClickModifyCommand { get; set; }
 
+        public event EventHandler deleted;
+        public event EventHandler modify;
+
         public EmployeItemViewModel(EmployeDTO employe)
         {
             EmployeDTO = employe;
@@ -34,7 +37,7 @@ namespace NegoSud.MVVM.ViewModel
         private void ClickDelete(object obk)
         {
             MessageBoxResult answer = MessageBox.Show("Etes vous sûr de vouloir supprimer cet employé ?", "Suppression d'un employé", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
+            
             if (answer == MessageBoxResult.Yes)
             {
                 
@@ -46,6 +49,7 @@ namespace NegoSud.MVVM.ViewModel
                 {
                     if (t.Result == true)
                     {
+                        deleted?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("L'employé a été supprimé avec succès.");
                     }
                     else
@@ -59,7 +63,7 @@ namespace NegoSud.MVVM.ViewModel
 
         private void ClickModify(object obk)
         {
-            throw new NotImplementedException();
+            modify.Invoke(this.EmployeDTO, EventArgs.Empty);
         }
 
     }

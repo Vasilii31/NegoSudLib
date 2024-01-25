@@ -8,24 +8,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="Wheat">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="75"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="75"/>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="75"/>
-            
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="75"/>
+            </Grid.ColumnDefinitions>
 
-        <Templates:TableauEmployes Grid.Row="1" Grid.Column="1" />
-        <Button Grid.Column="1" Grid.Row="3"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="75"/>
+
+            </Grid.RowDefinitions>
+
+            <Templates:TableauEmployes Grid.Row="1" Grid.Column="1" />
+
+            <Button Grid.Column="1" Grid.Row="3"
                 Width="150" Height="25"
                 HorizontalAlignment="Right" Margin="20"
                 Content="Nouvel Employé" Click="NewEmploye_Click"/>
-        
+
+        </Grid>
+        <Templates:FormulaireEmploye Visibility="{Binding IsPopUpVisible}" />
     </Grid>
 </UserControl>

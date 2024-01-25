@@ -47,5 +47,10 @@ namespace NegoSud.Services
             var response = await Client.DeleteAsync(route);
             return response.IsSuccessStatusCode;
         }
+
+        //public static async Task<bool> UpdateEmploye(int id, )
+        //{
+
+        //}
     }
 }
