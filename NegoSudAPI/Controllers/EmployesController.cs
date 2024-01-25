@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
+using NegoSudLib.DTO.Read;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using NegoSudLib.Services;
 
 namespace NegoSudAPI.Controllers
 {
@@ -47,7 +40,7 @@ namespace NegoSudAPI.Controllers
             }
             return NotFound();
         }
-        
+
         [HttpGet("mail/{mail}")]
         public async Task<ActionResult<Employe>> GetByMail(string mail)
         {
@@ -63,7 +56,7 @@ namespace NegoSudAPI.Controllers
         // PUT: api/Employes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmploye(int id, Employe employe)
+        public async Task<IActionResult> PutEmploye(int id, EmployeDTO employe)
         {
             if (!await _employesService.Exists(id))
             {
@@ -83,7 +76,7 @@ namespace NegoSudAPI.Controllers
         // POST: api/Employes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Employe>> PostEmploye(Employe employe)
+        public async Task<ActionResult<EmployeDTO>> PostEmploye(EmployeDTO employe)
         {
             if (employe != null)
             {
@@ -109,6 +102,6 @@ namespace NegoSudAPI.Controllers
             return NoContent();
         }
 
-        
+
     }
 }

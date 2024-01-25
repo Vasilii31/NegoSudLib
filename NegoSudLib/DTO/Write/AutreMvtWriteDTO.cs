@@ -1,6 +1,4 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 /// <summary>
@@ -15,9 +13,9 @@ public class AutreMvtWriteDTO
     public string Commentaire { get; set; } = string.Empty;
     [Required]
     public bool EntreeOuSortie { get; set; }
-   [Required]
+    [Required]
     public int EmployeId { get; set; }
     [Required]
     public int TypeMouvementId { get; set; }
-    public IEnumerable<DetailMouvementStockDTO>? DetailMouvementStocks { get; set; }
+    public IEnumerable<DetailMouvementStock>? DetailMouvementStocks { get; set; }
 }

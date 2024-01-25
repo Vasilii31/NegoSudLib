@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
@@ -14,12 +13,13 @@ namespace NegoSudLib.Repositories
         public VentesRepository(NegoSudDBContext context) : base(context)
         {
         }
-        
+
         public async Task<IEnumerable<VentesDTO>> GetAll()
         {
             return await _context.Ventes
                 .Include(c => c.Client)
-                .Select(c=> c.ToDTO())
+                .Include(c => c.Employe)
+                .Select(c => c.ToDTO())
                 .ToListAsync();
         }
 
@@ -41,9 +41,9 @@ namespace NegoSudLib.Repositories
         {
             var Vente = await _context.Ventes
                  .Include(c => c.Client)
-                 .Include(c => c.DetailMouvementStocks).ThenInclude(p=>p.Produit).ThenInclude(prix => prix.PrixAchats)
-                 .Include(c => c.DetailMouvementStocks).ThenInclude(p=>p.Produit).ThenInclude(prix => prix.PrixVentes)
-                 .Include(c=> c.Employe)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+                 .Include(c => c.Employe)
                  .Where(c => c.NumFacture == num)
                  .Select(c => c.ToDTO())
                  .FirstOrDefaultAsync();
@@ -60,6 +60,7 @@ namespace NegoSudLib.Repositories
                 EmployeId = VenteDTO.EmployeId,
                 ClientId = VenteDTO.ClientId,
                 EntreeOuSortie = false,
+                DetailMouvementStocks = VenteDTO.DetailMouvementStocks,
                 Commentaire = VenteDTO.Commentaire
             };
             await _context.Ventes.AddAsync(Vente);
@@ -69,7 +70,7 @@ namespace NegoSudLib.Repositories
             return await GetById(Vente.Id);
         }
 
-        public async Task<VentesDTO?> Put(int id ,VentesWriteDTO Vente)
+        public async Task<VentesDTO?> Put(int id, VentesWriteDTO Vente)
         {
             var result = await _context.Ventes.FindAsync(id);
 

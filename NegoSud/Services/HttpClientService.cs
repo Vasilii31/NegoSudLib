@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NegoSudLib.DTO;
 using NegoSud.MVVM.Model;
+using NegoSudLib.DTO.Read;
 
 namespace NegoSud.Services
 {

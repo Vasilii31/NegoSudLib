@@ -1,49 +1,56 @@
 ﻿using NegoSudLib.DAO;
+using NegoSudLib.Interfaces;
+using NegoSudLib.NegosudDbContext;
 
-namespace ConsoleApp1
+namespace NegoSudLib.Services
 {
-    public class SeedService
+    public class SeedService : ISeedService
     {
-        public void SeedDatabase()
+        private readonly NegoSudDBContext _context;
+
+        public SeedService(NegoSudDBContext context)
         {
-            var factory = new NegoSudDBContextFactory();
-            var context = factory.CreateDbContext([""]);
-            if (context.Categories.Any()) { return; }
-            context.Categories.Add(new Categorie { Id = 1, NomCategorie = "Rouge" });
-            context.Categories.Add(new Categorie { Id = 2, NomCategorie = "Blanc" });
-            context.Categories.Add(new Categorie { Id = 3, NomCategorie = "Rosé" });
-            context.Categories.Add(new Categorie { Id = 4, NomCategorie = "Pétillant" });
-            context.Categories.Add(new Categorie { Id = 5, NomCategorie = "Champagne" });
-            context.Categories.Add(new Categorie { Id = 6, NomCategorie = "Digestifs" });
+            _context = context;
+        }
 
-            if (context.Domaines.Any()) { return; }
-            context.Domaines.Add(new Domaine { Id = 1, NomDomaine = "Domaine des Roches Neuves" });
-            context.Domaines.Add(new Domaine { Id = 2, NomDomaine = "Domaine du Pélican" });
-            context.Domaines.Add(new Domaine { Id = 3, NomDomaine = "Domaine Fondrèche" });
-            context.Domaines.Add(new Domaine { Id = 4, NomDomaine = "Domaine d'Uby" });
-            context.Domaines.Add(new Domaine { Id = 5, NomDomaine = "Philippe Cordonnier" });
-            context.Domaines.Add(new Domaine { Id = 6, NomDomaine = "Domaine Parigot Père et Fils" });
-            context.Domaines.Add(new Domaine { Id = 7, NomDomaine = "Domaine de Santa Duc" });
-            context.Domaines.Add(new Domaine { Id = 8, NomDomaine = "Bollinger" });
-            context.Domaines.Add(new Domaine { Id = 9, NomDomaine = "Champagne Pierre Gimonnet et Fils" });
-            context.Domaines.Add(new Domaine { Id = 10, NomDomaine = "Château Bertrand Braneyre" });
-            context.Domaines.Add(new Domaine { Id = 11, NomDomaine = "Dominique Lafon" });
-            context.Domaines.Add(new Domaine { Id = 12, NomDomaine = "Château Esclans" });
-            context.Domaines.Add(new Domaine { Id = 13, NomDomaine = "Château Rieussec" });
-            context.Domaines.Add(new Domaine { Id = 14, NomDomaine = "Château Belgrave" });
-            context.Domaines.Add(new Domaine { Id = 15, NomDomaine = "Domaine la Rêverie" });
-            context.Domaines.Add(new Domaine { Id = 16, NomDomaine = "Moët et Chandon" });
+        public void SeedDB()
+        {
+            if (_context.Categories.Any()) { return; }
+            _context.Categories.Add(new Categorie { Id = 1, NomCategorie = "Rouge" });
+            _context.Categories.Add(new Categorie { Id = 2, NomCategorie = "Blanc" });
+            _context.Categories.Add(new Categorie { Id = 3, NomCategorie = "Rosé" });
+            _context.Categories.Add(new Categorie { Id = 4, NomCategorie = "Pétillant" });
+            _context.Categories.Add(new Categorie { Id = 5, NomCategorie = "Champagne" });
+            _context.Categories.Add(new Categorie { Id = 6, NomCategorie = "Digestifs" });
 
-            context.Fournisseurs.Add(new Fournisseur
+            if (_context.Domaines.Any()) { return; }
+            _context.Domaines.Add(new Domaine { Id = 1, NomDomaine = "Domaine des Roches Neuves" });
+            _context.Domaines.Add(new Domaine { Id = 2, NomDomaine = "Domaine du Pélican" });
+            _context.Domaines.Add(new Domaine { Id = 3, NomDomaine = "Domaine Fondrèche" });
+            _context.Domaines.Add(new Domaine { Id = 4, NomDomaine = "Domaine d'Uby" });
+            _context.Domaines.Add(new Domaine { Id = 5, NomDomaine = "Philippe Cordonnier" });
+            _context.Domaines.Add(new Domaine { Id = 6, NomDomaine = "Domaine Parigot Père et Fils" });
+            _context.Domaines.Add(new Domaine { Id = 7, NomDomaine = "Domaine de Santa Duc" });
+            _context.Domaines.Add(new Domaine { Id = 8, NomDomaine = "Bollinger" });
+            _context.Domaines.Add(new Domaine { Id = 9, NomDomaine = "Champagne Pierre Gimonnet et Fils" });
+            _context.Domaines.Add(new Domaine { Id = 10, NomDomaine = "Château Bertrand Braneyre" });
+            _context.Domaines.Add(new Domaine { Id = 11, NomDomaine = "Dominique Lafon" });
+            _context.Domaines.Add(new Domaine { Id = 12, NomDomaine = "Château Esclans" });
+            _context.Domaines.Add(new Domaine { Id = 13, NomDomaine = "Château Rieussec" });
+            _context.Domaines.Add(new Domaine { Id = 14, NomDomaine = "Château Belgrave" });
+            _context.Domaines.Add(new Domaine { Id = 15, NomDomaine = "Domaine la Rêverie" });
+            _context.Domaines.Add(new Domaine { Id = 16, NomDomaine = "Moët et Chandon" });
+
+            _context.Fournisseurs.Add(new Fournisseur
             {
                 Id = 1,
                 NomFournisseur = "Cave du Jurançon"
             });
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
-            if (context.Produits.Any()) { return; }
-            context.Produits.Add(new Produit
+            if (_context.Produits.Any()) { return; }
+            _context.Produits.Add(new Produit
             {
                 Id = 1,
                 NomProduit = "Gros et Petit Manseng",
@@ -60,7 +67,7 @@ namespace ConsoleApp1
                 DegreeAlcool = 11f,
                 Millesime = 2021
             });
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 1,
                 DateDebut = DateTime.Now,
@@ -68,7 +75,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 1,
                 DateDebut = DateTime.Now,
@@ -78,7 +85,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 2,
                 NomProduit = "Colombard Sauvignon Blanc",
@@ -95,7 +102,7 @@ namespace ConsoleApp1
                 DegreeAlcool = 11f,
                 Millesime = 2020
             });
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 2,
                 DateDebut = DateTime.Now,
@@ -103,7 +110,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 2,
                 DateDebut = DateTime.Now,
@@ -113,7 +120,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 3,
                 NomProduit = "Saumur L'Insolite Blanc 2019",
@@ -130,7 +137,7 @@ namespace ConsoleApp1
                 DegreeAlcool = 13.5f,
                 Millesime = 2019
             });
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 3,
                 DateDebut = DateTime.Now,
@@ -138,7 +145,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 3,
                 DateDebut = DateTime.Now,
@@ -148,7 +155,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 4,
                 NomProduit = "Saumur Champigny Terres Chaudes",
@@ -166,7 +173,7 @@ namespace ConsoleApp1
                 Millesime = 2018
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 4,
                 DateDebut = DateTime.Now,
@@ -174,7 +181,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 4,
                 DateDebut = DateTime.Now,
@@ -184,7 +191,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 5,
                 NomProduit = "La Marginale",
@@ -202,7 +209,7 @@ namespace ConsoleApp1
                 Millesime = 2018
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 5,
                 DateDebut = DateTime.Now,
@@ -210,7 +217,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 5,
                 DateDebut = DateTime.Now,
@@ -220,7 +227,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 6,
                 NomProduit = "Les Memoires",
@@ -238,7 +245,7 @@ namespace ConsoleApp1
                 Millesime = 2018
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 6,
                 DateDebut = DateTime.Now,
@@ -246,7 +253,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 6,
                 DateDebut = DateTime.Now,
@@ -256,7 +263,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 7,
                 NomProduit = "L'Echelier",
@@ -274,7 +281,7 @@ namespace ConsoleApp1
                 Millesime = 2019
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 7,
                 DateDebut = DateTime.Now,
@@ -282,7 +289,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 7,
                 DateDebut = DateTime.Now,
@@ -292,7 +299,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 8,
                 NomProduit = "Sauternes Chateau Rieussec",
@@ -310,7 +317,7 @@ namespace ConsoleApp1
                 Millesime = 2011
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 8,
                 DateDebut = DateTime.Now,
@@ -318,7 +325,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 8,
                 DateDebut = DateTime.Now,
@@ -328,7 +335,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 9,
                 NomProduit = "Le Serre du Rieu",
@@ -345,7 +352,7 @@ namespace ConsoleApp1
                 DegreeAlcool = 13f,
                 Millesime = 2020
             });
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 9,
                 DateDebut = DateTime.Now,
@@ -353,7 +360,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 9,
                 DateDebut = DateTime.Now,
@@ -363,7 +370,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 10,
                 NomProduit = "Les Quatres Terres",
@@ -381,7 +388,7 @@ namespace ConsoleApp1
                 Millesime = 2019
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 10,
                 DateDebut = DateTime.Now,
@@ -389,7 +396,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 10,
                 DateDebut = DateTime.Now,
@@ -398,7 +405,7 @@ namespace ConsoleApp1
                 Taxe = 20,
                 Promotion = 0
             });
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 11,
                 NomProduit = "Les Hautes Garrigues",
@@ -416,7 +423,7 @@ namespace ConsoleApp1
                 Millesime = 2019
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 11,
                 DateDebut = DateTime.Now,
@@ -424,7 +431,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 11,
                 DateDebut = DateTime.Now,
@@ -434,7 +441,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 12,
                 NomProduit = "Les Grands Calcaires",
@@ -452,7 +459,7 @@ namespace ConsoleApp1
                 Millesime = 2019
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 12,
                 DateDebut = DateTime.Now,
@@ -460,7 +467,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 12,
                 DateDebut = DateTime.Now,
@@ -470,7 +477,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 13,
                 NomProduit = "Grand Vintage Rosé",
@@ -488,7 +495,7 @@ namespace ConsoleApp1
                 Millesime = 2008
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 13,
                 DateDebut = DateTime.Now,
@@ -496,7 +503,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 13,
                 DateDebut = DateTime.Now,
@@ -506,7 +513,7 @@ namespace ConsoleApp1
                 Promotion = 0
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 14,
                 NomProduit = "Réserve Impérial étui",
@@ -523,7 +530,7 @@ namespace ConsoleApp1
                 DegreeAlcool = 12f
             });
 
-            context.Produits.Add(new Produit
+            _context.Produits.Add(new Produit
             {
                 Id = 15,
                 NomProduit = "Rock Angel Mathusalem",
@@ -540,7 +547,7 @@ namespace ConsoleApp1
                 DegreeAlcool = 13.5f
             });
 
-            context.PrixAchats.Add(new PrixAchat
+            _context.PrixAchats.Add(new PrixAchat
             {
                 ProduitId = 15,
                 DateDebut = DateTime.Now,
@@ -548,7 +555,7 @@ namespace ConsoleApp1
                 PrixUnite = 10,
                 FournisseurId = 1
             });
-            context.PrixVentes.Add(new PrixVente
+            _context.PrixVentes.Add(new PrixVente
             {
                 ProduitId = 15,
                 DateDebut = DateTime.Now,
@@ -559,70 +566,71 @@ namespace ConsoleApp1
             });
 
 
-            context.Employes.Add(new Employe
+            _context.Employes.Add(new Employe
             {
                 Id = 1,
                 NomUtilisateur = "Legendre",
                 PrenomUtilisateur = "Juliette",
-                Gerant = true,
-                MailUtilisateur = "test@test.fr",
+                //Gerant = true,
+                //MailUtilisateur = "test@test.fr",
                 AdresseUtilisateur = "12 rue du test",
             });
-            context.Employes.Add(new Employe
+            _context.Employes.Add(new Employe
             {
                 Id = 2,
                 NomUtilisateur = "Franco",
                 PrenomUtilisateur = "Olivier",
-                Gerant = true,
-                MailUtilisateur = "test@test.fr",
+                //Gerant = true,
+                //MailUtilisateur = "test@test.fr",
                 AdresseUtilisateur = "12 rue du test",
             });
-            context.Employes.Add(new Employe
+            _context.Employes.Add(new Employe
             {
                 Id = 3,
                 NomUtilisateur = "Blanc",
                 PrenomUtilisateur = "Christopher",
-                Gerant = true,
-                MailUtilisateur = "test@test.fr",
+                //Gerant = true,
+                //MailUtilisateur = "test@test.fr",
                 AdresseUtilisateur = "12 rue du test",
             });
 
 
 
-            context.Clients.Add(new Client
+            _context.Clients.Add(new Client
             {
                 Id = 4,
                 NomUtilisateur = "Chopin",
                 PrenomUtilisateur = "Victor",
                 NumClient = "CL0001",
-                MailUtilisateur = "test@test.fr",
+                //MailUtilisateur = "test@test.fr",
                 AdresseUtilisateur = "12 rue du test",
             });
 
-            context.Clients.Add(new Client
+            _context.Clients.Add(new Client
             {
                 Id = 5,
                 NomUtilisateur = "Laclef",
                 PrenomUtilisateur = "David",
                 NumClient = "CL0002",
-                MailUtilisateur = "test@test.fr",
+                //MailUtilisateur = "test@test.fr",
                 AdresseUtilisateur = "12 rue du test",
             });
 
-            context.TypesMouvement.Add(new TypeMouvement
+            _context.TypesMouvement.Add(new TypeMouvement
             {
                 Id = 1,
                 NomTypeMouvement = "Casse"
             });
 
-            context.TypesMouvement.Add(new TypeMouvement
+            _context.TypesMouvement.Add(new TypeMouvement
             {
                 Id = 2,
                 NomTypeMouvement = "Perte"
             });
 
-            context.SaveChanges();
+            _context.SaveChanges();
 
         }
+
     }
 }

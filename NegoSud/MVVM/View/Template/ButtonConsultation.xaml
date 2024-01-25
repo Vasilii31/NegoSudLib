@@ -4,7 +4,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     
     <Grid>
-        <Button x:Name="ButtonView" Background="#460A26" Foreground="White" BorderBrush="Transparent" BorderThickness="0" Click="ButtonView_Click">
+        <Button x:Name="ButtonView" Background="{StaticResource MainColorBrush}" Foreground="{StaticResource SecondColorBrush}" BorderBrush="Transparent" BorderThickness="0" Click="ButtonView_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">

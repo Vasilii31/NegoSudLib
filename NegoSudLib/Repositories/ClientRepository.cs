@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Repositories
 {
@@ -21,14 +15,14 @@ namespace NegoSudLib.Repositories
         public async Task<IEnumerable<Client>> GetAll()
         {
             return await _context.Clients.ToListAsync();
-         }
+        }
         public async Task<Client?> GetById(int id)
         {
             return await _context.Clients
                 .Include(c => c.HistoriqueVentes)
                 .Where(c => c.Id == id)
                 .FirstOrDefaultAsync();
-               
+
         }
         public async Task<Client?> Post(Client Client)
         {
@@ -45,9 +39,9 @@ namespace NegoSudLib.Repositories
             {
                 result.NomUtilisateur = Client.NomUtilisateur;
                 result.PrenomUtilisateur = Client.PrenomUtilisateur;
-                result.MailUtilisateur = Client.MailUtilisateur;
+                //result.MailUtilisateur = Client.MailUtilisateur;
                 result.AdresseUtilisateur = Client.AdresseUtilisateur;
-                result.HMotDePasse = Client.HMotDePasse;
+                // result.HMotDePasse = Client.HMotDePasse;
                 result.NumClient = Client.NumClient;
                 await _context.SaveChangesAsync();
 
@@ -59,8 +53,10 @@ namespace NegoSudLib.Repositories
 
         public async Task Delete(int id)
         {
+
             var result = await _context.Clients
-                .FirstOrDefaultAsync(e => e.Id == id);
+              //.FirstOrDefaultAsync(e => e.Id == id);
+              .FirstOrDefaultAsync();
             if (result != null)
             {
                 _context.Clients.Remove(result);
@@ -68,7 +64,7 @@ namespace NegoSudLib.Repositories
             }
         }
 
-        public async Task<bool> Exists(int id) 
+        public async Task<bool> Exists(int id)
         {
             return await _context.Clients.AnyAsync(e => e.Id == id);
         }

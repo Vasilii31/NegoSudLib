@@ -68,7 +68,7 @@
                     </Style>
                 </Grid.Style>
                 <StackPanel  Grid.Row="1">
-                    <RadioButton Content="Acceuil"
+                    <RadioButton Content="Accueil"
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Home}"
                              Height="50"

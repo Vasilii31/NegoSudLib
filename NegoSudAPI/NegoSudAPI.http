@@ -9,7 +9,7 @@ GET {{NegoSudAPI_HostAddress}}/api/produits/Categorie/1
 Accept: application/json
 ###
 
-GET {{NegoSudAPI_HostAddress}}/api/produits/dd
+GET {{NegoSudAPI_HostAddress}}/api/produits/
 Accept: application/json
 ###
 
@@ -94,7 +94,7 @@ GET {{NegoSudAPI_HostAddress}}/api/commandes/COM001
 
 ###
 
-GET {{NegoSudAPI_HostAddress}}/api/ventes/7
+GET {{NegoSudAPI_HostAddress}}/api/ventes/
 
 ###
 

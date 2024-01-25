@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NegoSudAPI.Middleware;
+using NegoSudLib.DAO;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
 using NegoSudLib.Repositories;
@@ -7,15 +10,33 @@ using NLog.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Ajout Autorisation via Identity
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
+builder.Services.AddAuthorizationBuilder();
+builder.Services.AddIdentityCore<User>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<NegoSudDBContext>()
+    .AddApiEndpoints();
 
+// Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//chaine de connexion
+string connexionString = builder.Configuration.GetConnectionString("MainConnexionString") ??
+    throw (new Exception("Connection string is missing"));
+
 // On ajoute le contexte
-builder.Services.AddScoped<NegoSudDBContext>();
+builder.Services.AddDbContext<NegoSudDBContext>(options => options
+        .UseMySql(connexionString, ServerVersion.AutoDetect(connexionString)));
+//builder.Services.AddScoped<NegoSudDBContext>();
 // On ajoute les services nécessaires
+builder.Services.AddScoped<IRolesService, RolesService>();
+builder.Services.AddScoped<ISeedService, SeedService>();
 builder.Services.AddScoped<IProduitsRepository, ProduitsRepository>();
 builder.Services.AddScoped<IProduitsServices, ProduitService>();
 builder.Services.AddScoped<IPrixRepository, PrixRepository>();
@@ -39,6 +60,9 @@ builder.Logging.AddNLog("NLog.config");
 
 var app = builder.Build();
 
+app.MapIdentityApi<User>();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -51,6 +75,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.UseMiddleware<LoggingMiddleware>();
 
