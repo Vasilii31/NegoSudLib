@@ -56,7 +56,7 @@
                      Grid.Column="1"
                      Style="{StaticResource ModernTextbox}"/>-->
             </Grid>
-
+            <materialDesign:PackIcon Grid.Column="0" Kind="Menu" Foreground="#F9D9D9" Height="42" Width="54" RenderTransformOrigin="0.726,0.502" Grid.ColumnSpan="2"  Margin="7,14,0,0"/>
             <Grid Grid.Row="1" Grid.Column="0">
                 <Grid.Style>
                     <Style TargetType="Grid">
@@ -68,7 +68,7 @@
                     </Style>
                 </Grid.Style>
                 <StackPanel  Grid.Row="1">
-                    <RadioButton Content="Acceuil"
+                    <RadioButton Content="Accueil"
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Home}"
                              Height="50"
@@ -111,6 +111,8 @@
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Employés"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Employes}"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
@@ -143,7 +145,7 @@
                             Margin="10"
                             Content="{Binding Navigator.CurrentViewModel}"/>
 
-            <materialDesign:PackIcon Grid.Column="1" Kind="ShoppingCart" Foreground="#F9D9D9" Height="42" Width="54" VerticalAlignment="Center" Margin="582,0,0,0" />
+            
 
         </Grid>
 

@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
-using NegoSudLib.Services;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,13 +17,13 @@ namespace NegoSudAPI.Controllers
 
         private readonly IAutreMvtService _autreMvtService;
 
-         public AutreMouvementController(IAutreMvtService autreMvtService)
+        public AutreMouvementController(IAutreMvtService autreMvtService)
         {
             _autreMvtService = autreMvtService;
         }
 
-
         // GET: api/Commandes    => Tous les Commandes 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AutreMvtDTO>>> GetAll()
         {
@@ -39,28 +34,28 @@ namespace NegoSudAPI.Controllers
                 return Ok(Commandes);
             }
             return NotFound();
-                  
+
         }
 
         // GET api/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AutreMvtDTO?>> GetbyId(int id)
         {
-            
-                var commande = await _autreMvtService.GetById(id);
-                if (commande == null)
-                {
-                    return NotFound();
-                }
+
+            var commande = await _autreMvtService.GetById(id);
+            if (commande == null)
+            {
+                return NotFound();
+            }
             return Ok(commande);
-            
+
         }
-                // GET api/type/5
+        // GET api/type/5
         [HttpGet("type/{typeId}")]
         public async Task<ActionResult<IEnumerable<AutreMvtDTO?>>> GetbyType(int typeId)
         {
-            
-                var autreMvts = await _autreMvtService.GetByType(typeId);
+
+            var autreMvts = await _autreMvtService.GetByType(typeId);
             if (autreMvts.Any())
             {
                 return Ok(autreMvts);
@@ -94,8 +89,8 @@ namespace NegoSudAPI.Controllers
             if (!(await _autreMvtService.Exists(id))) return NotFound();
 
             var produitUpdated = await _autreMvtService.Put(id, autreMvt);
-            if ( produitUpdated != null) return Ok(autreMvt);
-           
+            if (produitUpdated != null) return Ok(autreMvt);
+
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
 
@@ -113,7 +108,7 @@ namespace NegoSudAPI.Controllers
             try
             {
                 await _autreMvtService.Delete(id);
-                return NoContent(); 
+                return NoContent();
             }
             catch (Exception ex)
             {

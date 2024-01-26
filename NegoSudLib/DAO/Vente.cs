@@ -8,7 +8,7 @@ namespace NegoSudLib.DAO
         [StringLength(20)]
         public string NumFacture { get; set; } = string.Empty;
 
-        [ForeignKey(nameof(Client))] 
+        [ForeignKey(nameof(Client))]
         public int ClientId { get; set; }
         public virtual Client? Client { get; set; }
     }

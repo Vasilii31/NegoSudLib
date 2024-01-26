@@ -12,17 +12,20 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<HomeViewModel> _HomeViewModelFactory;
         private readonly IViewModelFactory<ProductsViewModel> _ProductsViewModelFactory;
         private readonly IViewModelFactory<LoginViewModel> _LoginViewModelFactory;
+        private readonly IViewModelFactory<EmployesViewModel> _EmployesViewModelFactory;
         private readonly IViewModelFactory<DomaineViewModel> _DomaineViewModelFactory;
 
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
             IViewModelFactory<LoginViewModel> loginFormViewModelFactory,
-            IViewModelFactory<DomaineViewModel> domaineViewModelFactory)
+            IViewModelFactory<DomaineViewModel> domaineViewModelFactory, 
+            IViewModelFactory<EmployesViewModel> employesViewModelFactory)
         {
             _HomeViewModelFactory = homeViewModelFactory;
             _ProductsViewModelFactory = productsViewModelFactory;
             _LoginViewModelFactory = loginFormViewModelFactory;
             _DomaineViewModelFactory = domaineViewModelFactory;
+            _EmployesViewModelFactory = employesViewModelFactory;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -35,6 +38,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _LoginViewModelFactory.CreateViewModel();
                 case ViewType.Products:
                     return _ProductsViewModelFactory.CreateViewModel();
+                case ViewType.Employes:
+                    return _EmployesViewModelFactory.CreateViewModel();
                 case ViewType.Domaines:
                     return _DomaineViewModelFactory.CreateViewModel();
                 default:

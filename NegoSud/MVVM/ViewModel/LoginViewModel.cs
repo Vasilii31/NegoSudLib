@@ -1,4 +1,5 @@
-﻿using NegoSud.Commands;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using NegoSud.Commands;
 using NegoSud.Services.Authenticator;
 using NegoSud.Services.Navigator;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NegoSud.MVVM.ViewModel
@@ -15,7 +17,17 @@ namespace NegoSud.MVVM.ViewModel
         private string userName;
         private string password;
         private bool _isViewVisible = true;
+        private Visibility _failedAuth = Visibility.Collapsed;
 
+        public Visibility FailedAuth
+        {
+            get { return _failedAuth; }
+            set
+            {
+                _failedAuth = value;
+                OnPropertyChanged(nameof(FailedAuth));
+            }
+        }
 
         public bool IsViewVisible
         {

@@ -17,7 +17,7 @@ namespace NegoSud.Services
         private static HttpClient Client { get => new() { BaseAddress = new Uri(baseAddress) }; }
         public static async Task<EmployeDTO> GetEmployeByMail(string userName)
         {
-            string route = $"employe/mail/{userName}";
+            string route = $"Employes/mail/{userName}";
             var response = await Client.GetAsync(route);
             if (response.IsSuccessStatusCode)
             {
@@ -25,7 +25,28 @@ namespace NegoSud.Services
                 return JsonConvert.DeserializeObject<EmployeDTO>(resultat)
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
-            throw new Exception(response.ReasonPhrase);
+            return new EmployeDTO();
+        }
+
+        public static async Task<List<EmployeDTO>> GetEmployes()
+        {
+            string route = $"Employes/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<EmployeDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<EmployeDTO>();
+        }
+
+        public static async Task<bool> DeleteEmploye(int id)
+        {
+            string route = $"Employes/{id}";
+            //var response = await Client.GetAsync(route);
+            var response = await Client.DeleteAsync(route);
+            return response.IsSuccessStatusCode;
         }
 
         public static async Task<List<DomaineDTO>> GetDomaines()
