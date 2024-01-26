@@ -18,7 +18,7 @@ namespace NegoSudAPI.Controllers
 
         // GET: api/Employes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employe>>> GetAll()
+        public async Task<ActionResult<IEnumerable<EmployeDTO>>> GetAll()
         {
             var employe = await _employesService.GetAll();
             if (employe.Any())
