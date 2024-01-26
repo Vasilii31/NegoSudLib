@@ -38,7 +38,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
 
                 </Grid.ColumnDefinitions>
 
@@ -71,13 +71,13 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
 
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding NomPrenom}" FontWeight="Bold" />
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding EmployeDTO.MailUtilisateur}" Margin="40 0 0 0" />
-                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Role}" Margin="40 0 0 0" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ProduitLightDTO.NomProduit}" FontWeight="Bold" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProduitLightDTO.NomDomaine}" Margin="40 0 0 0" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding ProduitLightDTO.NomCategorie}" Margin="40 0 0 0" />
                                 <Grid Grid.Row="0" Grid.Column="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -111,7 +111,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
 
                     </Grid.ColumnDefinitions>
 
