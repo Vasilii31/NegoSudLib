@@ -97,6 +97,20 @@ namespace NegoSud.Services
             return new EmployeDTO();
         }
 
+        public static async Task<List<ProduitLightDTO>> GetProduitsAll()
+        {
+            string route = $"api/Produits/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<ProduitLightDTO>();
+        }
+
+
         //public static async Task<bool> UpdateEmploye(int id, )
         //{
 
