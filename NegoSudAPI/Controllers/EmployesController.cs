@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.Interfaces;
 
@@ -30,7 +29,7 @@ namespace NegoSudAPI.Controllers
 
         // GET: api/Employes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employe>> GetById(int id)
+        public async Task<ActionResult<EmployeDTO>> GetById(int id)
         {
 
             var employes = await _employesService.GetById(id);
@@ -42,7 +41,7 @@ namespace NegoSudAPI.Controllers
         }
 
         [HttpGet("mail/{mail}")]
-        public async Task<ActionResult<Employe>> GetByMail(string mail)
+        public async Task<ActionResult<EmployeDTO>> GetByMail(string mail)
         {
 
             var employes = await _employesService.GetByMail(mail);
