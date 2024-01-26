@@ -10,6 +10,7 @@ using NegoSudLib.Interfaces;
 
 namespace NegoSudAPI.Controllers
 {
+    [Authorize(Roles = "Gérant,Employé")]
     [Route("api/[controller]")]
     [ApiController]
     public class AutreMouvementController : ControllerBase
@@ -23,7 +24,6 @@ namespace NegoSudAPI.Controllers
         }
 
         // GET: api/Commandes    => Tous les Commandes 
-        [Authorize(Roles = "Gérant,Employé")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AutreMvtDTO>>> GetAll()
         {

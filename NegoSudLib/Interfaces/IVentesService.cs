@@ -1,11 +1,5 @@
-﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
+﻿using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Interfaces
 {

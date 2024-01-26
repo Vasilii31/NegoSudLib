@@ -26,6 +26,11 @@ namespace NegoSudLib.Services
             return await _employesRepository.GetByMail(mail);
 
         }
+        public async Task<EmployeDTO?> GetByUserName(string userName)
+        {
+            return await _employesRepository.GetByUserName(userName);
+
+        }
 
         public async Task<EmployeDTO?> Post(EmployeDTO employe)
         {
