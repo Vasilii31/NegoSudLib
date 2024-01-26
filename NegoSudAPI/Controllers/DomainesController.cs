@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
@@ -10,6 +6,7 @@ using NegoSudLib.NegosudDbContext;
 
 namespace NegoSudAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class DomainesController : ControllerBase
@@ -75,6 +72,7 @@ namespace NegoSudAPI.Controllers
 
         // POST: api/Domaines
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Gérant")]
         [HttpPost]
         public async Task<ActionResult<Domaine>> PostDomaine(Domaine domaine)
         {
@@ -84,6 +82,7 @@ namespace NegoSudAPI.Controllers
             return CreatedAtAction("GetDomaine", new { id = domaine.Id }, domaine);
         }
 
+        [Authorize(Roles = "Gérant")]
         // DELETE: api/Domaines/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDomaine(int id)

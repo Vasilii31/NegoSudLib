@@ -1,16 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
+﻿using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
@@ -29,7 +19,7 @@ namespace NegoSudLib.Services
         // route: GET /produits/
         public async Task<IEnumerable<ProduitLightDTO>> GetAll(bool? AlaVente)
         {
-           return await this._produitRepository.GetAll(AlaVente);
+            return await this._produitRepository.GetAll(AlaVente);
         }
 
         // Renvoie les produits par categorie
@@ -38,7 +28,11 @@ namespace NegoSudLib.Services
         {
             return await this._produitRepository.GetByCat(catId);
         }
-        
+        public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, string? name, bool? enVente)
+        {
+            return await this._produitRepository.Search(cat, dom, name, enVente);
+        }
+
         // Renvoie les produits par domaine
         // route: GET produits/Domaine/{domId}
         public async Task<IEnumerable<ProduitLightDTO>> GetByDom(int domId)
@@ -55,7 +49,7 @@ namespace NegoSudLib.Services
 
         public async Task<ProduitLightDTO?> GetByIdDate(int id, DateTime date)
         {
-            return await this._produitRepository.GetByIdDate(id,date);
+            return await this._produitRepository.GetByIdDate(id, date);
         }
 
 
@@ -75,14 +69,14 @@ namespace NegoSudLib.Services
                 produit.PrixAchat.ProduitId = prodFullDTO.Id;
                 var prixAchatAdded = await _prixRepository.PostPrixAchat(produit.PrixAchat);
                 if (prixAchatAdded != null) prodFullDTO.HistoriquePrixAchats = [prixAchatAdded];
-             
+
             }
             if (produit.PrixVente != null)
-                {
-                    produit.PrixVente.ProduitId=prodFullDTO.Id;
-                    var prixVenteAdded = await _prixRepository.PostPrixVente(produit.PrixVente);
-                    if (prixVenteAdded != null) prodFullDTO.HistoriquePrixVentes = [prixVenteAdded];
-             }
+            {
+                produit.PrixVente.ProduitId = prodFullDTO.Id;
+                var prixVenteAdded = await _prixRepository.PostPrixVente(produit.PrixVente);
+                if (prixVenteAdded != null) prodFullDTO.HistoriquePrixVentes = [prixVenteAdded];
+            }
             return prodFullDTO;
         }
 
@@ -105,14 +99,14 @@ namespace NegoSudLib.Services
             if (ProdNew.PrixAchat != null)
             {
                 var prixAchatNew = await _prixRepository.PostPrixAchat(ProdNew.PrixAchat);
-                if (prixAchatNew != null)   prod.HistoriquePrixAchats.Add(prixAchatNew);  
+                if (prixAchatNew != null) prod.HistoriquePrixAchats.Add(prixAchatNew);
             }
 
             if (ProdNew.PrixVente != null)
             {
                 var prixVenteNew = await _prixRepository.PostPrixVente(ProdNew.PrixVente);
-                if (prixVenteNew != null)   prod.HistoriquePrixVentes.Add(prixVenteNew);  
-            }          
+                if (prixVenteNew != null) prod.HistoriquePrixVentes.Add(prixVenteNew);
+            }
             return prod;
 
         }

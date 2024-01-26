@@ -1,11 +1,5 @@
-﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
+﻿using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Interfaces
 {
@@ -20,5 +14,6 @@ namespace NegoSudLib.Interfaces
         Task<ProduitFullDTO?> Put(ProduitWriteDTO ProdNew);
         Task Delete(int id);
         Task<bool> Exists(int id);
+        Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, string? name, bool? enVente);
     }
 }

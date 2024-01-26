@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
@@ -75,6 +71,7 @@ namespace NegoSudAPI.Controllers
 
         // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Gérant")]
         [HttpPost]
         public async Task<ActionResult<Categorie>> PostCategorie(Categorie categorie)
         {
@@ -85,6 +82,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // DELETE: api/Categories/5
+        [Authorize(Roles = "Gérant")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategorie(int id)
         {
