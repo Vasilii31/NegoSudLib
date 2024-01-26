@@ -152,3 +152,32 @@ Content-Type: application/json
 }
 
 ###
+
+
+POST {{NegoSudAPI_HostAddress}}/api/employes
+Content-Type: application/json
+
+{
+  "userName": "JulietteDu31",
+  "nomUtilisateur": "Legendre",
+  "prenomUtilisateur": "Juliette",
+  "adresseUtilisateur": "rue du test",
+  "mailUtilisateur": "juliette@mail.fr",
+  "numTelUtilisateur": "0123456789",
+  "motDePasse": "mdpMDP&1",
+  "gerant": true
+}
+
+###
+
+POST {{NegoSudAPI_HostAddress}}/login?useCookies=true&useSessionCookies=true'
+Content-Type: application/json
+
+{
+  "email": "JulietteDu31",
+  "password": "mdpMDP&1",
+  "twoFactorCode": "string",
+  "twoFactorRecoveryCode": "string"
+}
+
+###

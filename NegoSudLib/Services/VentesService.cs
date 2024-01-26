@@ -1,15 +1,6 @@
-﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
+﻿using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
-using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
@@ -30,7 +21,7 @@ namespace NegoSudLib.Services
         }
         public async Task<VentesDTO?> GetById(int id)
         {
-          var com =  await _ventesRepository.GetById(id);
+            var com = await _ventesRepository.GetById(id);
             if (com != null)
             {
                 if (com.DetailMouvementStocks.Any())
@@ -62,14 +53,14 @@ namespace NegoSudLib.Services
         }
         public async Task<VentesDTO?> Post(VentesWriteDTO vente)
         {
-            var comAdded =  await _ventesRepository.Post(vente);
+            var comAdded = await _ventesRepository.Post(vente);
             if (comAdded == null) { return null; }
             return comAdded;
         }
 
-        public async Task<VentesDTO?> Put(int id,VentesWriteDTO vente)
+        public async Task<VentesDTO?> Put(int id, VentesWriteDTO vente)
         {
-            return await _ventesRepository.Put(id,vente);
+            return await _ventesRepository.Put(id, vente);
         }
 
         public async Task Delete(int id)

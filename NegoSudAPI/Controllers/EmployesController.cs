@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.Interfaces;
 
 namespace NegoSudAPI.Controllers
 {
+    [Authorize(Roles = "Gérant,Employé")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployesController : ControllerBase
@@ -45,6 +47,18 @@ namespace NegoSudAPI.Controllers
         {
 
             var employes = await _employesService.GetByMail(mail);
+            if (employes != null)
+            {
+                return Ok(employes);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("userName/{userName}")]
+        public async Task<ActionResult<EmployeDTO>> GetByUserName(string userName)
+        {
+
+            var employes = await _employesService.GetByUserName(userName);
             if (employes != null)
             {
                 return Ok(employes);

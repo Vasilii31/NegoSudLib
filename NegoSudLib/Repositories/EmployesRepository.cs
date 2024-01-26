@@ -69,6 +69,20 @@ namespace NegoSudLib.Repositories
             return employe.ToDTO(isGerant);
 
         }
+        public async Task<EmployeDTO?> GetByUserName(string userName)
+        {
+            var employe = await _context.Employes
+            .Include(e => e.User)
+            .Where(e => e.User.UserName == userName)
+            .FirstOrDefaultAsync();
+
+            if (employe == null) return null;
+
+            var isGerant = await _userManager.IsInRoleAsync(employe.User, "Gérant");
+
+            return employe.ToDTO(isGerant);
+
+        }
         public async Task<EmployeDTO?> Post(EmployeDTO employe)
         {
             User user = new User()

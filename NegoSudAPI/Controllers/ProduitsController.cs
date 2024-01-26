@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
-using NegoSudLib.DAO;
-using NegoSudLib.DTO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
@@ -19,7 +16,7 @@ namespace NegoSudAPI.Controllers
 
         private readonly IProduitsServices _produitService;
 
-         public ProduitsController(IProduitsServices produitService)
+        public ProduitsController(IProduitsServices produitService)
         {
             _produitService = produitService;
         }
@@ -36,41 +33,41 @@ namespace NegoSudAPI.Controllers
                 return Ok(produits);
             }
             return NotFound();
-                  
+
         }
 
-/*        // GET: api/produits    => Tous les produits en vente
-        [HttpGet("EnVente")]
-        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetAllEnvente()
-        {
-       
-            var produits = await _produitService.GetAll(true);
-            if (produits.Any())
-            {
-                return Ok(produits);
-            }
-            return NotFound();
- 
-        }*/
+        /*        // GET: api/produits    => Tous les produits en vente
+                [HttpGet("EnVente")]
+                public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetAllEnvente()
+                {
 
- /*       // GET: api/produits/NonEnVente Tous les produits (non en vente) 
-        [HttpGet("NonEnVente")]
-        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetAllNonEnVente()
-        {
-            var produits = await _produitService.GetAll(false);
-            if (produits.Any())
-            {
-                return Ok(produits);
-            }
-            return NotFound();
-        }*/
+                    var produits = await _produitService.GetAll(true);
+                    if (produits.Any())
+                    {
+                        return Ok(produits);
+                    }
+                    return NotFound();
+
+                }*/
+
+        /*       // GET: api/produits/NonEnVente Tous les produits (non en vente) 
+               [HttpGet("NonEnVente")]
+               public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetAllNonEnVente()
+               {
+                   var produits = await _produitService.GetAll(false);
+                   if (produits.Any())
+                   {
+                       return Ok(produits);
+                   }
+                   return NotFound();
+               }*/
 
 
         [HttpGet("Categorie/{catId}")]
         public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetByCat(int catId)
         {
             var produits = await _produitService.GetByCat(catId);
-            
+
 
             if (produits.Any())
             {
@@ -111,7 +108,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // POST api/<ValuesController>
-        //[Authorize]
+        [Authorize(Roles = "Gérant")]
         [HttpPost]
         public async Task<ActionResult<ProduitFullDTO?>> AddProduit([FromBody] ProduitWriteDTO produit)
         {
@@ -122,38 +119,39 @@ namespace NegoSudAPI.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
             }
 
             var produitCreated = await _produitService.Post(produit);
             if (produitCreated != null) return CreatedAtAction(nameof(GetbyId), new { id = produitCreated.Id }, produitCreated);
 
-            return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
-            
-               
+            return StatusCode(500, "Une erreur interne du serveur s'est produite.");
+
+
         }
 
         // PUT api/<ValuesController>/5
         //[Authorize]
+        [Authorize(Roles = "Gérant")]
         [HttpPut("{id}")]
         public async Task<ActionResult<ProduitFullDTO?>> updateProduit(int id, [FromBody] ProduitWriteDTO produitNew)
         {
             // Renvoyer un code 404 si le produit n'est pas trouvé
             if (!(await _produitService.Exists(id))) return NotFound();
 
-            if (produitNew == null)  return BadRequest("Impossible de modifier un produit sans données");
+            if (produitNew == null) return BadRequest("Impossible de modifier un produit sans données");
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
 
             var produitUpdated = await _produitService.Put(produitNew);
-            if ( produitUpdated != null) return Ok(produitNew);
-           
+            if (produitUpdated != null) return Ok(produitNew);
+
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
 
         // DELETE api/<ValuesController>/5
-        //[Authorize]
+        [Authorize(Roles = "Gérant")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -166,7 +164,7 @@ namespace NegoSudAPI.Controllers
             try
             {
                 await _produitService.Delete(id);
-                return NoContent(); 
+                return NoContent();
             }
             catch (Exception ex)
             {
