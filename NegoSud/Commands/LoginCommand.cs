@@ -42,7 +42,7 @@ namespace NegoSud.Commands
         {
             bool success = await _authenticator.Login(_lfvm.UserName, _lfvm.Password);
 
-            if(success)
+            if (success)
             {
                 _redirector.Redirect();
             }

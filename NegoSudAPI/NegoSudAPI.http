@@ -23,6 +23,21 @@ GET {{NegoSudAPI_HostAddress}}/api/Commandes/
 Accept: application/json
 ###
 
+POST {{NegoSudAPI_HostAddress}}/api/employes
+Content-Type: application/json
+
+{
+  "userName": "JulietteDu31",
+  "nomUtilisateur": "Legendre",
+  "prenomUtilisateur": "Juliette",
+  "adresseUtilisateur": "rue du test",
+  "mailUtilisateur": "juliette@mail.fr",
+  "numTelUtilisateur": "0123456789",
+  "motDePasse": "mdpMDP&1",
+  "gerant": true
+}
+
+###
  
 
 POST {{NegoSudAPI_HostAddress}}/api/produits
