@@ -9,7 +9,6 @@ namespace NegoSudLib.DAO
         [Required]
         public int Id { get; set; }
 
-
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = string.Empty;
         public virtual User User { get; set; } = null!;

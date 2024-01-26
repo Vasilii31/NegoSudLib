@@ -14,7 +14,7 @@ namespace NegoSudLib.Services
 
         public async Task CreateRolesAsync()
         {
-            string[] roleNames = { "Gérant", "Vendeur", "Client" };
+            string[] roleNames = { "Gérant", "Employé", "Client" };
 
             foreach (var roleName in roleNames)
             {

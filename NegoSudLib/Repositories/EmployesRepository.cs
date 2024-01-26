@@ -11,17 +11,30 @@ namespace NegoSudLib.Repositories
     public class EmployesRepository : BaseRepository, IEmployesRepository
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public EmployesRepository(NegoSudDBContext context, UserManager<User> userManager) : base(context)
+
+        public EmployesRepository(NegoSudDBContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager) : base(context)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<Employe>> GetAll()
+        public async Task<IEnumerable<EmployeDTO>> GetAll()
         {
-            return await _context.Employes
+            var employes = await _context.Employes
                             .Include(e => e.User)
                             .ToListAsync();
+            IEnumerable<EmployeDTO> employesDTO;
+            if (employes.Count != 0)
+            {
+                foreach (var employe in employes)
+                {
+                    EmployeDTO employeDTO = employe.ToDTO();
+                    employeDTO.Gerant = await _userManager.IsInRoleAsync(employe.User, "Gérant");
+                }
+            }
+            return employesDTO;
         }
         public async Task<Employe?> GetById(int id)
         {
@@ -52,6 +65,15 @@ namespace NegoSudLib.Repositories
             };
             var result = await _userManager.CreateAsync(user, employe.MotDePasse);
 
+            if (employe.Gerant)
+            {
+                await _userManager.AddToRoleAsync(user, "Gérant");
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, "Employé");
+            }
+
             if (!result.Succeeded) return null;
 
             Employe empEntity = new Employe()
@@ -67,8 +89,10 @@ namespace NegoSudLib.Repositories
             await _context.SaveChangesAsync();
             empEntity.User = user;
             EmployeDTO employeDTO = empEntity.ToDTO();
+            employeDTO.Gerant = await _userManager.IsInRoleAsync(user, "Gérant");
             return employeDTO;
         }
+
         public async Task<Employe?> Put(EmployeDTO employe)
         {
             var result = await _context.Employes
