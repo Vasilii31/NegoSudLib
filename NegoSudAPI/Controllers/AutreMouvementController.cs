@@ -23,7 +23,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // GET: api/Commandes    => Tous les Commandes 
-        [Authorize]
+        [Authorize(Roles = "Gérant,Employé")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AutreMvtDTO>>> GetAll()
         {

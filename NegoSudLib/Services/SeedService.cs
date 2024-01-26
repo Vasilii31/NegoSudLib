@@ -15,15 +15,12 @@ namespace NegoSudLib.Services
 
         public void SeedDB()
         {
-            if (_context.Categories.Any()) { return; }
             _context.Categories.Add(new Categorie { Id = 1, NomCategorie = "Rouge" });
             _context.Categories.Add(new Categorie { Id = 2, NomCategorie = "Blanc" });
             _context.Categories.Add(new Categorie { Id = 3, NomCategorie = "Rosé" });
             _context.Categories.Add(new Categorie { Id = 4, NomCategorie = "Pétillant" });
             _context.Categories.Add(new Categorie { Id = 5, NomCategorie = "Champagne" });
             _context.Categories.Add(new Categorie { Id = 6, NomCategorie = "Digestifs" });
-
-            if (_context.Domaines.Any()) { return; }
             _context.Domaines.Add(new Domaine { Id = 1, NomDomaine = "Domaine des Roches Neuves" });
             _context.Domaines.Add(new Domaine { Id = 2, NomDomaine = "Domaine du Pélican" });
             _context.Domaines.Add(new Domaine { Id = 3, NomDomaine = "Domaine Fondrèche" });
@@ -49,7 +46,6 @@ namespace NegoSudLib.Services
 
             _context.SaveChanges();
 
-            if (_context.Produits.Any()) { return; }
             _context.Produits.Add(new Produit
             {
                 Id = 1,
@@ -563,57 +559,6 @@ namespace NegoSudLib.Services
                 PrixUnite = 10,
                 Taxe = 20,
                 Promotion = 0
-            });
-
-
-            _context.Employes.Add(new Employe
-            {
-                Id = 1,
-                NomUtilisateur = "Legendre",
-                PrenomUtilisateur = "Juliette",
-                //Gerant = true,
-                //MailUtilisateur = "test@test.fr",
-                AdresseUtilisateur = "12 rue du test",
-            });
-            _context.Employes.Add(new Employe
-            {
-                Id = 2,
-                NomUtilisateur = "Franco",
-                PrenomUtilisateur = "Olivier",
-                //Gerant = true,
-                //MailUtilisateur = "test@test.fr",
-                AdresseUtilisateur = "12 rue du test",
-            });
-            _context.Employes.Add(new Employe
-            {
-                Id = 3,
-                NomUtilisateur = "Blanc",
-                PrenomUtilisateur = "Christopher",
-                //Gerant = true,
-                //MailUtilisateur = "test@test.fr",
-                AdresseUtilisateur = "12 rue du test",
-            });
-
-
-
-            _context.Clients.Add(new Client
-            {
-                Id = 4,
-                NomUtilisateur = "Chopin",
-                PrenomUtilisateur = "Victor",
-                NumClient = "CL0001",
-                //MailUtilisateur = "test@test.fr",
-                AdresseUtilisateur = "12 rue du test",
-            });
-
-            _context.Clients.Add(new Client
-            {
-                Id = 5,
-                NomUtilisateur = "Laclef",
-                PrenomUtilisateur = "David",
-                NumClient = "CL0002",
-                //MailUtilisateur = "test@test.fr",
-                AdresseUtilisateur = "12 rue du test",
             });
 
             _context.TypesMouvement.Add(new TypeMouvement
