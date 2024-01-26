@@ -14,7 +14,8 @@ namespace NegoSud.Services.Navigator
         Login,
         Domaines,
         Products,
-        Employes
+        Employes,
+        Fournisseurs
     }
     public interface INavigator
     {

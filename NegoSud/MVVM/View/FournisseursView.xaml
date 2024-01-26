@@ -1,0 +1,158 @@
+﻿<UserControl x:Class="NegoSud.MVVM.View.FournisseursView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NegoSud.MVVM.View"
+             xmlns:Template="clr-namespace:NegoSud.MVVM.View.Template"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" Background="Wheat" Width="700">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="38"/>
+            <RowDefinition Height="82*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="30,10,0,0"  VerticalAlignment="Center">
+            <Template:ButtonAjouter x:Name="ButtonAdd" Margin="0, 0, 10, 0" Width="20"/>
+            <Template:ButtonModifier Margin="0, 0, 10, 0"  Width="20"/>
+            <Template:ButtonDeleteAll  Margin="0, 0,365, 0" Width="20"/>
+            <!--<Template:ComboBox x:Name="ComboBoxDomaine"/>-->
+        </StackPanel>
+
+        <Grid Grid.Row="3" Margin="30,20,30,70">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- En-tête de la table (thead) -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Fournisseur" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Adresse Mail" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Adresse" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Numéro" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+            </Grid>
+
+            <!-- Corps de la table (tbody) -->
+            <Grid Grid.Row="1">
+
+                <ListBox ItemsSource="{Binding ListeFournisseur}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Fournisseur.NomFournisseur}" FontWeight="Bold" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Fournisseur.EmailFournisseur}" FontWeight="Bold" Margin="10,0,0,0" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Fournisseur.AdresseFournisseur}" FontWeight="Bold" Margin="10,0,0,0" />
+                                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Fournisseur.NumTelFournisseur}" FontWeight="Bold" Margin="10,0,0,0" />
+                                <Grid Grid.Row="0" Grid.Column="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                </Grid>
+
+                                <!--<TextBlock Grid.Row="0" Grid.Column="3" Text="" />-->
+
+                                <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
+
+            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
+            
+            <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>-->
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <!-- ListBox ItemTemplate stretch horizontally -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+
+                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
+
+                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
+
+                    <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>
+                </Grid>
+
+            </Grid>
+        </Grid>
+
+        <!--<ListBox Grid.Row="2" ItemsSource="{Binding ListeFournisseur}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Fournisseur.NomFournisseur}" FontWeight="Bold" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Fournisseur.AdresseFournisseur}" FontWeight="Bold" Margin="50,0,0,0" />
+
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>-->
+
+    </Grid>
+</UserControl>

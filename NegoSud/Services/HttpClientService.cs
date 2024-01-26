@@ -61,5 +61,18 @@ namespace NegoSud.Services
             }
             throw new Exception(response.ReasonPhrase);
         }
+
+        public static async Task<List<FournisseurDetailDTO>> GetFournisseurs()
+        {
+            string route = "fournisseurs";
+            var reponse = await Client.GetAsync(route);
+            if (reponse.IsSuccessStatusCode)
+            {
+                string resultat = await reponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<FournisseurDetailDTO>>(resultat)
+                    ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            throw new Exception(reponse.ReasonPhrase);         
+        }
     }
 }

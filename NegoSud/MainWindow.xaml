@@ -119,6 +119,8 @@
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Fournisseurs"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Fournisseurs}"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"

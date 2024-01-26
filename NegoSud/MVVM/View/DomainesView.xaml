@@ -21,15 +21,14 @@
             <TextBlock Text="Domaine" TextAlignment="Center" FontSize="30"  FontStyle="Italic" Foreground="#460A26" />
         </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="25,0,0,0"  VerticalAlignment="Center">
-            <Template:ButtonAjouter x:Name="ButtonAdd" Margin="35, 0, 10, 0" Width="20"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="20,0,0,0"  VerticalAlignment="Center">
+            <Template:ButtonAjouter x:Name="ButtonAdd" Margin="0, 0, 10, 0" Width="20"/>
             <Template:ButtonModifier Margin="0, 0, 10, 0"  Width="20"/>
-            <Template:ButtonConsultation  Margin="0, 0, 10, 0" Width="20"/>
             <Template:ButtonDeleteAll  Margin="0, 0,365, 0" Width="20"/>
             <Template:ComboBox x:Name="ComboBoxDomaine"/>
         </StackPanel>
 
-        <ListBox Grid.Row="3" ItemsSource="{Binding ListeDomaine}" SelectedItem="{Binding SelectedDomaine}">
+        <ListBox Grid.Row="3" ItemsSource="{Binding ListeDomaine}" SelectedItem="{Binding SelectedDomaine}" Margin="15">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
