@@ -9,16 +9,38 @@ using NegoSudLib.DTO;
 using NegoSud.MVVM.Model;
 using NegoSudLib.DTO.Read;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Net;
 
 namespace NegoSud.Services
 {
     public class httpClientService
     {
         private const string baseAddress = "https://localhost:7211/";
-        private static HttpClient Client { get => new() { BaseAddress = new Uri(baseAddress) }; }
+
+        //private static HttpClient Client = new() { BaseAddress = new Uri(baseAddress) };
+        //private static HttpClient Client { get => new() { BaseAddress = new Uri(baseAddress) }; }
+
+        private static HttpClient? client = null;
+        private static CookieContainer cookieContainer = new();
+
+
+        private static HttpClient Client
+        {
+            get
+            {
+                if (client == null)
+                {
+                    var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
+                    client = new(handler) { BaseAddress = new Uri(baseAddress) };
+                }
+                return client;
+            }
+        }
+
         public static async Task<EmployeDTO> GetEmployeByMail(string userName)
         {
-            string route = $"Employes/mail/{userName}";
+            string route = $"api/Employes/mail/{userName}";
             var response = await Client.GetAsync(route);
             if (response.IsSuccessStatusCode)
             {
@@ -35,6 +57,8 @@ namespace NegoSud.Services
             var jsonString = "{ \"email\": \"JulietteDu31\", \"password\": \"mdpMDP&1\", \"twoFactorCode\": \"string\", \"twoFactorRecoveryCode\": \"string\" }";
             var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync("login?useCookies=true&useSessionCookies=true", httpContent);
+            var cookies = cookieContainer.GetCookies(new Uri(baseAddress));
+            Debug.WriteLine(cookies);
             return response.IsSuccessStatusCode;
         }
 
@@ -61,7 +85,8 @@ namespace NegoSud.Services
 
         public static async Task<EmployeDTO> GetEmployeByUserName(string userName)
         {
-            string route = $"Employes/mail/{userName}";
+            //Debug.WriteLine();
+            string route = $"api/Employes/userName/{userName}";
             var response = await Client.GetAsync(route);
             if (response.IsSuccessStatusCode)
             {

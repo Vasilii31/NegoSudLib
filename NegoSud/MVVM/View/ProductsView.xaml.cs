@@ -24,5 +24,7 @@ namespace NegoSud.MVVM.View
         {
             InitializeComponent();
         }
+
+    
     }
 }
