@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:NegoSud.MVVM.View"
+             xmlns:local="clr-namespace:NegoSud.MVVM.View" 
              mc:Ignorable="d" 
              d:DesignHeight="450" Background="White" Width="700">
 
@@ -26,28 +26,38 @@
             <Template:ButtonModifier Margin="0, 0, 10, 0"  Width="20"/>
             <Template:ButtonConsultation  Margin="0, 0, 10, 0" Width="20"/>
             <Template:ButtonDeleteAll  Margin="0, 0,365, 0" Width="20"/>
-            <Template:ComboBox />
+            <Template:ComboBox x:Name="ComboBoxDomaine"/>
         </StackPanel>
 
-        <WrapPanel Grid.Row="3" Margin="10,10,10,0" Orientation="Horizontal" VerticalAlignment="Top" Height="Auto">
-            <StackPanel Orientation="Vertical" Margin="50,0,40,0" Width="250" >
-                <Border BorderBrush="Black" BorderThickness="1" Height="126">
-                    <TextBlock Width="245"/>
-                </Border>
-                <Border BorderBrush="Black" BorderThickness="1" Height="126" Margin="0,20">
-                    <TextBlock Width="245"/>
-                </Border>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="50,0,0,0" Width="250">
-                <Border BorderBrush="Black" BorderThickness="1"  Height="126">
-                    <TextBlock Width="245" Margin="0,0,5,0"/>
-                </Border>
-                <Border BorderBrush="Black" BorderThickness="1"  Height="126" Margin="0,20">
-                    <TextBlock Width="245" Margin="0,0,5,0"/>
-                </Border>
-            </StackPanel>
-        </WrapPanel>
+        <ListBox Grid.Row="3" ItemsSource="{Binding ListeDomaine}" SelectedItem="{Binding SelectedDomaine}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Domaine.NomDomaine}" FontWeight="Bold" />
+                        
+                                                                    
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
 
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        
     </Grid>
 
 
