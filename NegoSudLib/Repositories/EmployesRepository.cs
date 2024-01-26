@@ -25,15 +25,21 @@ namespace NegoSudLib.Repositories
             var employes = await _context.Employes
                             .Include(e => e.User)
                             .ToListAsync();
-            IEnumerable<EmployeDTO> employesDTO;
+
+            IEnumerable<EmployeDTO> employesDTO = new List<EmployeDTO>();
             if (employes.Count != 0)
             {
                 foreach (var employe in employes)
                 {
-                    EmployeDTO employeDTO = employe.ToDTO();
-                    employeDTO.Gerant = await _userManager.IsInRoleAsync(employe.User, "Gérant");
+
+                    var isGerant = await _userManager.IsInRoleAsync(employe.User, "Gérant");
+
+                    EmployeDTO employeDTO = employe.ToDTO(isGerant);
+
+                    employesDTO = employesDTO.Append(employeDTO);
                 }
             }
+
             return employesDTO;
         }
         public async Task<Employe?> GetById(int id)
@@ -60,7 +66,7 @@ namespace NegoSudLib.Repositories
         {
             User user = new User()
             {
-                UserName = employe.NomUtilisateur + employe.PrenomUtilisateur,
+                UserName = employe.UserName,
                 Email = employe.MailUtilisateur
             };
             var result = await _userManager.CreateAsync(user, employe.MotDePasse);
@@ -88,8 +94,8 @@ namespace NegoSudLib.Repositories
             await _context.Employes.AddAsync(empEntity);
             await _context.SaveChangesAsync();
             empEntity.User = user;
-            EmployeDTO employeDTO = empEntity.ToDTO();
-            employeDTO.Gerant = await _userManager.IsInRoleAsync(user, "Gérant");
+            var isGerant = await _userManager.IsInRoleAsync(user, "Gérant");
+            EmployeDTO employeDTO = empEntity.ToDTO(isGerant);
             return employeDTO;
         }
 

@@ -5,7 +5,7 @@ namespace NegoSudLib.Interfaces
 {
     public interface IEmployesService
     {
-        Task<IEnumerable<Employe>> GetAll();
+        Task<IEnumerable<EmployeDTO>> GetAll();
         Task<Employe?> GetById(int id);
         Task<Employe?> GetByMail(string mail);
         Task<EmployeDTO?> Post(EmployeDTO Employe);

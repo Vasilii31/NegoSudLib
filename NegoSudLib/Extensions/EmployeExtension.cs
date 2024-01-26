@@ -5,7 +5,7 @@ namespace NegoSudLib.Extensions
 {
     public static class EmployeExtension
     {
-        public static EmployeDTO ToDTO(this Employe emp)
+        public static EmployeDTO ToDTO(this Employe emp, bool gerant)
         {
 
             EmployeDTO empDTO = new EmployeDTO
@@ -16,7 +16,8 @@ namespace NegoSudLib.Extensions
                 PrenomUtilisateur = emp.PrenomUtilisateur,
                 AdresseUtilisateur = emp.AdresseUtilisateur,
                 MailUtilisateur = emp.User.Email,
-                NumTelUtilisateur = emp.NumTelUtilisateur
+                NumTelUtilisateur = emp.NumTelUtilisateur,
+                Gerant = gerant
             };
             return empDTO;
 

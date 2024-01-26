@@ -12,7 +12,7 @@ namespace NegoSudLib.Services
         {
             this._employesRepository = employesRepository;
         }
-        public async Task<IEnumerable<Employe>> GetAll()
+        public async Task<IEnumerable<EmployeDTO>> GetAll()
         {
             return await _employesRepository.GetAll();
         }
