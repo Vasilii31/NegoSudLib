@@ -184,8 +184,23 @@ Content-Type: application/json
 }
 
 ###
+POST {{NegoSudAPI_HostAddress}}/api/Client
+Content-Type: application/json
 
-POST {{NegoSudAPI_HostAddress}}/login?useCookies=true&useSessionCookies=true'
+{
+  "userName": "Jose666",
+  "nomUtilisateur": "NATAS",
+  "prenomUtilisateur": "José",
+  "adresseUtilisateur": "rue du test",
+  "mailUtilisateur": "Jose@mail.fr",
+  "numTelUtilisateur": "0123456789",
+  "motDePasse": "mdpMDP&1"
+}
+
+###
+
+
+POST {{NegoSudAPI_HostAddress}}/login?useCookies=true&useSessionCookies=true
 Content-Type: application/json
 
 {
@@ -194,5 +209,9 @@ Content-Type: application/json
   "twoFactorCode": "string",
   "twoFactorRecoveryCode": "string"
 }
+
+###
+
+DELETE {{NegoSudAPI_HostAddress}}/api/client/6
 
 ###

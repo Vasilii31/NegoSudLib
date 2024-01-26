@@ -1,10 +1,5 @@
 ﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NegoSudLib.DTO.Read;
 
 namespace NegoSudLib.Interfaces
 {
@@ -12,7 +7,7 @@ namespace NegoSudLib.Interfaces
     {
         Task<IEnumerable<Client>> GetAll();
         Task<Client?> GetById(int id);
-        Task<Client?> Post(Client Client);
+        Task<ClientDTO?> Post(ClientDTO Client);
         Task<Client?> Put(Client Client);
         Task Delete(int id);
         Task<bool> Exists(int id);

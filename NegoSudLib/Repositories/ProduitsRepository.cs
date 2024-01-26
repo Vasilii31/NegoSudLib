@@ -5,15 +5,10 @@ using NegoSudLib.DTO.Write;
 using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Repositories
 {
-    public class ProduitsRepository : BaseRepository,IProduitsRepository
+    public class ProduitsRepository : BaseRepository, IProduitsRepository
     {
         public ProduitsRepository(NegoSudDBContext context) : base(context)
         {
@@ -25,7 +20,7 @@ namespace NegoSudLib.Repositories
                 .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
-                .Where(p => (AlaVente == null) ? true : p.AlaVente == AlaVente )
+                .Where(p => (AlaVente == null) ? true : p.AlaVente == AlaVente)
                 .Select(p => p.ToLightDTO(null))
                 .ToListAsync();
         }
@@ -40,8 +35,23 @@ namespace NegoSudLib.Repositories
                 .Select(p => p.ToLightDTO(null))
                 .ToListAsync();
         }
+        public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, string? name, bool? enVente)
+        {
 
-          public async Task<IEnumerable<ProduitLightDTO?>> GetByDom(int domId)
+            return await _context.Produits
+                .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
+                .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
+                .Include(p => p.Domaine)
+                .Include(p => p.Categorie)
+                .Where(p => (enVente == null) || p.AlaVente == enVente)
+                .Where(p => (cat == 0) || p.CategorieId == cat)
+                .Where(p => (dom == 0) || p.DomaineId == dom)
+                .Where(p => (string.IsNullOrEmpty(name)) || p.NomProduit.Contains(name))
+                .Select(p => p.ToLightDTO(null))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProduitLightDTO?>> GetByDom(int domId)
         {
             return await _context.Produits
                 .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
@@ -51,7 +61,7 @@ namespace NegoSudLib.Repositories
                 .Where(p => p.DomaineId == domId && p.AlaVente)
                 .Select(p => p.ToLightDTO(null))
                 .ToListAsync();
-        }   
+        }
         public async Task<ProduitFullDTO?> GetById(int id)
         {
             return await _context.Produits
@@ -63,7 +73,7 @@ namespace NegoSudLib.Repositories
                 .Select(p => p.ToFullDTO())
                 .FirstOrDefaultAsync();
         }
-         public async Task<ProduitLightDTO?> GetByIdDate(int id,DateTime date)
+        public async Task<ProduitLightDTO?> GetByIdDate(int id, DateTime date)
         {
             return await _context.Produits
                 .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
@@ -93,12 +103,12 @@ namespace NegoSudLib.Repositories
                 CategorieId = prod.IdCategorie,
                 AlaVente = prod.AlaVente
             };
-             _context.Produits.Add(prodEntity);
+            _context.Produits.Add(prodEntity);
             await _context.SaveChangesAsync();
             return prodEntity.ToFullDTO();
         }
-       public async Task<ProduitFullDTO?> Put(ProduitWriteDTO ProdNew)
-       {
+        public async Task<ProduitFullDTO?> Put(ProduitWriteDTO ProdNew)
+        {
             Produit prodEntity = new Produit()
             {
                 QteEnStock = ProdNew.QteEnStock,
@@ -114,7 +124,7 @@ namespace NegoSudLib.Repositories
                 AlaVente = ProdNew.AlaVente,
                 DomaineId = ProdNew.IdDomaine,
                 CategorieId = ProdNew.IdCategorie
-            } ;
+            };
             _context.Produits.Update(prodEntity);
             await _context.SaveChangesAsync();
             return prodEntity.ToFullDTO();

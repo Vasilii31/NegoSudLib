@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
 using NegoSudLib.NegosudDbContext;
 
@@ -7,9 +10,11 @@ namespace NegoSudLib.Repositories
 {
     public class ClientRepository : BaseRepository, IClientRepository
     {
+        private readonly UserManager<User> _userManager;
 
-        public ClientRepository(NegoSudDBContext context) : base(context)
+        public ClientRepository(NegoSudDBContext context, UserManager<User> userManager) : base(context)
         {
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<Client>> GetAll()
@@ -22,13 +27,30 @@ namespace NegoSudLib.Repositories
                 .Include(c => c.HistoriqueVentes)
                 .Where(c => c.Id == id)
                 .FirstOrDefaultAsync();
-
         }
-        public async Task<Client?> Post(Client Client)
+        public async Task<ClientDTO?> Post(ClientDTO Client)
         {
-            await _context.Clients.AddAsync(Client);
+            User user = new User()
+            {
+                UserName = Client.UserName,
+                Email = Client.MailUtilisateur
+            };
+            var result = await _userManager.CreateAsync(user, Client.MotDePasse);
+            if (!result.Succeeded) return null;
+            await _userManager.AddToRoleAsync(user, "Client");
+            Client cliEntity = new Client()
+            {
+                NomUtilisateur = Client.NomUtilisateur,
+                PrenomUtilisateur = Client.PrenomUtilisateur,
+                AdresseUtilisateur = Client.AdresseUtilisateur,
+                NumTelUtilisateur = Client.NumTelUtilisateur,
+                UserId = user.Id
+            };
+            await _context.Clients.AddAsync(cliEntity);
             await _context.SaveChangesAsync();
-            return Client;
+            cliEntity.NumClient = "CLI" + cliEntity.Id;
+            await _context.SaveChangesAsync();
+            return cliEntity.toDTO();
         }
         public async Task<Client?> Put(Client Client)
         {
@@ -55,12 +77,19 @@ namespace NegoSudLib.Repositories
         {
 
             var result = await _context.Clients
-              //.FirstOrDefaultAsync(e => e.Id == id);
-              .FirstOrDefaultAsync();
+              .FirstOrDefaultAsync(e => e.Id == id);
+
+
+
             if (result != null)
             {
-                _context.Clients.Remove(result);
-                await _context.SaveChangesAsync();
+                var usr = await _userManager.FindByIdAsync(result.UserId);
+                if (usr != null)
+                {
+                    await _userManager.DeleteAsync(usr);
+                    _context.Clients.Remove(result);
+                    // await _context.SaveChangesAsync();
+                }
             }
         }
 

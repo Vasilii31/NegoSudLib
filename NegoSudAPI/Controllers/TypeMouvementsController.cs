@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
@@ -12,6 +8,7 @@ namespace NegoSudAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class TypeMouvementsController : ControllerBase
     {
         private readonly NegoSudDBContext _context;
@@ -22,6 +19,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // GET: api/TypeMouvements
+        [Authorize(Roles = "Gérant,Employe")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TypeMouvement>>> GetTypesMouvement()
         {
@@ -29,6 +27,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // GET: api/TypeMouvements/5
+        [Authorize(Roles = "Gérant,Employe")]
         [HttpGet("{id}")]
         public async Task<ActionResult<TypeMouvement>> GetTypeMouvement(int id)
         {
@@ -44,6 +43,7 @@ namespace NegoSudAPI.Controllers
 
         // PUT: api/TypeMouvements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Gérant,Employe")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTypeMouvement(int id, TypeMouvement typeMouvement)
         {
@@ -75,6 +75,7 @@ namespace NegoSudAPI.Controllers
 
         // POST: api/TypeMouvements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Gérant")]
         [HttpPost]
         public async Task<ActionResult<TypeMouvement>> PostTypeMouvement(TypeMouvement typeMouvement)
         {
@@ -85,6 +86,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // DELETE: api/TypeMouvements/5
+        [Authorize(Roles = "Gérant")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTypeMouvement(int id)
         {
