@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NegoSud.MVVM.View" xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template"
+             xmlns:local="clr-namespace:NegoSud.MVVM.View" 
+             xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="Wheat">
     <Grid>
@@ -76,49 +77,54 @@
                                 
                                 
                                 <!--Colonne Produit-->
-                                <Grid Grid.Row="0" Grid.Column="0" Orientation="Horizontal" >
+                                <Grid Grid.Row="0" Grid.Column="0">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="5" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock  Grid.Column="0" Text="{Binding ProduitLightDTO.NomProduit}" FontWeight="Bold" />
-                                    <Templates:ButtonConsultation  Grid.Column="1" />
+                                    <TextBlock Grid.Column="1" Text="{Binding ProduitLightDTO.NomProduit}" FontWeight="Bold" />
+                                    <Templates:ButtonConsultation  Grid.Column="2" />
                                 </Grid>
                                 <!--Colonne unité-->
                                 <Grid Grid.Row="0" Grid.Column="1"  >
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="5" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0"  Text="{Binding PrixVente}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="1"  />
-                                    <TextBox x:Name="Unité" Text=""Grid.Column="2" ></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="3" />
+                                    <TextBlock Grid.Column="1"  Text="{Binding PrixU}" FontWeight="Bold" />
+                                    <Templates:ButtonDelete Grid.Column="2" Command="{Binding CMD_moinsU}"  />
+                                    <TextBox Margin="5,0" x:Name="Unité" Text="{Binding QteUnite}" Grid.Column="3" ></TextBox>
+                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_plusU}" />
                                 </Grid>
                                 <!--Colonne Carton-->
                                 <Grid Grid.Row="0" Grid.Column="2" >
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="5" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock  Grid.Column="0"Text="{Binding PrixVente}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="1" />
-                                    <TextBox x:Name="Carton" Text="" Grid.Column="2"></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="3"/>
+                                    <TextBlock  Grid.Column="1" Text="{Binding PrixC}" FontWeight="Bold" />
+                                    <Templates:ButtonDelete Grid.Column="2"  Command="{Binding CMD_moinsC}"/>
+                                    <TextBox  Margin="5,0"  x:Name="Carton" Text="{Binding QteCarton}" Grid.Column="3"></TextBox>
+                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_plusC}"/>
                                 </Grid>
                     
-                                
+                                <!--Colonne ajoutPanier-->
                                 <Grid Grid.Row="0" Grid.Column="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Templates:ButtonModifier  Grid.Column="0" Width="20" HorizontalAlignment="Center" Command="{Binding ClickModifyCommand}"/>
-                                    <Templates:ButtonDeleteAll Grid.Row="1" Grid.Column="3" Width="20" HorizontalAlignment="Center"  Command="{Binding ClickDeleteCommand}"/>
+                                    <Templates:ButtonModifier  Grid.Column="0" Width="20" HorizontalAlignment="Center" Command="{Binding CMD_ajoutPanier}"/>
                                 </Grid>
 
                             </Grid>
