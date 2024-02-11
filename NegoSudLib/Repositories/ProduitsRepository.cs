@@ -111,6 +111,7 @@ namespace NegoSudLib.Repositories
         {
             Produit prodEntity = new Produit()
             {
+                Id = ProdNew.Id,
                 QteEnStock = ProdNew.QteEnStock,
                 NomProduit = ProdNew.NomProduit,
                 ContenanceCl = ProdNew.ContenanceCl,

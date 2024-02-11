@@ -1,16 +1,18 @@
-﻿<UserControl x:Class="NegoSud.MVVM.View.VentesView"
+﻿<UserControl x:Class="NegoSud.MVVM.View.Template.Panier"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NegoSud.MVVM.View" 
-             xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template" xmlns:viewmodel="clr-namespace:NegoSud.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:VentesViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="800" d:DesignWidth="1200" Background="White">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -18,20 +20,34 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="1" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="150" />
-
-            </Grid.ColumnDefinitions>
-          
-             <Templates:SearchBar Grid.Column="0" VerticalAlignment="Center" Width="200" />
-            <Templates:ButtonNormal Grid.Column="2" Content="{Binding NbItemPanier}" Click="VoirPanier_Click" Height="30"/>
-        </Grid>
-
-
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Panier" TextAlignment="Center" VerticalAlignment="center" FontSize="24" FontWeight="Bold" Margin="0,0,10,0"/>
+        <!--Formulaire-->
         <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="10" />
+            </Grid.RowDefinitions>
+
+           
+
+            <Grid Grid.Row="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Height="30" Text="Client : " FontSize="16" FontWeight="Bold" Margin="0,0,10,0"/>
+                <ComboBox  Grid.Column="1" Height="30"  ItemsSource="{Binding ListeClients}" DisplayMemberPath="NomUtilisateur" SelectedItem="{Binding ClientSelectionne}" Width="200"/>
+                <TextBlock  Grid.Column="3" Height="30" Text="Commentaire : " FontSize="16" FontWeight="Bold" Margin="0,0,10,0"/>
+                <TextBox  Grid.Column="4" Text="{Binding Commentaire}" Width="300"/>
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -53,23 +69,24 @@
                 </Border>
 
                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="A l'unité" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Quantité" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
 
                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="Au carton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Sous Total" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
 
-                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                 <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
                     <TextBlock Text="" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
+                
 
             </Grid>
 
             <!-- Corps de la table (tbody) -->
             <Grid Grid.Row="1">
 
-                <ListBox ItemsSource="{Binding ListeProduits}" >
+                <ListBox ItemsSource="{Binding Panier}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -89,48 +106,35 @@
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="5" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="1" Text="{Binding ProduitLightDTO.NomProduit}" FontWeight="Bold" />
+                                    <TextBlock Grid.Column="1" Text="{Binding DetailMouvementStockDTO.Produit.NomProduit}" FontWeight="Bold" />
                                     <!--<Templates:ButtonConsultation  Grid.Column="2" />-->
                                 </Grid>
-                                <!--Colonne unité-->
+                                <!--Colonne quantié-->
                                 <Grid Grid.Row="0" Grid.Column="1"  >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="5" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="5" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="1"  Text="{Binding PrixU}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="2" Command="{Binding CMD_MoinsU}"  />
-                                    <TextBox Margin="5,0" x:Name="Unité" Text="{Binding QteUnite}" Grid.Column="3" ></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusU}" />
+                                    <TextBlock Grid.Column="1"  Text="{Binding Qte}" FontWeight="Bold" />
                                 </Grid>
-                                <!--Colonne Carton-->
+                        
+                                <!--Colonne Sous total-->
                                 <Grid Grid.Row="0" Grid.Column="2" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="5" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="5" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock  Grid.Column="1" Text="{Binding PrixC}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="2"  Command="{Binding CMD_MoinsC}"/>
-                                    <TextBox  Margin="5,0"  x:Name="Carton" Text="{Binding QteCarton}" Grid.Column="3"></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusC}"/>
+                                    <TextBlock  Grid.Column="1" Text="{Binding SousTotal}" FontWeight="Bold" />
                                 </Grid>
                     
-                                <!--Colonne ajoutPanier-->
+                                <!--Colonne suppPanier-->
                                 <Grid Grid.Row="0" Grid.Column="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
-                                    <Templates:ButtonAjouterAuPanier  Grid.Column="0" Width="40" HorizontalAlignment="Center" Command="{Binding CMD_AjoutPanier}"/>
-                                    <materialDesign:PackIcon Grid.Column="1"  Kind="Tick" VerticalAlignment="Center" Visibility="{Binding AjoutVisible}"/>
+                                    <Templates:ButtonDeleteAll  Grid.Column="0" Width="40" HorizontalAlignment="Center" Command="{Binding CMD_SupprimerDuPanier}"/>
                                 </Grid>
 
                             </Grid>
@@ -163,6 +167,26 @@
 
             </Grid>
         </Grid>
-        <Templates:Panier Grid.Column="1" Grid.RowSpan="2" x:Name="Panier" Visibility="{Binding PanierVisible}"/>
+        
+        <!--bas de page-->
+        <Grid  Grid.Row="3" Grid.Column="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="*" />
+
+            </Grid.ColumnDefinitions>
+            <Templates:ButtonNormal Height="40" Width="150" Grid.Column="1" Content="Valider le panier" Click="ValiderPanier_Click"/>
+            <Templates:ButtonNormal Height="40" Width="150"  Grid.Column="3" Content="Continuer les achats" Click="Back_Click"/>
+            <TextBlock Grid.Column="4" Text="TOTAL:" FontSize="18" FontWeight="Bold"/>
+            <StackPanel Grid.Column="5" Orientation="Horizontal">
+                <TextBlock  Text="{Binding Total}" Width="auto" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Grid.Column="5" Text="€" FontSize="18" FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+        
     </Grid>
 </UserControl>

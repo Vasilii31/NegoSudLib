@@ -1,5 +1,6 @@
 ﻿using NegoSud.Core;
 using NegoSudLib.DTO.Read;
+using System.Windows;
 
 namespace NegoSud.MVVM.ViewModel
 {
@@ -7,8 +8,49 @@ namespace NegoSud.MVVM.ViewModel
     {
         public ProduitLightDTO ProduitLightDTO { get; set; }
 
-        public int QteUnite { get; set; }
-        public int QteCarton { get; set; }
+        private int _qteUnite;
+
+        public int QteUnite
+        {
+            get { return _qteUnite; }
+            set
+            {
+                if (_qteUnite != value)
+                {
+                    _qteUnite = value;
+                    OnPropertyChanged(nameof(QteUnite));
+                }
+            }
+        }
+        private int _qteCarton;
+
+        public int QteCarton
+        {
+            get { return _qteCarton; }
+            set
+            {
+                if (_qteCarton != value)
+                {
+                    _qteCarton = value;
+                    OnPropertyChanged(nameof(QteCarton));
+                }
+            }
+        }
+
+        private Visibility _ajoutVisible = Visibility.Collapsed;
+
+        public Visibility AjoutVisible
+        {
+            get { return _ajoutVisible; }
+            set
+            {
+                if (_ajoutVisible != value)
+                {
+                    _ajoutVisible = value;
+                    OnPropertyChanged(nameof(AjoutVisible));
+                }
+            }
+        }
         public string PrixU { get; set; }
         public string PrixC { get; set; }
         public VentePdtItemViewModel(ProduitLightDTO produit)
@@ -16,37 +58,37 @@ namespace NegoSud.MVVM.ViewModel
             ProduitLightDTO = produit;
             PrixU = ProduitLightDTO.PrixVente + " €";
             PrixC = ProduitLightDTO.QteCarton + " bouteilles " + ProduitLightDTO.PrixVenteCarton + " €";
-            CMD_AjoutPanier = new RelayCommand(ajoutPanier);
-            CMD_VoirPdt = new RelayCommand(voirPDT);
-            CMD_plusU = new RelayCommand(plusU);
-            CMD_moinsU = new RelayCommand(MoinsU);
-            CMD_plusC = new RelayCommand(plusC);
-            CMD_moinsC = new RelayCommand(moinsC);
+            CMD_AjoutPanier = new RelayCommand(AjoutPanier);
+            CMD_VoirPdt = new RelayCommand(VoirPDT);
+            CMD_PlusU = new RelayCommand(PlusU);
+            CMD_MoinsU = new RelayCommand(MoinsU);
+            CMD_PlusC = new RelayCommand(PlusC);
+            CMD_MoinsC = new RelayCommand(MoinsC);
         }
 
-        public void ajoutPanier(object obk)
+        public void AjoutPanier(object obk)
         {
             base.invoke_AjoutPanier(this);
         }
-        public void voirPDT(object obk)
+        public void VoirPDT(object obk)
         {
-            base.invoke_voirPDT(this);
+            base.invoke_VoirPDT(this);
         }
-        public void plusU(object obk)
+        public void PlusU(object obk)
         {
-            base.invoke_plusU(this);
+            base.invoke_PlusU(this);
         }
         public void MoinsU(object obk)
         {
-            base.invoke_moinsU(this);
+            base.invoke_MoinsU(this);
         }
-        public void plusC(object obk)
+        public void PlusC(object obk)
         {
-            base.invoke_plusC(this);
+            base.invoke_PlusC(this);
         }
-        public void moinsC(object obk)
+        public void MoinsC(object obk)
         {
-            base.invoke_moinsC(this);
+            base.invoke_MoinsC(this);
         }
 
     }

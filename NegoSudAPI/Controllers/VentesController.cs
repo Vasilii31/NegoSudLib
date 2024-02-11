@@ -79,7 +79,7 @@ namespace NegoSudAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var venteCreated = await _ventesService.Post(vente);
-            if (venteCreated != null) return Created();
+            if (venteCreated != null) return Created("", venteCreated);
 
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
