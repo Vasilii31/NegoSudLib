@@ -1,9 +1,4 @@
 ﻿using NegoSud.Services.Navigator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSud.MVVM.ViewModel.Factories
 {
@@ -14,11 +9,13 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<LoginViewModel> _LoginViewModelFactory;
         private readonly IViewModelFactory<EmployesViewModel> _EmployesViewModelFactory;
         private readonly IViewModelFactory<DomaineViewModel> _DomaineViewModelFactory;
+        private readonly IViewModelFactory<VentesViewModel> _VentesViewModelFactory;
 
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
             IViewModelFactory<LoginViewModel> loginFormViewModelFactory,
-            IViewModelFactory<DomaineViewModel> domaineViewModelFactory, 
+            IViewModelFactory<DomaineViewModel> domaineViewModelFactory,
+            IViewModelFactory<VentesViewModel> ventesViewModelFactory,
             IViewModelFactory<EmployesViewModel> employesViewModelFactory)
         {
             _HomeViewModelFactory = homeViewModelFactory;
@@ -26,6 +23,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
             _LoginViewModelFactory = loginFormViewModelFactory;
             _DomaineViewModelFactory = domaineViewModelFactory;
             _EmployesViewModelFactory = employesViewModelFactory;
+            _VentesViewModelFactory = ventesViewModelFactory;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -42,6 +40,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _EmployesViewModelFactory.CreateViewModel();
                 case ViewType.Domaines:
                     return _DomaineViewModelFactory.CreateViewModel();
+                case ViewType.Ventes:
+                    return _VentesViewModelFactory.CreateViewModel();
                 default:
                     throw new ArgumentException("View Type does not have an existing View Model", "viewType");
             }

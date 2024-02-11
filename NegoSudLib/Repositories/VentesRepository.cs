@@ -54,13 +54,18 @@ namespace NegoSudLib.Repositories
         }
         public async Task<VentesDTO?> Post(VentesWriteDTO VenteDTO)
         {
+            List<DetailMouvementStock> DetailMvt = [];
+            foreach (var item in VenteDTO.DetailMouvementStocks)
+            {
+                DetailMvt.Add(item.ToDAO());
+            }
             Vente Vente = new Vente
             {
                 DateMouvement = DateTime.Now,
                 EmployeId = VenteDTO.EmployeId,
                 ClientId = VenteDTO.ClientId,
                 EntreeOuSortie = false,
-                DetailMouvementStocks = VenteDTO.DetailMouvementStocks,
+                DetailMouvementStocks = DetailMvt,
                 Commentaire = VenteDTO.Commentaire
             };
             await _context.Ventes.AddAsync(Vente);
