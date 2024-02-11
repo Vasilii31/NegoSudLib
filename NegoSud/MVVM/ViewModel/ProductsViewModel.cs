@@ -1,7 +1,9 @@
 ﻿using MySqlX.XDevAPI.Common;
 using NegoSud.Core;
 using NegoSud.Services;
+using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -92,11 +94,53 @@ namespace NegoSud.MVVM.ViewModel
         private void ValidateForm(object obj)
         {
             var ob = CurrentProduitDTO;
+
+            //Verification des infos : on verra plus tard
+
+            //on instancie produitWrite Dto
+            ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
+            {
+                Id = CurrentProduitDTO.ProduitLightDTO.Id,
+                NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
+                ContenanceCl = CurrentProduitDTO.ProduitLightDTO.ContenanceCl,
+                QteEnStock = CurrentProduitDTO.ProduitLightDTO.QteEnStock,
+                DegreeAlcool = CurrentProduitDTO.ProduitLightDTO.DegreeAlcool,
+                PhotoProduitPath = CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath,
+                DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
+                SeuilCommandeMin = CurrentProduitDTO.ProduitLightDTO.SeuilCommandeMin,
+                CommandeMin = CurrentProduitDTO.ProduitLightDTO.CommandeMin,
+                IdDomaine = 1, // a gerer apres
+                IdCategorie = 1, // A gerer aussi
+                AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
+                PrixAchat = new PrixAchat()
+                {
+                    PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
+                    PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton
+                },
+                PrixVente = new PrixVente()
+                {
+                    PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixVente,
+                    PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixVenteCarton
+                }
+            };
             Task.Run(async () =>
             {
-                return await httpClientService.GetEmployes();
+                //return await httpClientService.GetEmployes();
+                return await httpClientService.ModifyProduct(produitWriteDTO, CurrentProduitDTO.ProduitLightDTO.Id);
 
-            });
+            }).ContinueWith(t =>
+            {
+                if (t.Result.Id == 0)
+                {
+                    MessageBox.Show("Modification impossible.");
+                }
+                //else
+
+                //ListeProduits.Remove(CurrentProduitDTO);
+                //CurrentProduitDTO = null;
+                //IsPopUpVisible = Visibility.Collapsed;
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
             return;
         }
 

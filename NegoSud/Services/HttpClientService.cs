@@ -138,6 +138,27 @@ namespace NegoSud.Services
             }
         }
 
+        public static async Task<ProduitFullDTO> ModifyProduct(ProduitWriteDTO produitWriteDTO, int id)
+        {
+            var venteJson = JsonConvert.SerializeObject(produitWriteDTO);
+            string route = $"api/Produits/{id}";
+
+            var content = new StringContent(venteJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PutAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ProduitFullDTO>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
 
         public static async Task<bool> DeleteProduit(int id)
         {
