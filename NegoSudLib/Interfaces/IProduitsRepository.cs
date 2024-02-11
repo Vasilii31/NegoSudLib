@@ -11,7 +11,7 @@ namespace NegoSudLib.Interfaces
         Task<ProduitFullDTO?> GetById(int id);
         Task<ProduitLightDTO?> GetByIdDate(int id, DateTime date);
         Task<ProduitFullDTO?> Post(ProduitWriteDTO prod);
-        Task<ProduitFullDTO?> Put(ProduitWriteDTO ProdNew);
+        Task<ProduitFullDTO?> Put(int id, ProduitWriteDTO ProdNew);
         Task Delete(int id);
         Task<bool> Exists(int id);
         Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, string? name, bool? enVente);
