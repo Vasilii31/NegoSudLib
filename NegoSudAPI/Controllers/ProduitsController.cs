@@ -36,32 +36,6 @@ namespace NegoSudAPI.Controllers
 
         }
 
-        /*        // GET: api/produits    => Tous les produits en vente
-                [HttpGet("EnVente")]
-                public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetAllEnvente()
-                {
-
-                    var produits = await _produitService.GetAll(true);
-                    if (produits.Any())
-                    {
-                        return Ok(produits);
-                    }
-                    return NotFound();
-
-                }*/
-
-        /*       // GET: api/produits/NonEnVente Tous les produits (non en vente) 
-               [HttpGet("NonEnVente")]
-               public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetAllNonEnVente()
-               {
-                   var produits = await _produitService.GetAll(false);
-                   if (produits.Any())
-                   {
-                       return Ok(produits);
-                   }
-                   return NotFound();
-               }*/
-
 
         [HttpGet("Categorie/{catId}")]
         public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetByCat(int catId)
@@ -93,6 +67,18 @@ namespace NegoSudAPI.Controllers
             return NotFound();
         }
 
+
+        // GET api/produits/5
+        [HttpGet("/recherche")]
+        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> Search([FromQuery] int cat, [FromQuery] int dom, [FromQuery] string? nom, [FromQuery] bool? enVente)
+        {
+            var produit = await _produitService.Search(cat, dom, nom, enVente);
+            if (produit == null)
+            {
+                return NotFound();
+            }
+            return Ok(produit);
+        }
 
 
         // GET api/produits/5

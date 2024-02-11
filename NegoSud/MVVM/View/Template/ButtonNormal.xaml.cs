@@ -8,30 +8,30 @@ namespace NegoSud.MVVM.View.Template
     /// <summary>
     /// Logique d'interaction pour ButtonAjouter.xaml
     /// </summary>
-    public partial class ButtonAjouter : Button
+    public partial class ButtonNormal : Button
     {
         //evenement personalisé
-        public static event EventHandler AjouterButtonClick;
+        public static event EventHandler NormalButtonClick;
 
-        public ButtonAjouter()
+        public ButtonNormal()
         {
             InitializeComponent();
         }
 
-        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        private void ButtonNormal_Click(object sender, RoutedEventArgs e)
         {
 
-            AjouterButtonClick?.Invoke(this, EventArgs.Empty);
+            NormalButtonClick?.Invoke(this, EventArgs.Empty);
         }
 
         private void ButtonAdd_MouseEnter(object sender, MouseEventArgs e)
         {
-            ButtonAdd.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#300117"));
+            ButtonNorm.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#300117"));
         }
 
         private void ButtonAdd_MouseLeave(object sender, MouseEventArgs e)
         {
-            ButtonAdd.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#460A26"));
+            ButtonNorm.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#460A26"));
         }
     }
 

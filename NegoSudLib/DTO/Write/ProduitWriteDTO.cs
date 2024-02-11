@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NegoSudLib.DAO;
-using NegoSudLib.NegosudDbContext;
-using System;
+﻿using NegoSudLib.DAO;
 using System.ComponentModel.DataAnnotations;
 namespace NegoSudLib.DTO.Write;
 
@@ -9,6 +6,7 @@ namespace NegoSudLib.DTO.Write;
 public class ProduitWriteDTO
 
 {
+    public int Id { get; set; }
     [Required]
     public string NomProduit { get; set; } = string.Empty;
 

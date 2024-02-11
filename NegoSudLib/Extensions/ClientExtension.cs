@@ -10,13 +10,13 @@ namespace NegoSudLib.Extensions
             return new ClientDTO
             {
                 Id = cli.Id,
+                UserName = cli.User.UserName,
                 NomUtilisateur = cli.NomUtilisateur,
                 PrenomUtilisateur = cli.PrenomUtilisateur,
                 AdresseUtilisateur = cli.AdresseUtilisateur,
-                //MailUtilisateur  = cli.MailUtilisateur,
+                MailUtilisateur = cli.User.Email,
                 NumTelUtilisateur = cli.NumTelUtilisateur,
-                NumClient = cli.NumClient,
-                //HMotDePasse = cli.HMotDePasse
+                NumClient = cli.NumClient
             };
         }
     }

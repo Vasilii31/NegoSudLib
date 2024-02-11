@@ -147,8 +147,13 @@ namespace NegoSudLib.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
             if (result != null)
             {
-                _context.Employes.Remove(result);
-                await _context.SaveChangesAsync();
+                var usr = await _userManager.FindByIdAsync(result.UserId);
+                if (usr != null)
+                {
+                    await _userManager.DeleteAsync(usr);
+                    _context.Employes.Remove(result);
+                    // await _context.SaveChangesAsync();
+                }
             }
         }
 

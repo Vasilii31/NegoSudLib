@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
-using NegoSudLib.Services;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,13 +17,14 @@ namespace NegoSudAPI.Controllers
 
         private readonly IVentesService _ventesService;
 
-         public VentesController(IVentesService ventesService)
+        public VentesController(IVentesService ventesService)
         {
             _ventesService = ventesService;
         }
 
 
         // GET: api/Commandes    => Tous les Commandes 
+        [Authorize(Roles = "Gérant,Employé")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VentesDTO>>> GetAll()
         {
@@ -39,14 +35,15 @@ namespace NegoSudAPI.Controllers
                 return Ok(ventes);
             }
             return NotFound();
-                  
+
         }
 
         // GET api/Commandes/5
+        [Authorize(Roles = "Gérant,Employé,Client")]
         [HttpGet("{idNum}")]
         public async Task<ActionResult<VentesDTO?>> Getby(string idNum)
         {
-            if (int.TryParse(idNum ,out int id))
+            if (int.TryParse(idNum, out int id))
             {
                 // Si id est un entier on chercher par l'id
                 var vente = await _ventesService.GetById(id);
@@ -68,11 +65,12 @@ namespace NegoSudAPI.Controllers
             }
 
 
-            
+
         }
 
         // POST api/<ValuesController>
         //[Authorize]
+        [Authorize(Roles = "Gérant,Employé,Client")]
         [HttpPost]
         public async Task<ActionResult<VentesDTO?>> Post([FromBody] VentesWriteDTO vente)
         {
@@ -81,13 +79,14 @@ namespace NegoSudAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var venteCreated = await _ventesService.Post(vente);
-            if (venteCreated != null) return Created();
+            if (venteCreated != null) return Created("", venteCreated);
 
-            return  StatusCode(500, "Une erreur interne du serveur s'est produite.");
+            return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
 
         // PUT api/<ValuesController>/5
         //[Authorize]
+        [Authorize(Roles = "Gérant,Employé,Client")]
         [HttpPut("{id}")]
         public async Task<ActionResult<Commande?>> Put(int id, [FromBody] VentesWriteDTO vente)
         {
@@ -98,14 +97,15 @@ namespace NegoSudAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
 
-            var venteUpdated = await _ventesService.Put(id,vente);
-            if ( venteUpdated != null) return Ok(vente);
-           
+            var venteUpdated = await _ventesService.Put(id, vente);
+            if (venteUpdated != null) return Ok(vente);
+
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
 
         // DELETE api/<ValuesController>/5
         //[Authorize]
+        [Authorize(Roles = "Gérant,Employé,Client")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -118,7 +118,7 @@ namespace NegoSudAPI.Controllers
             try
             {
                 await _ventesService.Delete(id);
-                return NoContent(); 
+                return NoContent();
             }
             catch (Exception ex)
             {

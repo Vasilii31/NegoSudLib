@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace NegoSudLib.DAO
 {
@@ -13,7 +8,7 @@ namespace NegoSudLib.DAO
         [StringLength(80)]
         public string NumClient { get; set; } = string.Empty;
 
-        public virtual IEnumerable<Vente>? HistoriqueVentes { get; set;}
+        public virtual IEnumerable<Vente>? HistoriqueVentes { get; set; }
 
     }
 }

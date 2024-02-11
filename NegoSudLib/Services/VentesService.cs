@@ -53,9 +53,28 @@ namespace NegoSudLib.Services
         }
         public async Task<VentesDTO?> Post(VentesWriteDTO vente)
         {
-            var comAdded = await _ventesRepository.Post(vente);
-            if (comAdded == null) { return null; }
-            return comAdded;
+            var venteAdded = await _ventesRepository.Post(vente);
+            if (venteAdded == null) { return null; }
+            foreach (var lgnVente in venteAdded.DetailMouvementStocks)
+            {
+                var pdtFull = await _produitService.GetById(lgnVente.ProduitId);
+                /* var pdtWrite = new ProduitWriteDTO()
+                 {
+                     Id = pdtFull.Id,
+
+                 }
+                 if (lgnVente.AuCarton)
+                 {
+                     pdt.QteEnStock -= pdt.QteCarton * lgnVente.QteProduit;
+                 }
+                 else
+                 {
+                     pdt.QteEnStock -= lgnVente.QteProduit;
+                 }*/
+
+            }
+
+            return venteAdded;
         }
 
         public async Task<VentesDTO?> Put(int id, VentesWriteDTO vente)

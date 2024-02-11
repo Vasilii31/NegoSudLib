@@ -1,16 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using NegoSudLib.DTO;
-using NegoSud.MVVM.Model;
-using NegoSudLib.DTO.Read;
-using System.ComponentModel.DataAnnotations;
+﻿using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 
 namespace NegoSud.Services
 {
@@ -109,6 +103,41 @@ namespace NegoSud.Services
             }
             return new List<ProduitLightDTO>();
         }
+
+        internal static async Task<List<ClientDTO>> GetClients()
+        {
+            string route = $"api/Client/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ClientDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<ClientDTO>();
+        }
+        internal static async Task<VentesDTO> AddVente(VentesWriteDTO vente)
+        {
+            var venteJson = JsonConvert.SerializeObject(vente);
+            string route = $"api/Ventes";
+
+            var content = new StringContent(venteJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<VentesDTO>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
+
 
         public static async Task<bool> DeleteProduit(int id)
         {
