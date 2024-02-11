@@ -130,7 +130,7 @@ namespace NegoSudAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
 
-            var produitUpdated = await _produitService.Put(produitNew);
+            var produitUpdated = await _produitService.Put(id, produitNew);
             if (produitUpdated != null) return Ok(produitNew);
 
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");

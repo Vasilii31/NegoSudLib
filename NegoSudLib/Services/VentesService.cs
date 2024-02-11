@@ -9,11 +9,13 @@ namespace NegoSudLib.Services
         private readonly IVentesRepository _ventesRepository;
         private readonly IDetailMvtService _detMvtService;
         private readonly IProduitsServices _produitService;
-        public VentesService(IVentesRepository VentesRepository, IDetailMvtService detMvtService, IProduitsServices produitService)
+        private readonly IProduitsRepository _produitRepository;
+        public VentesService(IVentesRepository VentesRepository, IDetailMvtService detMvtService, IProduitsServices produitService, IProduitsRepository produitRepository)
         {
             this._ventesRepository = VentesRepository;
             this._detMvtService = detMvtService;
             this._produitService = produitService;
+            this._produitRepository = produitRepository;
         }
         public async Task<IEnumerable<VentesDTO>> GetAll()
         {
@@ -57,20 +59,30 @@ namespace NegoSudLib.Services
             if (venteAdded == null) { return null; }
             foreach (var lgnVente in venteAdded.DetailMouvementStocks)
             {
-                var pdtFull = await _produitService.GetById(lgnVente.ProduitId);
-                /* var pdtWrite = new ProduitWriteDTO()
-                 {
-                     Id = pdtFull.Id,
-
-                 }
-                 if (lgnVente.AuCarton)
-                 {
-                     pdt.QteEnStock -= pdt.QteCarton * lgnVente.QteProduit;
-                 }
-                 else
-                 {
-                     pdt.QteEnStock -= lgnVente.QteProduit;
-                 }*/
+                var pdtWrite = new ProduitWriteDTO()
+                {
+                    Id = lgnVente.ProduitId,
+                    NomProduit = lgnVente.Produit.NomProduit,
+                    ContenanceCl = lgnVente.Produit.ContenanceCl,
+                    IdCategorie = lgnVente.Produit.
+                    QteEnStock = lgnVente.Produit.QteEnStock,
+                    QteCarton = lgnVente.Produit.QteCarton,
+                    DegreeAlcool = lgnVente.Produit.DegreeAlcool,
+                    Millesime = lgnVente.Produit.Millesime,
+                    PhotoProduitPath = lgnVente.Produit.PhotoProduitPath,
+                    DescriptionProduit = lgnVente.Produit.DescriptionProduit,
+                    SeuilCommandeMin = lgnVente.Produit.SeuilCommandeMin,
+                    CommandeMin = lgnVente.Produit.CommandeMin,
+                };
+                if (lgnVente.AuCarton)
+                {
+                    pdtWrite.QteEnStock -= pdtWrite.QteCarton * lgnVente.QteProduit;
+                }
+                else
+                {
+                    pdtWrite.QteEnStock -= lgnVente.QteProduit;
+                }
+                var result = await _produitService.Put(lgnVente.ProduitId, pdtWrite);
 
             }
 

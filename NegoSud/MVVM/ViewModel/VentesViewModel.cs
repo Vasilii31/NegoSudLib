@@ -263,7 +263,9 @@ namespace NegoSud.MVVM.ViewModel
                 Vente.ClientId = ClientSelectionne.Id;
             }
             Vente.Commentaire = Commentaire;
+
             Vente.EmployeId = 1;
+            // TODO chercher comment recup l'id, sinon combo avec liste des employés
             Vente.ClientId = 7;
             //Vente.EmployeId = ???
 

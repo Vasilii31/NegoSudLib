@@ -90,9 +90,9 @@ namespace NegoSudLib.Services
 
         //Modifier un produit
         //route: PUT produit/{produitId
-        public async Task<ProduitFullDTO?> Put(ProduitWriteDTO ProdNew)
+        public async Task<ProduitFullDTO?> Put(int id, ProduitWriteDTO ProdNew)
         {
-            var prod = await _produitRepository.Put(ProdNew);
+            var prod = await _produitRepository.Put(id, ProdNew);
             if (prod == null) return null;
 
             //Ajout des prix 
