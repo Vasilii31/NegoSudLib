@@ -1,4 +1,6 @@
-﻿using NegoSud.Services;
+﻿using MySqlX.XDevAPI.Common;
+using NegoSud.Core;
+using NegoSud.Services;
 using NegoSudLib.DTO.Read;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NegoSud.MVVM.ViewModel
 {
@@ -16,6 +19,9 @@ namespace NegoSud.MVVM.ViewModel
         public int NombreProduit { get => ListeProduits.Count(); }
 
         public Visibility _isPopUpVisible = Visibility.Collapsed;
+        public ICommand ValidateFormCommand { get; set; }
+        public ICommand DeleteFormCommand { get; set; }
+        public ICommand ExitFormCommand { get; set; }
 
         public Visibility IsPopUpVisible
         {
@@ -28,8 +34,8 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
-        private ProduitLightDTO _currentProduitDTO;
-        public ProduitLightDTO CurrentProduitDTO
+        private ProductsItemViewModel _currentProduitDTO;
+        public ProductsItemViewModel CurrentProduitDTO
         {
             get { return _currentProduitDTO; }
             set
@@ -42,6 +48,69 @@ namespace NegoSud.MVVM.ViewModel
         public ProductsViewModel()
         {
             GetProductsAll();
+            DeleteFormCommand = new RelayCommand(DeleteItem);
+            ValidateFormCommand = new RelayCommand(ValidateForm);
+            ExitFormCommand = new RelayCommand(ExitForm);
+        }
+
+        private void DeleteItem(object obj)
+        {
+            MessageBoxResult answer = MessageBox.Show("Etes vous sûr de vouloir supprimer ce produit ? Cette suppression sera définitive.", "Suppression d'un produit", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (answer == MessageBoxResult.Yes)
+            {
+                //ProductsItemViewModel item = (ProductsItemViewModel)obj;
+                Task.Run(async () =>
+                {
+                    return await httpClientService.DeleteProduit(CurrentProduitDTO.ProduitLightDTO.Id);
+
+                }).ContinueWith(t =>
+                {
+                    if (t.Result == true)
+                    {
+                        MessageBox.Show("Le produit a été supprimé avec succès.");
+                    }
+                    else
+                        MessageBox.Show("Suppression impossible.");
+                    ListeProduits.Remove(CurrentProduitDTO);
+                    CurrentProduitDTO = null;
+                    IsPopUpVisible = Visibility.Collapsed;
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            else
+                return;
+        }
+
+
+        private void ExitForm(object obj)
+        {
+            CurrentProduitDTO = null;
+            IsPopUpVisible = Visibility.Collapsed;
+        }
+
+        private void ValidateForm(object obj)
+        {
+            var ob = CurrentProduitDTO;
+            Task.Run(async () =>
+            {
+                return await httpClientService.GetEmployes();
+
+            });
+            return;
+        }
+
+        private void Item_modifyPopup(object? sender, EventArgs e)
+        {
+            if (IsPopUpVisible == Visibility.Collapsed)
+            {
+                IsPopUpVisible = Visibility.Visible;
+                if (sender != null)
+                {
+                    CurrentProduitDTO = (ProductsItemViewModel)sender;
+                }
+
+            }
         }
 
         private void GetProductsAll()
@@ -69,18 +138,7 @@ namespace NegoSud.MVVM.ViewModel
         }
 
 
-        private void Item_modifyPopup(object? sender, EventArgs e)
-        {
-            if (IsPopUpVisible == Visibility.Collapsed)
-            {
-                IsPopUpVisible = Visibility.Visible;
-                if (sender != null)
-                {
-                    CurrentProduitDTO = (ProduitLightDTO)sender;
-                }
 
-            }
-        }
 
         private void Item_deleted(object? sender, EventArgs e)
         {

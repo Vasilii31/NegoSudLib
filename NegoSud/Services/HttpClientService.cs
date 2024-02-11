@@ -110,6 +110,14 @@ namespace NegoSud.Services
             return new List<ProduitLightDTO>();
         }
 
+        public static async Task<bool> DeleteProduit(int id)
+        {
+            string route = $"api/Produits/{id}";
+            //var response = await Client.GetAsync(route);
+            var response = await Client.DeleteAsync(route);
+            return response.IsSuccessStatusCode;
+        }
+
 
         //public static async Task<bool> UpdateEmploye(int id, )
         //{

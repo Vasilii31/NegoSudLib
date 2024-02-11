@@ -66,7 +66,7 @@ namespace NegoSud.MVVM.ViewModel
         private void ClickModify(object obk)
         {
             //modify.Invoke(this.EmployeDTO, EventArgs.Empty);
-            base.invoke_Modify(this);
+            base.invoke_Modify(this.EmployeDTO);
         }
 
     }
