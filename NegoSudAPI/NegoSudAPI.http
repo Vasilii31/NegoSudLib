@@ -127,17 +127,17 @@ Content-Type: application/json
       "prixApresRistourne": 12,
       "auCarton": false,
       "mouvementStockId": 0,
-      "produitId": 1
+      "produitId": 5
     },
     {
         "qteProduit": 2,
         "prixApresRistourne": -1,
         "auCarton": false,
         "mouvementStockId": 0,
-        "produitId": 2
+        "produitId": 6
      }
   ],
-  "clientId": 4
+  "clientId": 7
 }
 
 ###
@@ -213,5 +213,23 @@ Content-Type: application/json
 ###
 
 DELETE {{NegoSudAPI_HostAddress}}/api/client/6
+
+###
+
+PUT {{NegoSudAPI_HostAddress}}/api/produits/1
+Content-Type: application/json
+
+{
+  //ProduitWriteDTO
+}
+
+###
+
+PUT {{NegoSudAPI_HostAddress}}/api/produits/0
+Content-Type: application/json
+
+{
+  //ProduitWriteDTO
+}
 
 ###
