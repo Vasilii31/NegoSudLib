@@ -97,7 +97,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Catégorie :" Margin="0 0 5 0"/>
-                <ComboBox Width="100" ItemsSource="{Binding ListeCategories}" DisplayMemberPath="NomCategorie" SelectedItem="{Binding CategorieSelectionne}"/>
+                <ComboBox Width="100" ItemsSource="{Binding ListeCategories}" DisplayMemberPath="NomCategorie" SelectedItem="{Binding CategorieSelectionnee}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Domaine :" Margin="0 0 5 0"/>

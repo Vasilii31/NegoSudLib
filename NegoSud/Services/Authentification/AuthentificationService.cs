@@ -20,6 +20,7 @@ namespace NegoSud.Services.Authentification
                 EmployeDTO employe = await httpClientService.GetEmployeByUserName(email);
                 if(employe.Id != 0)
                 {
+                    App.Current.Properties.Add("EmployeID", employe.Id);
                     return new EmployeAccount(employe);
                 }
             }

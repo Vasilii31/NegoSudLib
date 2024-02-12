@@ -230,6 +230,19 @@ namespace NegoSud.Services
             return new List<Domaine>();
         }
 
+        public static async Task<IEnumerable<TypeMouvement>> GetTypesMouvementsAll()
+        {
+            string route = $"api/TypeMouvements/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<TypeMouvement>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<TypeMouvement>();
+        }
+
 
         //public static async Task<bool> UpdateEmploye(int id, )
         //{

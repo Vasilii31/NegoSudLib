@@ -9,7 +9,8 @@ namespace NegoSud.Services.Navigator
         Domaines,
         Products,
         Employes,
-        Ventes
+        Ventes,
+        Inventaire
     }
     public interface INavigator
     {

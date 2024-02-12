@@ -9,17 +9,17 @@
         xmlns:nav="clr-namespace:NegoSud.Services.Navigator"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
+        WindowState = "Maximized"
         Background="Transparent"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        AllowsTransparency="False"
-        Height="600" Width="920">
+        AllowsTransparency="False">
+    <!--Height="600" Width="920"-->
 
     <!--<Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>-->
 
-    <Border Background="#460A26"
-            CornerRadius="20">
+    <Border Background="#460A26">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -124,7 +124,9 @@
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                    <RadioButton Content="Statistiques"
+                    <RadioButton Content="Inventaire"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Inventaire}"
                              Height="50"
                              Foreground="Wheat"
                              FontSize="22"
