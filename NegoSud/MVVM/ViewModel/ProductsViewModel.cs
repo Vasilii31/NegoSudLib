@@ -18,13 +18,54 @@ namespace NegoSud.MVVM.ViewModel
     public class ProductsViewModel : ViewModelBase
     {
         public ObservableCollection<ProductsItemViewModel> ListeProduits { get; set; } = new();
+        public ObservableCollection<CategorieDTO> ListeCategories { get; set; } = new();
+
+        public ObservableCollection<Domaine> ListeDomaines { get; set; } = new();
         public int NombreProduit { get => ListeProduits.Count(); }
 
-        public Visibility _isPopUpVisible = Visibility.Collapsed;
+       
         public ICommand ValidateFormCommand { get; set; }
         public ICommand DeleteFormCommand { get; set; }
         public ICommand ExitFormCommand { get; set; }
+        public ICommand CreateCommand { get; set; }
 
+        private bool modify = false;
+
+        private CategorieDTO _categorieSelectionnee;
+        public CategorieDTO CategorieSelectionnee
+        {
+            get { return _categorieSelectionnee; }
+            set
+            {
+                _categorieSelectionnee = value;
+                OnPropertyChanged(nameof(CategorieSelectionnee));
+            }
+        }
+
+        private Domaine _domaineSelectionne;
+        public Domaine DomaineSelectionne
+        {
+            get { return _domaineSelectionne; }
+            set
+            {
+                _domaineSelectionne = value;
+                OnPropertyChanged(nameof(DomaineSelectionne));
+            }
+        }
+
+        public Visibility _isDeleteButtonVisible = Visibility.Visible;
+        public Visibility IsDeleteButtonVisible
+        {
+            get { return _isDeleteButtonVisible; }
+            set
+            {
+                _isDeleteButtonVisible = value;
+                OnPropertyChanged(nameof(IsDeleteButtonVisible));
+
+            }
+        }
+
+        public Visibility _isPopUpVisible = Visibility.Collapsed;
         public Visibility IsPopUpVisible
         {
             get { return _isPopUpVisible; }
@@ -50,9 +91,62 @@ namespace NegoSud.MVVM.ViewModel
         public ProductsViewModel()
         {
             GetProductsAll();
+            GetCategories();
+            GetDomaines();
             DeleteFormCommand = new RelayCommand(DeleteItem);
             ValidateFormCommand = new RelayCommand(ValidateForm);
             ExitFormCommand = new RelayCommand(ExitForm);
+            CreateCommand = new RelayCommand(CreateProduit);
+        }
+
+        private void CreateProduit(object obj)
+        {
+            IsPopUpVisible = Visibility.Visible;
+            CurrentProduitDTO = new ProductsItemViewModel(new ProduitLightDTO());
+            IsDeleteButtonVisible = Visibility.Hidden;
+            modify = false;
+        }
+
+        private void GetCategories()
+        {
+            ListeCategories.Clear();
+
+            Task.Run(async () =>
+            {
+                return await httpClientService.GetCategories();
+
+            })
+            .ContinueWith(t =>
+            {
+                foreach (var categorie in t.Result)
+                {
+
+                    ListeCategories.Add(categorie);
+
+                }
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private void GetDomaines()
+        {
+            ListeDomaines.Clear();
+
+            Task.Run(async () =>
+            {
+                return await httpClientService.GetDomaines();
+
+            })
+            .ContinueWith(t =>
+            {
+                foreach (var domaine in t.Result)
+                {
+
+                    ListeDomaines.Add(domaine);
+
+                }
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void DeleteItem(object obj)
@@ -71,12 +165,13 @@ namespace NegoSud.MVVM.ViewModel
                     if (t.Result == true)
                     {
                         MessageBox.Show("Le produit a été supprimé avec succès.");
+                        ListeProduits.Remove(CurrentProduitDTO);
+                        CurrentProduitDTO = null;
+                        IsPopUpVisible = Visibility.Collapsed;
                     }
                     else
                         MessageBox.Show("Suppression impossible.");
-                    ListeProduits.Remove(CurrentProduitDTO);
-                    CurrentProduitDTO = null;
-                    IsPopUpVisible = Visibility.Collapsed;
+                    
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
@@ -91,56 +186,136 @@ namespace NegoSud.MVVM.ViewModel
             IsPopUpVisible = Visibility.Collapsed;
         }
 
-        private void ValidateForm(object obj)
+        private async void ValidateForm(object obj)
         {
             var ob = CurrentProduitDTO;
-
-            //Verification des infos : on verra plus tard
-
-            //on instancie produitWrite Dto
-            ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
+            if (modify == false)
             {
-                Id = CurrentProduitDTO.ProduitLightDTO.Id,
-                NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
-                ContenanceCl = CurrentProduitDTO.ProduitLightDTO.ContenanceCl,
-                QteEnStock = CurrentProduitDTO.ProduitLightDTO.QteEnStock,
-                DegreeAlcool = CurrentProduitDTO.ProduitLightDTO.DegreeAlcool,
-                PhotoProduitPath = CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath,
-                DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
-                SeuilCommandeMin = CurrentProduitDTO.ProduitLightDTO.SeuilCommandeMin,
-                CommandeMin = CurrentProduitDTO.ProduitLightDTO.CommandeMin,
-                IdDomaine = 1, // a gerer apres
-                IdCategorie = 1, // A gerer aussi
-                AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
-                PrixAchat = new PrixAchat()
+                MessageBox.Show("ajout");
+                ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
                 {
-                    PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
-                    PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton
-                },
-                PrixVente = new PrixVente()
-                {
-                    PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixVente,
-                    PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixVenteCarton
-                }
-            };
-            Task.Run(async () =>
+                    Id = CurrentProduitDTO.ProduitLightDTO.Id,
+                    NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
+                    ContenanceCl = CurrentProduitDTO.ProduitLightDTO.ContenanceCl,
+                    QteEnStock = CurrentProduitDTO.ProduitLightDTO.QteEnStock,
+                    DegreeAlcool = CurrentProduitDTO.ProduitLightDTO.DegreeAlcool,
+                    PhotoProduitPath = CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath,
+                    DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
+                    SeuilCommandeMin = CurrentProduitDTO.ProduitLightDTO.SeuilCommandeMin,
+                    CommandeMin = CurrentProduitDTO.ProduitLightDTO.CommandeMin,
+                    IdDomaine = 1, // a gerer apres
+                    IdCategorie = 1, // A gerer aussi
+                    AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
+                    PrixAchat = new PrixAchat()
+                    {
+                        ProduitId = CurrentProduitDTO.ProduitLightDTO.Id,
+                        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
+                        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton
+                    },
+                    PrixVente = new PrixVente()
+                    {
+                        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixVente,
+                        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixVenteCarton
+                    }
+                };
+                Task.Run(async () =>
+                        {
+                            //return await httpClientService.GetEmployes();
+                            //return await httpClientService.ModifyProduct(produitWriteDTO, CurrentProduitDTO.ProduitLightDTO.Id);
+                            return await httpClientService.CreateNewProduct(produitWriteDTO);
+
+                        }).ContinueWith(t =>
+                        {
+                            //if (t.Result.Id == 0)
+                            //{
+                            //    MessageBox.Show("Modification impossible.");
+                            //}
+                            //else
+                            MessageBox.Show("Produit créé");
+                            //ListeProduits.Remove(CurrentProduitDTO);
+                            //CurrentProduitDTO = null;
+                            //IsPopUpVisible = Visibility.Collapsed;
+
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            else
             {
-                //return await httpClientService.GetEmployes();
-                return await httpClientService.ModifyProduct(produitWriteDTO, CurrentProduitDTO.ProduitLightDTO.Id);
 
-            }).ContinueWith(t =>
-            {
-                if (t.Result.Id == 0)
-                {
-                    MessageBox.Show("Modification impossible.");
-                }
-                //else
+                MessageBox.Show("Modifier");
+                //ProduitWriteDTO produitWriteDTO;
+                //ProduitFullDTO? test = null;
+                ////Verification des infos : on verra plus tard
+                //Task.Run(async () =>
+                //{
+                //    //return await httpClientService.GetEmployes();
+                //    test = await httpClientService.GetProductById(ob.ProduitLightDTO.Id);
 
-                //ListeProduits.Remove(CurrentProduitDTO);
-                //CurrentProduitDTO = null;
-                //IsPopUpVisible = Visibility.Collapsed;
+                //}).ContinueWith(t =>
+                //{
+                //    produitWriteDTO = new ProduitWriteDTO()
+                //    {
+                //        Id = test.Id,
+                //        NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
+                //        ContenanceCl = test.ContenanceCl,
+                //        QteEnStock = test.QteEnStock,
+                //        DegreeAlcool = test.DegreeAlcool,
+                //        PhotoProduitPath = test.PhotoProduitPath,
+                //        DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
+                //        SeuilCommandeMin = test.SeuilCommandeMin,
+                //        CommandeMin = test.CommandeMin,
+                //        IdDomaine = 1, // a gerer apres
+                //        IdCategorie = 1, // A gerer aussi
+                //        AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
+                //        PrixAchat = test.HistoriquePrixAchats.First(),
+                //        PrixVente = test.HistoriquePrixVentes.First()
+                //    };
+                //});
+                //on instancie produitWrite Dto
+                //ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
+                //{
+                //    Id = CurrentProduitDTO.ProduitLightDTO.Id,
+                //    NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
+                //    ContenanceCl = CurrentProduitDTO.ProduitLightDTO.ContenanceCl,
+                //    QteEnStock = CurrentProduitDTO.ProduitLightDTO.QteEnStock,
+                //    DegreeAlcool = CurrentProduitDTO.ProduitLightDTO.DegreeAlcool,
+                //    PhotoProduitPath = CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath,
+                //    DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
+                //    SeuilCommandeMin = CurrentProduitDTO.ProduitLightDTO.SeuilCommandeMin,
+                //    CommandeMin = CurrentProduitDTO.ProduitLightDTO.CommandeMin,
+                //    IdDomaine = 1, // a gerer apres
+                //    IdCategorie = 1, // A gerer aussi
+                //    AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
+                //    PrixAchat = new PrixAchat()
+                //    {
+                //        ProduitId = CurrentProduitDTO.ProduitLightDTO.Id,
+                //        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
+                //        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton
+                //    },
+                //    PrixVente = new PrixVente()
+                //    {
+                //        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixVente,
+                //        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixVenteCarton
+                //    }
+                //};
+                //Task.Run(async () =>
+                //        {
+                //            //return await httpClientService.GetEmployes();
+                //            return await httpClientService.ModifyProduct(produitWriteDTO, CurrentProduitDTO.ProduitLightDTO.Id);
 
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                //        }).ContinueWith(t =>
+                //        {
+                //            if (t.Result.Id == 0)
+                //            {
+                //                MessageBox.Show("Modification impossible.");
+                //            }
+                //            //else
+
+                //            //ListeProduits.Remove(CurrentProduitDTO);
+                //            //CurrentProduitDTO = null;
+                //            //IsPopUpVisible = Visibility.Collapsed;
+
+                //        }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
             return;
         }
 
@@ -152,6 +327,8 @@ namespace NegoSud.MVVM.ViewModel
                 if (sender != null)
                 {
                     CurrentProduitDTO = (ProductsItemViewModel)sender;
+                    IsDeleteButtonVisible = Visibility.Visible;
+                    modify = true;
                 }
 
             }

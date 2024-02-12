@@ -1,4 +1,5 @@
-﻿using NegoSudLib.DTO.Read;
+﻿using NegoSudLib.DAO;
+using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -104,6 +105,19 @@ namespace NegoSud.Services
             return new List<ProduitLightDTO>();
         }
 
+        public static async Task<ProduitFullDTO> GetProductById(int id)
+        {
+            string route = $"api/Produits/{id}";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ProduitFullDTO>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new ProduitFullDTO();
+        }
+
         internal static async Task<List<ClientDTO>> GetClients()
         {
             string route = $"api/Client/";
@@ -140,12 +154,12 @@ namespace NegoSud.Services
 
         public static async Task<ProduitFullDTO> ModifyProduct(ProduitWriteDTO produitWriteDTO, int id)
         {
-            var venteJson = JsonConvert.SerializeObject(produitWriteDTO);
+            var produitJson = JsonConvert.SerializeObject(produitWriteDTO);
             string route = $"api/Produits/{id}";
 
-            var content = new StringContent(venteJson, Encoding.UTF8, "application/json");
-
-            var response = await Client.PutAsync(route, content);
+            var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
+            
+            var response = await Client.PutAsJsonAsync(route, content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -166,6 +180,54 @@ namespace NegoSud.Services
             //var response = await Client.GetAsync(route);
             var response = await Client.DeleteAsync(route);
             return response.IsSuccessStatusCode;
+        }
+
+        public static async Task<ProduitFullDTO> CreateNewProduct(ProduitWriteDTO produitWriteDTO)
+        {
+            var produitJson = JsonConvert.SerializeObject(produitWriteDTO);
+            string route = $"api/Produits";
+
+            var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ProduitFullDTO>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
+
+        public static async Task<IEnumerable<CategorieDTO>> GetCategories()
+        {
+            string route = $"api/Categories/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<CategorieDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<CategorieDTO>();
+        }
+
+        public static async Task<IEnumerable<Domaine>> GetDomaines()
+        {
+            string route = $"api/Domaines/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Domaine>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<Domaine>();
         }
 
 

@@ -97,11 +97,11 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Catégorie :" Margin="0 0 5 0"/>
-                <ListView Width="100" ItemsSource="{Binding CategoriesListe}"/>
+                <ComboBox Width="100" ItemsSource="{Binding ListeCategories}" DisplayMemberPath="NomCategorie" SelectedItem="{Binding CategorieSelectionne}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Domaine :" Margin="0 0 5 0"/>
-                <ListView Width="100" ItemsSource="{Binding CategoriesListe}"/>
+                <ComboBox Width="100" ItemsSource="{Binding ListeDomaines}"  DisplayMemberPath="NomDomaine" SelectedItem="{Binding DomaineSelectionne}"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="8">
@@ -139,7 +139,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Width="150" Height="30" Content="Valider les informations"  Command="{Binding ValidateFormCommand}" Background="Green"/>
-            <Button Grid.Column="1" Width="150" Height="30" Content="Supprimer le produit"  Command="{Binding DeleteFormCommand}" Background="Red"/>
+            <Button Grid.Column="1" Width="150" Height="30" Content="Supprimer le produit"  Command="{Binding DeleteFormCommand}" Visibility="{Binding IsDeleteButtonVisible}" Background="Red"/>
             <Button Grid.Column="2" Width="150" Height="30" Content="Annuler" Command="{Binding ExitFormCommand}"/>
         </Grid>
     </Grid>
