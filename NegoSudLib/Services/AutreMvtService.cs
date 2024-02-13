@@ -1,15 +1,6 @@
-﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
+﻿using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
-using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
@@ -30,7 +21,7 @@ namespace NegoSudLib.Services
         }
         public async Task<AutreMvtDTO?> GetById(int id)
         {
-          var com =  await _autreMvtRepository.GetById(id);
+            var com = await _autreMvtRepository.GetById(id);
             if (com != null)
             {
                 if (com.DetailMouvementStocks.Any())
@@ -46,18 +37,47 @@ namespace NegoSudLib.Services
         }
         public async Task<IEnumerable<AutreMvtDTO?>> GetByType(int typeId)
         {
-           return await _autreMvtRepository.GetByType(typeId);
+            return await _autreMvtRepository.GetByType(typeId);
         }
         public async Task<AutreMvtDTO?> Post(AutreMvtWriteDTO autreMvt)
         {
-            var comAdded =  await _autreMvtRepository.Post(autreMvt);
-            if (comAdded == null) { return null; }
-            return comAdded;
+            var mvtAdded = await _autreMvtRepository.Post(autreMvt);
+            if (mvtAdded == null) { return null; }
+            foreach (var lgnVente in mvtAdded.DetailMouvementStocks)
+            {
+                var pdtWrite = new ProduitWriteDTO()
+                {
+                    Id = lgnVente.ProduitId,
+                    NomProduit = lgnVente.Produit.NomProduit,
+                    IdDomaine = lgnVente.Produit.IdDomaine,
+                    IdCategorie = lgnVente.Produit.IdCategorie,
+                    ContenanceCl = lgnVente.Produit.ContenanceCl,
+                    QteEnStock = lgnVente.Produit.QteEnStock,
+                    QteCarton = lgnVente.Produit.QteCarton,
+                    DegreeAlcool = lgnVente.Produit.DegreeAlcool,
+                    Millesime = lgnVente.Produit.Millesime,
+                    PhotoProduitPath = lgnVente.Produit.PhotoProduitPath,
+                    DescriptionProduit = lgnVente.Produit.DescriptionProduit,
+                    SeuilCommandeMin = lgnVente.Produit.SeuilCommandeMin,
+                    CommandeMin = lgnVente.Produit.CommandeMin,
+                };
+                if (lgnVente.AuCarton)
+                {
+                    pdtWrite.QteEnStock += pdtWrite.QteCarton * lgnVente.QteProduit;
+                }
+                else
+                {
+                    pdtWrite.QteEnStock += lgnVente.QteProduit;
+                }
+                var result = await _produitService.Put(lgnVente.ProduitId, pdtWrite);
+
+            }
+            return mvtAdded;
         }
 
-        public async Task<AutreMvtDTO?> Put(int id,AutreMvtWriteDTO autreMvt)
+        public async Task<AutreMvtDTO?> Put(int id, AutreMvtWriteDTO autreMvt)
         {
-            return await _autreMvtRepository.Put(id,autreMvt);
+            return await _autreMvtRepository.Put(id, autreMvt);
         }
 
         public async Task Delete(int id)

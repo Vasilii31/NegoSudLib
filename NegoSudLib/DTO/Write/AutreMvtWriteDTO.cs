@@ -17,5 +17,5 @@ public class AutreMvtWriteDTO
     public int EmployeId { get; set; }
     [Required]
     public int TypeMouvementId { get; set; }
-    public IEnumerable<DetailMouvementStock>? DetailMouvementStocks { get; set; }
+    public List<DetailMouvementStock>? DetailMouvementStocks { get; set; }
 }

@@ -18,6 +18,6 @@ public class CommandeWriteDTO
     public int FournisseurId { get; set; }
     [Required]
     public Statuts StatutCommande { get; set; }
-    public IEnumerable<DetailMouvementStock>? DetailMouvementStocks { get; set; }
+    public List<DetailMouvementStock>? DetailMouvementStocks { get; set; }
 
 }

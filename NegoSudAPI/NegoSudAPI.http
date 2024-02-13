@@ -81,7 +81,7 @@ Content-Type: application/json
   "qteMouvement": 0,
   "dateMouvement": "2024-01-25T10:17:01.912Z",
   "entreeOuSortie": true,
-  "commentaire": "Ceci est un commentaire",
+  "commentaire": "Ceci est un commande test",
   "employeId": 1,
   "detailMouvementStocks": [
     {
@@ -149,8 +149,8 @@ Content-Type: application/json
   "employeId": 1,
   "detailMouvementStocks": [
     {
-      "qteProduit": 1,
-      "prixApresRistourne": 12,
+      "qteProduit": -1,
+      "prixApresRistourne": -1,
       "auCarton": false,
       "mouvementStockId": 0,
       "produitId": 1
@@ -230,6 +230,43 @@ Content-Type: application/json
 
 {
   //ProduitWriteDTO
+}
+
+###
+
+PUT {{NegoSudAPI_HostAddress}}/api/produits/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "nomProduit": "string",
+  "contenanceCl": 0,
+  "qteEnStock": 0,
+  "degreeAlcool": 0,
+  "millesime": 0,
+  "qteCarton": 0,
+  "photoProduitPath": "string",
+  "descriptionProduit": "string",
+  "seuilCommandeMin": 0,
+  "commandeMin": 0,
+  "idDomaine":1 ,
+  "idCategorie": 1,
+  "alaVente": true,
+   "prixAchat": {
+    "dateDebut": "2024-02-13T17:02:30.502Z",
+    "prixCarton": 6,
+    "prixUnite": 6,
+    "produitId": 1,
+    "fournisseurId": 1
+  },
+  "prixVente": {
+    "dateDebut": "2024-02-13T17:02:30.502Z",
+    "prixCarton": 1,
+    "prixUnite": 1,
+    "produitId": 1,
+    "promotion": 0,
+    "taxe": 0
+  }
 }
 
 ###
