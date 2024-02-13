@@ -59,12 +59,14 @@ namespace NegoSudLib.Services
             if (venteAdded == null) { return null; }
             foreach (var lgnVente in venteAdded.DetailMouvementStocks)
             {
+
                 var pdtWrite = new ProduitWriteDTO()
                 {
                     Id = lgnVente.ProduitId,
                     NomProduit = lgnVente.Produit.NomProduit,
+                    IdDomaine = lgnVente.Produit.IdDomaine,
+                    IdCategorie = lgnVente.Produit.IdCategorie,
                     ContenanceCl = lgnVente.Produit.ContenanceCl,
-                    IdCategorie = lgnVente.Produit.
                     QteEnStock = lgnVente.Produit.QteEnStock,
                     QteCarton = lgnVente.Produit.QteCarton,
                     DegreeAlcool = lgnVente.Produit.DegreeAlcool,
@@ -82,7 +84,7 @@ namespace NegoSudLib.Services
                 {
                     pdtWrite.QteEnStock -= lgnVente.QteProduit;
                 }
-                var result = await _produitService.Put(lgnVente.ProduitId, pdtWrite);
+                var result = await _produitRepository.Put(lgnVente.ProduitId, pdtWrite);
 
             }
 

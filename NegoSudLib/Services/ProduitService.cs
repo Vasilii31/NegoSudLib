@@ -9,10 +9,12 @@ namespace NegoSudLib.Services
     {
         private readonly IProduitsRepository _produitRepository;
         private readonly IPrixRepository _prixRepository;
-        public ProduitService(IProduitsRepository produitRepository, IPrixRepository prixRepository)
+        private readonly IPrixService _prixService;
+        public ProduitService(IProduitsRepository produitRepository, IPrixRepository prixRepository, IPrixService prixService)
         {
             this._produitRepository = produitRepository;
             this._prixRepository = prixRepository;
+            this._prixService = prixService;
         }
 
         // recupérations de tout les produits
@@ -67,14 +69,14 @@ namespace NegoSudLib.Services
             if (produit.PrixAchat != null)
             {
                 produit.PrixAchat.ProduitId = prodFullDTO.Id;
-                var prixAchatAdded = await _prixRepository.PostPrixAchat(produit.PrixAchat);
+                var prixAchatAdded = await _prixService.PostPrixAchat(produit.PrixAchat);
                 if (prixAchatAdded != null) prodFullDTO.HistoriquePrixAchats = [prixAchatAdded];
 
             }
             if (produit.PrixVente != null)
             {
                 produit.PrixVente.ProduitId = prodFullDTO.Id;
-                var prixVenteAdded = await _prixRepository.PostPrixVente(produit.PrixVente);
+                var prixVenteAdded = await _prixService.PostPrixVente(produit.PrixVente);
                 if (prixVenteAdded != null) prodFullDTO.HistoriquePrixVentes = [prixVenteAdded];
             }
             return prodFullDTO;
@@ -98,13 +100,13 @@ namespace NegoSudLib.Services
             //Ajout des prix 
             if (ProdNew.PrixAchat != null)
             {
-                var prixAchatNew = await _prixRepository.PostPrixAchat(ProdNew.PrixAchat);
+                var prixAchatNew = await _prixService.PostPrixAchat(ProdNew.PrixAchat);
                 if (prixAchatNew != null) prod.HistoriquePrixAchats.Add(prixAchatNew);
             }
 
             if (ProdNew.PrixVente != null)
             {
-                var prixVenteNew = await _prixRepository.PostPrixVente(ProdNew.PrixVente);
+                var prixVenteNew = await _prixService.PostPrixVente(ProdNew.PrixVente);
                 if (prixVenteNew != null) prod.HistoriquePrixVentes.Add(prixVenteNew);
             }
             return prod;

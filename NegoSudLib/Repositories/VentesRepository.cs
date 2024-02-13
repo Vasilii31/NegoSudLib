@@ -29,6 +29,8 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.Client)
                  .Include(c => c.Employe)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Categorie)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Domaine)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
                  .Where(c => c.Id == id)
                  .Select(c => c.ToDTO())

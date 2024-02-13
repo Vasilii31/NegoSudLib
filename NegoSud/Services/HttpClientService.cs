@@ -158,7 +158,7 @@ namespace NegoSud.Services
             string route = $"api/Produits/{id}";
 
             var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
-            
+
             var response = await Client.PutAsJsonAsync(route, content);
 
             if (response.IsSuccessStatusCode)

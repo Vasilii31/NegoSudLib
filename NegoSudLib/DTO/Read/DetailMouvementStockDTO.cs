@@ -20,7 +20,6 @@ public class DetailMouvementStockDTO
 
     public DetailMouvementStock ToDAO()
     {
-
         return new DetailMouvementStock
         {
             Id = this.Id,
