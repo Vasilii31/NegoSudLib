@@ -21,8 +21,11 @@ namespace NegoSud.MVVM.ViewModel
         public ObservableCollection<ItemInventaireViewModel> ListeMouvements { get; set; } = new();
         public ICommand ValiderMvTCommand { get; set; }
         public ICommand OpenFormValidationCommand { get; set; }
+        public ICommand OpenFormAddTypeMouvementCommand { get; set; }
+        public ICommand CancelFormAddTypeMouvementCommand { get; set; }
+        public ICommand CreerTypeMvtCommand { get; set; }
 
-        private TypeMouvement typeMouvementSelectionne;
+    private TypeMouvement typeMouvementSelectionne;
         public TypeMouvement TypeMouvementSelectionne
         {
             get { return typeMouvementSelectionne; }
@@ -48,6 +51,18 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
+        private Visibility _isFormAddTypeMouvementVisible = Visibility.Hidden;
+        public Visibility IsFormAddTypeMouvementVisible
+        {
+            get { return _isFormAddTypeMouvementVisible; }
+            set
+            {
+                _isFormAddTypeMouvementVisible = value;
+                OnPropertyChanged(nameof(IsFormAddTypeMouvementVisible));
+            }
+        }
+
+
         private string _commentaire = "";
         public string Commentaire
         {
@@ -58,7 +73,18 @@ namespace NegoSud.MVVM.ViewModel
                 OnPropertyChanged(nameof(Commentaire));
             }
         }
-        
+
+        private string _nomNewTypeMvt = "";
+        public string NomNewTypeMvt
+        {
+            get { return _nomNewTypeMvt; }
+            set
+            {
+                _nomNewTypeMvt = value;
+                OnPropertyChanged(nameof(NomNewTypeMvt));
+            }
+        }
+
         public InventaireViewModel()
         {
             GetProductsAll();
@@ -66,6 +92,57 @@ namespace NegoSud.MVVM.ViewModel
             ValiderMvTCommand = new RelayCommand(Post_Command);
             OpenFormValidationCommand = new RelayCommand(OpenForm);
             CancelFormValidationCommand = new RelayCommand(CancelForm);
+            OpenFormAddTypeMouvementCommand = new RelayCommand(OpenAddTypeMouvementForm);
+            CancelFormAddTypeMouvementCommand = new RelayCommand(CloseAddTypeMouvementForm);
+            CreerTypeMvtCommand = new RelayCommand(CreateNewTypeMvt);
+        }
+
+        private void CreateNewTypeMvt(object obj)
+        {
+            if(NomNewTypeMvt == "")
+            {
+                MessageBox.Show("Veuillez entrer un nom de type de mouvement.");
+                return;
+            }
+
+            TypeMouvement typeMouvement = new TypeMouvement()
+            {
+                NomTypeMouvement = NomNewTypeMvt,
+            };
+
+            Task.Run(async () =>
+            {
+                return await httpClientService.AddTypeMouvement(typeMouvement);
+
+            })
+            .ContinueWith(t =>
+            {
+                if (t.Result == null)
+                {
+                    MessageBox.Show("Une erreur est survenue.");
+                }
+                else
+                {
+                    MessageBox.Show("Type Mouvement enregistré avec succès.");
+                    GetTypesMouvementsAll();
+                    NomNewTypeMvt = "";
+                    IsFormAddTypeMouvementVisible = Visibility.Hidden;
+                }
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+        }
+
+        private void CloseAddTypeMouvementForm(object obj)
+        {
+            NomNewTypeMvt = "";
+            IsFormAddTypeMouvementVisible = Visibility.Hidden;
+        }
+
+        private void OpenAddTypeMouvementForm(object obj)
+        {
+            
+            IsFormAddTypeMouvementVisible = Visibility.Visible;
         }
 
         private void CancelForm(object obj)
@@ -79,10 +156,11 @@ namespace NegoSud.MVVM.ViewModel
         {
             if (ListeMouvements.Count() == 0)
                 return;
-            if(IsFormValidationVisible == Visibility.Hidden)
+            if (IsFormValidationVisible == Visibility.Hidden)
             {
-                IsFormValidationVisible = Visibility.Visible; 
+                IsFormValidationVisible = Visibility.Visible;
             }
+
         }
 
         private void Post_Command(object obj)
@@ -91,6 +169,11 @@ namespace NegoSud.MVVM.ViewModel
                 return;
             //On créé le Autre mouvement qui va contenir tout les details de 
             //mouvement de stock
+            if(typeMouvementSelectionne == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un type de mouvement.");
+                return;
+            }
             
             AutreMvtWriteDTO mvt = new AutreMvtWriteDTO()
             {
@@ -120,7 +203,28 @@ namespace NegoSud.MVVM.ViewModel
 
             //MessageBox.Show(mvt.Commentaire
 
-            httpClientService.AddMouvementStock(mvt);
+            Task.Run(async () =>
+            {
+                return await httpClientService.AddMouvementStock(mvt);
+
+            })
+            .ContinueWith(t =>
+            {
+                if(t.Result == null)
+                {
+                    MessageBox.Show("Une erreur est survenue.");
+                }
+                else
+                {
+                    MessageBox.Show("Mouvement enregistré avec succès.");
+                    ListeMouvements.Clear();
+                    TypeMouvementSelectionne = null;
+                    Commentaire = "";
+                    IsFormValidationVisible = Visibility.Hidden;
+                }
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+            
 
             //A la fin, on nettoie la liste
             //ListeMouvements.Clear();

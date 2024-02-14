@@ -302,6 +302,28 @@ namespace NegoSud.Services
             }
         }
 
+        public static async Task<TypeMouvement> AddTypeMouvement(TypeMouvement typeMouvement)
+        {
+            var mvtJson = JsonConvert.SerializeObject(typeMouvement);
+            string route = $"api/TypeMouvements";
+
+            var content = new StringContent(mvtJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TypeMouvement>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
+
 
         //public static async Task<bool> UpdateEmploye(int id, )
         //{

@@ -80,7 +80,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="120" />
                                 </Grid.ColumnDefinitions>
 
 
@@ -98,7 +98,7 @@
                                 <!--Colonne unité-->
                                 <Grid Grid.Row="0" Grid.Column="1"  >
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="15" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="40" />
@@ -127,7 +127,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>-->
-                                    <Templates:ButtonEnregistrer   HorizontalAlignment="Center" Command="{Binding CMD_AjoutPanier}"/>
+                                    <Templates:ButtonEnregistrer   HorizontalAlignment="Right" Command="{Binding CMD_AjoutPanier}"/>
                                     <!--<materialDesign:PackIcon Grid.Column="1"  Kind="Tick" VerticalAlignment="Center" Visibility="{Binding AjoutVisible}"/>-->
                                 </Grid>
 
@@ -192,7 +192,7 @@
                 </Border>
 
                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <!--<TextBlock Text="Type de mouvement" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                    <!--<TextBlock Text="Solde Stock Après Mou" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                 </Border>
 
                 <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
@@ -303,5 +303,6 @@
         <!--<Templates:Panier Grid.Column="1" Grid.RowSpan="2" x:Name="Panier" Visibility="{Binding PanierVisible}"/>-->
     </Grid>
         <Templates:FormValidateAutreMvt Visibility="{Binding IsFormValidationVisible}"/>
+        <Templates:FormAddTypeMouvement Panel.ZIndex="5" Visibility="{Binding IsFormAddTypeMouvementVisible}"/>
     </Grid>
 </UserControl>

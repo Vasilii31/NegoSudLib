@@ -36,7 +36,7 @@
                 <TextBlock Text="Nom du produit :"  Margin="0 0 5 0"/>
                 <TextBox Width="150" Height="20" Text="{Binding CurrentProduitDTO.ProduitLightDTO.NomProduit}"/>
             </StackPanel>
-            <Image Grid.Column="1" Source="{Binding CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath}"></Image>
+            <!--<Image Grid.Column="1" Source="{Binding CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath}"></Image>-->
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3">
             <Grid.ColumnDefinitions>

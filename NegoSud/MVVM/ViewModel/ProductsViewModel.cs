@@ -1,4 +1,5 @@
-﻿using MySqlX.XDevAPI.Common;
+﻿using Mysqlx.Session;
+using MySqlX.XDevAPI.Common;
 using NegoSud.Core;
 using NegoSud.Services;
 using NegoSudLib.DAO;
@@ -19,7 +20,7 @@ namespace NegoSud.MVVM.ViewModel
     {
         public ObservableCollection<ProductsItemViewModel> ListeProduits { get; set; } = new();
         public ObservableCollection<CategorieDTO> ListeCategories { get; set; } = new();
-        public ObservableCollection<CategorieDTO> ListeFournisseurs { get; set; } = new();
+        public ObservableCollection<Fournisseur> ListeFournisseurs { get; set; } = new();
         public ObservableCollection<Domaine> ListeDomaines { get; set; } = new();
         public int NombreProduit { get => ListeProduits.Count(); }
 
@@ -42,8 +43,8 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
-        private FournisseurDTO _fournisseurSelectionne;
-        public FournisseurDTO FournisseurSelectionne
+        private Fournisseur _fournisseurSelectionne;
+        public Fournisseur FournisseurSelectionne
         {
             get { return _fournisseurSelectionne; }
             set
@@ -104,10 +105,33 @@ namespace NegoSud.MVVM.ViewModel
             GetProductsAll();
             GetCategories();
             GetDomaines();
+            GetFournisseurs();
             DeleteFormCommand = new RelayCommand(DeleteItem);
             ValidateFormCommand = new RelayCommand(ValidateForm);
             ExitFormCommand = new RelayCommand(ExitForm);
             CreateCommand = new RelayCommand(CreateProduit);
+            
+        }
+
+        private void GetFournisseurs()
+        {
+            ListeFournisseurs.Clear();
+
+            Task.Run(async () =>
+            {
+                return await httpClientService.GetFournisseurs();
+
+            })
+            .ContinueWith(t =>
+            {
+                foreach (var fournisseur in t.Result)
+                {
+
+                    ListeFournisseurs.Add(fournisseur);
+
+                }
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void CreateProduit(object obj)
@@ -177,8 +201,9 @@ namespace NegoSud.MVVM.ViewModel
                     {
                         MessageBox.Show("Le produit a été supprimé avec succès.");
                         ListeProduits.Remove(CurrentProduitDTO);
-                        CurrentProduitDTO = null;
+                    
                         IsPopUpVisible = Visibility.Collapsed;
+                        ResetSelections();
                     }
                     else
                         MessageBox.Show("Suppression impossible.");
@@ -215,6 +240,11 @@ namespace NegoSud.MVVM.ViewModel
                 MessageBox.Show("Veuillez sélectionner une catégorie !");
                 return;
             }
+            if (FournisseurSelectionne == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un fournisseur !");
+                return;
+            }
             ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
             {
 
@@ -238,7 +268,7 @@ namespace NegoSud.MVVM.ViewModel
                     DateDebut = DateTime.Now,
                     PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
                     PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton,
-                    FournisseurId = 1
+                    FournisseurId = FournisseurSelectionne.Id
 
                 },
                 PrixVente = new PrixVente()
@@ -268,6 +298,7 @@ namespace NegoSud.MVVM.ViewModel
                     else
                     {
                         MessageBox.Show("Produit créé");
+                        ResetSelections();
                         GetProductsAll();
                     }
 
@@ -292,6 +323,7 @@ namespace NegoSud.MVVM.ViewModel
                     else
                     {
                         MessageBox.Show("Produit modifié");
+                        GetProductsAll();
                         
                     }
 
@@ -300,10 +332,13 @@ namespace NegoSud.MVVM.ViewModel
             
         }
 
-        
-
-
-
+        private void ResetSelections()
+        {
+            FournisseurSelectionne = null;
+            CategorieSelectionnee = null;
+            DomaineSelectionne = null;
+            CurrentProduitDTO = null;
+        }
 
         private void Item_modifyPopup(object? sender, EventArgs e)
         {
