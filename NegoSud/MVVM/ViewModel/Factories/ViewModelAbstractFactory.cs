@@ -11,6 +11,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<DomaineViewModel> _DomaineViewModelFactory;
         private readonly IViewModelFactory<VentesViewModel> _VentesViewModelFactory;
         private readonly IViewModelFactory<InventaireViewModel> _InventaireViewModelFactory;
+        private readonly IViewModelFactory<CmdViewModel> _CmdViewModelFactory;
 
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
@@ -18,7 +19,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
             IViewModelFactory<DomaineViewModel> domaineViewModelFactory,
             IViewModelFactory<VentesViewModel> ventesViewModelFactory,
             IViewModelFactory<EmployesViewModel> employesViewModelFactory,
-            IViewModelFactory<InventaireViewModel> inventaireViewModelFactory)
+            IViewModelFactory<InventaireViewModel> inventaireViewModelFactory,
+            IViewModelFactory<CmdViewModel> cmdViewModelFactory)
         {
             _HomeViewModelFactory = homeViewModelFactory;
             _ProductsViewModelFactory = productsViewModelFactory;
@@ -27,6 +29,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
             _EmployesViewModelFactory = employesViewModelFactory;
             _VentesViewModelFactory = ventesViewModelFactory;
             _InventaireViewModelFactory = inventaireViewModelFactory;
+            _CmdViewModelFactory = cmdViewModelFactory;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -47,6 +50,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _VentesViewModelFactory.CreateViewModel();
                 case ViewType.Inventaire:
                     return _InventaireViewModelFactory.CreateViewModel();
+                case ViewType.Cmd:
+                    return _CmdViewModelFactory.CreateViewModel();
                 default:
                     throw new ArgumentException("View Type does not have an existing View Model", "viewType");
             }

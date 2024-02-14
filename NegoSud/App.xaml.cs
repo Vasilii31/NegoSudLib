@@ -67,6 +67,7 @@ namespace NegoSud
             services.AddSingleton<IViewModelFactory<DomaineViewModel>, DomaineViewModelFactory>();
             services.AddSingleton<IViewModelFactory<VentesViewModel>, VentesViewModelFactory>();
             services.AddSingleton<IViewModelFactory<InventaireViewModel>, InventaireViewModelFactory>();
+            services.AddSingleton<IViewModelFactory<CmdViewModel>, CmdViewModelFactory>();
 
             services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
             //services.AddScoped<LoginFormView>(s => new LoginFormView(s.GetRequiredService<LoginFormViewModel>()));

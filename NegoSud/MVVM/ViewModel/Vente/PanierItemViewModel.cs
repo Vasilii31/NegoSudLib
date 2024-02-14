@@ -46,7 +46,7 @@ namespace NegoSud.MVVM.ViewModel
 
         public void SupprimerDuPanier(object obk)
         {
-            base.invoke_SupprimerDuPanier(this);
+            invoke_SupprimerDuPanier(this);
         }
 
         public void MajQte()
