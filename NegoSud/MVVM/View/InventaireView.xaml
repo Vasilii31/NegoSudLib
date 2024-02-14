@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
@@ -31,7 +32,7 @@
             <Templates:SearchBar Grid.Column="0" VerticalAlignment="Center" Width="200" />
             <!--<Templates:ButtonNormal Grid.Column="2" Content="{Binding NbItemPanier}" Click="VoirPanier_Click" Height="30"/>-->
         </Grid>
-
+        
         <!-- STOCKS DE PRODUITS  -->
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
@@ -59,7 +60,7 @@
                 </Border>
 
                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="Au carton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <!--<TextBlock Text="Type de Mouvement" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                 </Border>
 
                 <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
@@ -116,17 +117,18 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="5"/>
                                     </Grid.ColumnDefinitions>
-                                    <ComboBox Grid.Column="1" ItemsSource="{Binding ListeTypesMouvements}"  DisplayMemberPath="NomTypeMouvement" SelectedItem="{Binding TypeMouvementSelectionne}"/>
+                                    <!--<ComboBox Name="listeMvt" Grid.Column="1" ItemsSource="{Binding ListeTypesMouvements}"  DisplayMemberPath="NomTypeMouvement" SelectedItem="{Binding TypeMouvementSelectionne}"/>-->
+                                    
                                 </Grid>
 
                                 <!--Colonne ajoutPanier-->
                                 <Grid Grid.Row="0" Grid.Column="3">
-                                    <Grid.ColumnDefinitions>
+                                    <!--<Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="30"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Templates:ButtonEnregistrer  Grid.Column="0" HorizontalAlignment="Center" Command="{Binding CMD_AjoutPanier}"/>
-                                    <materialDesign:PackIcon Grid.Column="1"  Kind="Tick" VerticalAlignment="Center" Visibility="{Binding AjoutVisible}"/>
+                                    </Grid.ColumnDefinitions>-->
+                                    <Templates:ButtonEnregistrer   HorizontalAlignment="Center" Command="{Binding CMD_AjoutPanier}"/>
+                                    <!--<materialDesign:PackIcon Grid.Column="1"  Kind="Tick" VerticalAlignment="Center" Visibility="{Binding AjoutVisible}"/>-->
                                 </Grid>
 
                             </Grid>
@@ -186,11 +188,11 @@
                 </Border>
 
                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="A l'unité" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Quantité de mouvement" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
 
                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="Au carton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <!--<TextBlock Text="Type de mouvement" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                 </Border>
 
                 <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
@@ -202,7 +204,7 @@
             <!-- Corps de la table (tbody) -->
             <Grid Grid.Row="1">
 
-                <ListBox ItemsSource="{Binding ListeProduits}" >
+                <ListBox ItemsSource="{Binding ListeMouvements}" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -225,44 +227,41 @@
                                     <TextBlock Grid.Column="1" Text="{Binding ProduitLightDTO.NomProduit}" FontWeight="Bold" />
                                     <!--<Templates:ButtonConsultation  Grid.Column="2" />-->
                                 </Grid>
-                                <!--Colonne unité-->
+                                <!--Colonne QTE MOUVEMENT-->
                                 <Grid Grid.Row="0" Grid.Column="1"  >
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="5" />
+                                        
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="1"  Text="{Binding ProduitLightDTO.QteEnStock}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="2" Command="{Binding CMD_MoinsU}"  />
-                                    <TextBox Margin="5,0" x:Name="Unité" Text="{Binding QteChangementStock}" Grid.Column="3" ></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusU}" />
+                                    <TextBlock Grid.Column="0" HorizontalAlignment="Center" FontSize="18"  Text="{Binding QteChangementStock}" FontWeight="Bold" />
+                                    <!--<Templates:ButtonDelete Grid.Column="2" Command="{Binding CMD_MoinsU}"  />-->
+                                    <TextBlock HorizontalAlignment="Right" Grid.Column="1" Margin="5,0" x:Name="Unité" Text="{Binding SoldeStock}"  ></TextBlock>
+                                    <!--<Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusU}" />-->
                                 </Grid>
-                                <!--Colonne Carton-->
+                                <!--Colonne TYPE MOUVEMENT-->
                                 <Grid Grid.Row="0" Grid.Column="2" >
-                                    <Grid.ColumnDefinitions>
+                                    <!--<Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="5" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="5" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock  Grid.Column="1" Text="{Binding PrixC}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="2"  Command="{Binding CMD_MoinsC}"/>
-                                    <TextBox  Margin="5,0"  x:Name="Carton" Text="{Binding QteCarton}" Grid.Column="3"></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusC}"/>
+                                    </Grid.ColumnDefinitions>-->
+                                    <!--<TextBlock HorizontalAlignment="Center" Text="{Binding TypeMouvementSelectionne.NomTypeMouvement}" FontWeight="Bold" />-->
+                                    <!--<Templates:ButtonDelete Grid.Column="2"  Command="{Binding CMD_MoinsC}"/>-->
+                                    <!--<TextBlock  Margin="5,0"  x:Name="Carton" Text="{Binding SoldeStock}" Grid.Column="3"></TextBlock>-->
+                                    <!--<Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusC}"/>-->
                                 </Grid>
 
                                 <!--Colonne ajoutPanier-->
                                 <Grid Grid.Row="0" Grid.Column="3">
-                                    <Grid.ColumnDefinitions>
+                                    <!--<Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="30"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Templates:ButtonAjouterAuPanier  Grid.Column="0" VerticalAlignment="Center" Width="40" HorizontalAlignment="Center" Command="{Binding CMD_AjoutPanier}"/>
+                                    </Grid.ColumnDefinitions>-->
+                                    <Templates:ButtonDeleteAll  VerticalAlignment="Center" Width="40" HorizontalAlignment="Center" Command="{Binding DeleteFromListCommand}"/>
                                     <materialDesign:PackIcon Grid.Column="1"  Kind="Tick" VerticalAlignment="Center" Visibility="{Binding AjoutVisible}"/>
                                 </Grid>
 
@@ -293,9 +292,16 @@
 
                     <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>
                 </Grid>
-
+                
             </Grid>
         </Grid>
+            <!--<tem Grid.Row="3" Grid.Column="3" Text="test"></tem>-->
+            <Button Margin="3 , 0, 3 0" Grid.Row="3" Grid.Column="3"  Height="40" Background="#460A26" Foreground="White" BorderBrush="Transparent" BorderThickness="0" Command="{Binding OpenFormValidationCommand}">
+            <AccessText Text="Valider les mouvements" TextWrapping="Wrap" TextAlignment="Center"/>
+            
+        </Button>
         <!--<Templates:Panier Grid.Column="1" Grid.RowSpan="2" x:Name="Panier" Visibility="{Binding PanierVisible}"/>-->
+    </Grid>
+        <Templates:FormValidateAutreMvt Visibility="{Binding IsFormValidationVisible}"/>
     </Grid>
 </UserControl>

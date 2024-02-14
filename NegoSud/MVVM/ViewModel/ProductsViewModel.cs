@@ -19,11 +19,11 @@ namespace NegoSud.MVVM.ViewModel
     {
         public ObservableCollection<ProductsItemViewModel> ListeProduits { get; set; } = new();
         public ObservableCollection<CategorieDTO> ListeCategories { get; set; } = new();
-
+        public ObservableCollection<CategorieDTO> ListeFournisseurs { get; set; } = new();
         public ObservableCollection<Domaine> ListeDomaines { get; set; } = new();
         public int NombreProduit { get => ListeProduits.Count(); }
 
-       
+
         public ICommand ValidateFormCommand { get; set; }
         public ICommand DeleteFormCommand { get; set; }
         public ICommand ExitFormCommand { get; set; }
@@ -39,6 +39,17 @@ namespace NegoSud.MVVM.ViewModel
             {
                 _categorieSelectionnee = value;
                 OnPropertyChanged(nameof(CategorieSelectionnee));
+            }
+        }
+
+        private FournisseurDTO _fournisseurSelectionne;
+        public FournisseurDTO FournisseurSelectionne
+        {
+            get { return _fournisseurSelectionne; }
+            set
+            {
+                _fournisseurSelectionne = value;
+                OnPropertyChanged(nameof(FournisseurSelectionne));
             }
         }
 
@@ -171,7 +182,7 @@ namespace NegoSud.MVVM.ViewModel
                     }
                     else
                         MessageBox.Show("Suppression impossible.");
-                    
+
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
@@ -189,135 +200,110 @@ namespace NegoSud.MVVM.ViewModel
         private async void ValidateForm(object obj)
         {
             var ob = CurrentProduitDTO;
+            if (CurrentProduitDTO.ProduitLightDTO.NomProduit == "")
+            {
+                MessageBox.Show("Veuillez entrer un nom de produit !");
+                return;
+            }
+            if (DomaineSelectionne == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un domaine !");
+                return;
+            }
+            if (CategorieSelectionnee == null)
+            {
+                MessageBox.Show("Veuillez sélectionner une catégorie !");
+                return;
+            }
+            ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
+            {
+
+                NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
+                ContenanceCl = CurrentProduitDTO.ProduitLightDTO.ContenanceCl,
+                QteEnStock = CurrentProduitDTO.ProduitLightDTO.QteEnStock,
+                DegreeAlcool = CurrentProduitDTO.ProduitLightDTO.DegreeAlcool,
+                PhotoProduitPath = CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath,
+                DescriptionProduit = CurrentProduitDTO.ProduitLightDTO.DescriptionProduit,
+                SeuilCommandeMin = CurrentProduitDTO.ProduitLightDTO.SeuilCommandeMin,
+                CommandeMin = CurrentProduitDTO.ProduitLightDTO.CommandeMin,
+                IdDomaine = DomaineSelectionne.Id, // a gerer apres
+                IdCategorie = CategorieSelectionnee.Id, // A gerer aussi
+                AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
+                Millesime = CurrentProduitDTO.ProduitLightDTO.Millesime,
+                QteCarton = CurrentProduitDTO.ProduitLightDTO.QteCarton,
+
+                PrixAchat = new PrixAchat()
+                {
+                    ProduitId = CurrentProduitDTO.ProduitLightDTO.Id,
+                    DateDebut = DateTime.Now,
+                    PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
+                    PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton,
+                    FournisseurId = 1
+
+                },
+                PrixVente = new PrixVente()
+                {
+                    ProduitId = CurrentProduitDTO.ProduitLightDTO.Id,
+                    DateDebut = DateTime.Now,
+                    PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixVente,
+                    PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixVenteCarton,
+                    Promotion = 0f,
+                    Taxe = 0f
+
+                }
+            };
             if (modify == false)
             {
-                MessageBox.Show("ajout");
-                ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
-                {
-                    Id = CurrentProduitDTO.ProduitLightDTO.Id,
-                    NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
-                    ContenanceCl = CurrentProduitDTO.ProduitLightDTO.ContenanceCl,
-                    QteEnStock = CurrentProduitDTO.ProduitLightDTO.QteEnStock,
-                    DegreeAlcool = CurrentProduitDTO.ProduitLightDTO.DegreeAlcool,
-                    PhotoProduitPath = CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath,
-                    DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
-                    SeuilCommandeMin = CurrentProduitDTO.ProduitLightDTO.SeuilCommandeMin,
-                    CommandeMin = CurrentProduitDTO.ProduitLightDTO.CommandeMin,
-                    IdDomaine = 1, // a gerer apres
-                    IdCategorie = 1, // A gerer aussi
-                    AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
-                    PrixAchat = new PrixAchat()
-                    {
-                        ProduitId = CurrentProduitDTO.ProduitLightDTO.Id,
-                        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
-                        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton
-                    },
-                    PrixVente = new PrixVente()
-                    {
-                        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixVente,
-                        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixVenteCarton
-                    }
-                };
                 Task.Run(async () =>
-                        {
-                            //return await httpClientService.GetEmployes();
-                            //return await httpClientService.ModifyProduct(produitWriteDTO, CurrentProduitDTO.ProduitLightDTO.Id);
-                            return await httpClientService.CreateNewProduct(produitWriteDTO);
+                {
 
-                        }).ContinueWith(t =>
-                        {
-                            //if (t.Result.Id == 0)
-                            //{
-                            //    MessageBox.Show("Modification impossible.");
-                            //}
-                            //else
-                            MessageBox.Show("Produit créé");
-                            //ListeProduits.Remove(CurrentProduitDTO);
-                            //CurrentProduitDTO = null;
-                            //IsPopUpVisible = Visibility.Collapsed;
+                    return await httpClientService.CreateNewProduct(produitWriteDTO);
 
-                        }, TaskScheduler.FromCurrentSynchronizationContext());
+                }).ContinueWith(t =>
+                {
+                    if (t.Result == null)
+                    {
+                        MessageBox.Show("Création impossible.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Produit créé");
+                        GetProductsAll();
+                    }
+
+                    CurrentProduitDTO = null;
+                    IsPopUpVisible = Visibility.Collapsed;
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
             }
             else
             {
+                Task.Run(async () =>
+                {
 
-                MessageBox.Show("Modifier");
-                //ProduitWriteDTO produitWriteDTO;
-                //ProduitFullDTO? test = null;
-                ////Verification des infos : on verra plus tard
-                //Task.Run(async () =>
-                //{
-                //    //return await httpClientService.GetEmployes();
-                //    test = await httpClientService.GetProductById(ob.ProduitLightDTO.Id);
+                    return await httpClientService.ModifyProduct(produitWriteDTO, CurrentProduitDTO.ProduitLightDTO.Id);
 
-                //}).ContinueWith(t =>
-                //{
-                //    produitWriteDTO = new ProduitWriteDTO()
-                //    {
-                //        Id = test.Id,
-                //        NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
-                //        ContenanceCl = test.ContenanceCl,
-                //        QteEnStock = test.QteEnStock,
-                //        DegreeAlcool = test.DegreeAlcool,
-                //        PhotoProduitPath = test.PhotoProduitPath,
-                //        DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
-                //        SeuilCommandeMin = test.SeuilCommandeMin,
-                //        CommandeMin = test.CommandeMin,
-                //        IdDomaine = 1, // a gerer apres
-                //        IdCategorie = 1, // A gerer aussi
-                //        AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
-                //        PrixAchat = test.HistoriquePrixAchats.First(),
-                //        PrixVente = test.HistoriquePrixVentes.First()
-                //    };
-                //});
-                //on instancie produitWrite Dto
-                //ProduitWriteDTO produitWriteDTO = new ProduitWriteDTO()
-                //{
-                //    Id = CurrentProduitDTO.ProduitLightDTO.Id,
-                //    NomProduit = CurrentProduitDTO.ProduitLightDTO.NomProduit,
-                //    ContenanceCl = CurrentProduitDTO.ProduitLightDTO.ContenanceCl,
-                //    QteEnStock = CurrentProduitDTO.ProduitLightDTO.QteEnStock,
-                //    DegreeAlcool = CurrentProduitDTO.ProduitLightDTO.DegreeAlcool,
-                //    PhotoProduitPath = CurrentProduitDTO.ProduitLightDTO.PhotoProduitPath,
-                //    DescriptionProduit = "",//CurrentProduitDTO.ProduitLightDTO
-                //    SeuilCommandeMin = CurrentProduitDTO.ProduitLightDTO.SeuilCommandeMin,
-                //    CommandeMin = CurrentProduitDTO.ProduitLightDTO.CommandeMin,
-                //    IdDomaine = 1, // a gerer apres
-                //    IdCategorie = 1, // A gerer aussi
-                //    AlaVente = CurrentProduitDTO.ProduitLightDTO.ALaVente,
-                //    PrixAchat = new PrixAchat()
-                //    {
-                //        ProduitId = CurrentProduitDTO.ProduitLightDTO.Id,
-                //        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixAchat,
-                //        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixAchatCarton
-                //    },
-                //    PrixVente = new PrixVente()
-                //    {
-                //        PrixUnite = CurrentProduitDTO.ProduitLightDTO.PrixVente,
-                //        PrixCarton = CurrentProduitDTO.ProduitLightDTO.PrixVenteCarton
-                //    }
-                //};
-                //Task.Run(async () =>
-                //        {
-                //            //return await httpClientService.GetEmployes();
-                //            return await httpClientService.ModifyProduct(produitWriteDTO, CurrentProduitDTO.ProduitLightDTO.Id);
+                }).ContinueWith(t =>
+                {
+                    if (t.Result == null)
+                    {
+                        MessageBox.Show("Modification impossible.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Produit modifié");
+                        
+                    }
 
-                //        }).ContinueWith(t =>
-                //        {
-                //            if (t.Result.Id == 0)
-                //            {
-                //                MessageBox.Show("Modification impossible.");
-                //            }
-                //            //else
-
-                //            //ListeProduits.Remove(CurrentProduitDTO);
-                //            //CurrentProduitDTO = null;
-                //            //IsPopUpVisible = Visibility.Collapsed;
-
-                //        }, TaskScheduler.FromCurrentSynchronizationContext());
+                }, TaskScheduler.FromCurrentSynchronizationContext());
             }
-            return;
+            
         }
+
+        
+
+
+
 
         private void Item_modifyPopup(object? sender, EventArgs e)
         {

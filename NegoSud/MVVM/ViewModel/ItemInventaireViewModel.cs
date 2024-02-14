@@ -8,29 +8,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NegoSud.MVVM.ViewModel
 {
-    public class ItemInventaireViewModel : VenteItem
+    public class ItemInventaireViewModel : MouvementInventaireItem
     {
         public ProduitLightDTO ProduitLightDTO { get; set; }
 
         public ObservableCollection<TypeMouvement> ListeTypesMouvements { get; set; }
 
-        private TypeMouvement typeMouvementSelectionne;
+        //private TypeMouvement typeMouvementSelectionne;
 
-        public TypeMouvement TypeMouvementSelectionne
-        {
-            get { return typeMouvementSelectionne; }
-            set
-            {
-                if (typeMouvementSelectionne != value)
-                {
-                    typeMouvementSelectionne = value;
-                    OnPropertyChanged(nameof(TypeMouvement));
-                }
-            }
-        }
+        //public TypeMouvement TypeMouvementSelectionne
+        //{
+        //    get { return typeMouvementSelectionne; }
+        //    set
+        //    {
+        //        if (typeMouvementSelectionne != value)
+        //        {
+        //            typeMouvementSelectionne = value;
+        //            OnPropertyChanged(nameof(TypeMouvement));
+        //        }
+        //    }
+        //}
         private int _qteChangementStock = 0;
         public int QteChangementStock
         {
@@ -44,6 +45,8 @@ namespace NegoSud.MVVM.ViewModel
                 }
             }
         }
+
+        public string SoldeStock { get { return "Solde Stock : " + ProduitLightDTO.QteEnStock + " + " + QteChangementStock + " = " + (ProduitLightDTO.QteEnStock + QteChangementStock).ToString(); } }
 
         private Visibility _ajoutVisible = Visibility.Collapsed;
 
@@ -61,9 +64,9 @@ namespace NegoSud.MVVM.ViewModel
         }
         //public int QteStock { get; set; }
         //public int PrixC { get; set; }
-        public ItemInventaireViewModel(ProduitLightDTO produit, ObservableCollection<TypeMouvement> l)
+        public ItemInventaireViewModel(ProduitLightDTO produit)
         {
-            ListeTypesMouvements = l;
+            //ListeTypesMouvements = l;
             ProduitLightDTO = produit;
             //PrixU = ProduitLightDTO.QteEnStock;
             //PrixC = ProduitLightDTO.QteCarton + " bouteilles " + ProduitLightDTO.PrixVenteCarton + " €";
@@ -73,6 +76,29 @@ namespace NegoSud.MVVM.ViewModel
             CMD_MoinsU = new RelayCommand(MoinsU);
             CMD_PlusC = new RelayCommand(PlusC);
             CMD_MoinsC = new RelayCommand(MoinsC);
+        }
+
+        public ItemInventaireViewModel(ItemInventaireViewModel i)
+        {
+            ListeTypesMouvements = i.ListeTypesMouvements;
+            ProduitLightDTO = i.ProduitLightDTO;
+            QteChangementStock = i.QteChangementStock;
+            //TypeMouvementSelectionne = i.TypeMouvementSelectionne;
+            DeleteFromListCommand = new RelayCommand(DeleteFromList);
+
+
+
+        }
+
+        private void DeleteFromList(object obj)
+        {
+            base.invoke_DeleteFromListe(this);
+        }
+
+        public void ResetItem()
+        {
+            //this.TypeMouvementSelectionne = null;
+            this.QteChangementStock = 0;
         }
 
         public void AjoutPanier(object obk)

@@ -159,7 +159,7 @@ namespace NegoSud.Services
 
             var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
             
-            var response = await Client.PutAsJsonAsync(route, content);
+            var response = await Client.PutAsync(route, content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -185,7 +185,7 @@ namespace NegoSud.Services
         public static async Task<ProduitFullDTO> CreateNewProduct(ProduitWriteDTO produitWriteDTO)
         {
             var produitJson = JsonConvert.SerializeObject(produitWriteDTO);
-            string route = $"api/Produits";
+            string route = $"api/Produits/";
 
             var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
 
@@ -241,6 +241,28 @@ namespace NegoSud.Services
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
             return new List<TypeMouvement>();
+        }
+
+        public static async Task<AutreMvtDTO> AddMouvementStock(AutreMvtWriteDTO mvt)
+        {
+            var mvtJson = JsonConvert.SerializeObject(mvt);
+            string route = $"api/AutreMouvement";
+
+            var content = new StringContent(mvtJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<AutreMvtDTO>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
         }
 
 

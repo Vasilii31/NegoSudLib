@@ -212,6 +212,8 @@ Content-Type: application/json
 
 ###
 
+
+
 DELETE {{NegoSudAPI_HostAddress}}/api/client/6
 
 ###
@@ -231,5 +233,14 @@ Content-Type: application/json
 {
   //ProduitWriteDTO
 }
+
+###
+
+POST {{NegoSudAPI_HostAddress}}/api/produits
+Content-Type: application/json
+
+
+  {"Id":0,"NomProduit":"zaezae","ContenanceCl":12,"QteEnStock":0,"DegreeAlcool":120.0,"Millesime":0,"QteCarton":0,"PhotoProduitPath":"","DescriptionProduit":"","SeuilCommandeMin":0,"CommandeMin":0,"IdDomaine":3,"IdCategorie":4,"AlaVente":false,"PrixAchat":{"FournisseurId":1,"Fournisseur":null,"Id":0,"DateDebut":"2024-02-14T18:35:24.1886312+01:00","DateFin":null,"PrixCarton":0.0,"PrixUnite":0.0,"ProduitId":0},"PrixVente":{"Promotion":0.0,"Taxe":0.0,"Id":0,"DateDebut":"2024-02-14T18:35:24.1886418+01:00","DateFin":null,"PrixCarton":0.0,"PrixUnite":0.0,"ProduitId":0}}
+
 
 ###

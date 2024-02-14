@@ -13,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NegoSud.MVVM.View
+namespace NegoSud.MVVM.View.Template
 {
     /// <summary>
-    /// Logique d'interaction pour InventaireView.xaml
+    /// Logique d'interaction pour FormValidateAutreMvt.xaml
     /// </summary>
-    public partial class InventaireView : UserControl
+    public partial class FormValidateAutreMvt : UserControl
     {
-        public InventaireView()
+        public FormValidateAutreMvt()
         {
             InitializeComponent();
-            
         }
-
-        
     }
 }
