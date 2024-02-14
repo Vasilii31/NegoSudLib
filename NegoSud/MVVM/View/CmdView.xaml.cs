@@ -7,9 +7,9 @@ namespace NegoSud.MVVM.View
     /// <summary>
     /// Logique d'interaction pour VentesView.xaml
     /// </summary>
-    public partial class VentesView : UserControl
+    public partial class CmdView : UserControl
     {
-        public VentesView()
+        public CmdView()
         {
             InitializeComponent();
         }

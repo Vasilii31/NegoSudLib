@@ -44,6 +44,8 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.Fournisseur)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Categorie)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Domaine)
                  .Include(c => c.Employe)
                  .Where(c => c.Id == id)
                  .Select(c => c.ToDTO())
@@ -58,6 +60,8 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.Fournisseur)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Categorie)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Domaine)
                  .Include(c => c.Employe)
                  .Where(c => c.NumCommande == num)
                  .Select(c => c.ToDTO())
@@ -69,6 +73,11 @@ namespace NegoSudLib.Repositories
         }
         public async Task<CommandeDTO?> Post(CommandeWriteDTO commandeDTO)
         {
+            List<DetailMouvementStock> DetailMvt = [];
+            foreach (var item in commandeDTO.DetailMouvementStocks)
+            {
+                DetailMvt.Add(item.ToDAO());
+            }
             Commande commande = new Commande
             {
                 DateMouvement = DateTime.Now,
@@ -76,7 +85,7 @@ namespace NegoSudLib.Repositories
                 FournisseurId = commandeDTO.FournisseurId,
                 StatutCommande = commandeDTO.StatutCommande,
                 EntreeOuSortie = true,
-                DetailMouvementStocks = commandeDTO.DetailMouvementStocks,
+                DetailMouvementStocks = DetailMvt,
                 Commentaire = commandeDTO.Commentaire
             };
             await _context.Commandes.AddAsync(commande);

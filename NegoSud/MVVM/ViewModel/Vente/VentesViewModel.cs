@@ -209,10 +209,10 @@ namespace NegoSud.MVVM.ViewModel
         }
         private void MajInfoPanier()
         {
-            this.Total = 0;
+            Total = 0;
             foreach (var item in Panier)
             {
-                this.Total += item.SousTotal;
+                Total += item.SousTotal;
             }
             NbItemPanier = "Panier (" + Panier.Count() + ")";
         }
@@ -253,6 +253,7 @@ namespace NegoSud.MVVM.ViewModel
 
         public async void ValiderPanier(object sender, RoutedEventArgs e)
         {
+            Vente.DetailMouvementStocks.Clear();
 
             foreach (var lgnPanier in Panier)
             {
@@ -269,7 +270,7 @@ namespace NegoSud.MVVM.ViewModel
             Vente.Commentaire = Commentaire;
 
             // TODO chercher comment recup l'id, sinon combo avec liste des employés
-            Vente.EmployeId = Int32.Parse(App.Current.Properties["EmployeID"].ToString());
+            Vente.EmployeId = int.Parse(Application.Current.Properties["EmployeID"].ToString());
 
             Vente.SetTotal();
 
@@ -286,7 +287,6 @@ namespace NegoSud.MVVM.ViewModel
                 // Vous pouvez logger l'exception ou afficher un message d'erreur à l'utilisateur
             }
 
-            //TODO Ajouter dans BDD
         }
     }
 }

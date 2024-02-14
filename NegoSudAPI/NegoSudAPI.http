@@ -44,13 +44,13 @@ POST {{NegoSudAPI_HostAddress}}/api/produits
 Content-Type: application/json
 
 {
-
+  "NomProduit":"vino testo",
   "contenanceCl": 750,
   "qteEnStock": 100,
   "degreeAlcool": 13.5,
   "millesime": 2020,
   "qteCarton": 12,
-  "photoProduitPath": "",
+  "photoProduitPath": "D:/",
   "descriptionProduit": "A vin à tester.",
   "seuilCommandeMin": 20,
   "commandeMin": 5,
