@@ -14,6 +14,7 @@ public class ProduitLightDTO
     public int QteCarton { get; set; }
     public string PhotoProduitPath { get; set; } = string.Empty;
     public string DescriptionProduit { get; set; } = string.Empty;
+    public int IdDomaine { get; set; }
     public string NomDomaine { get; set; } = string.Empty;
     public int IdCategorie { get; set; }
     public string NomCategorie { get; set; } = string.Empty;

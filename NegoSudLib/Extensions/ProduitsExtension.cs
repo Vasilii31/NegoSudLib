@@ -55,9 +55,10 @@ namespace NegoSudLib.Extensions
                     PhotoProduitPath = prod.PhotoProduitPath,
                     ALaVente = prod.AlaVente,
                     Fournisseur = prixAchat != null ? prixAchat.Fournisseur != null ? prixAchat.Fournisseur.NomFournisseur : "" : "",
+                    IdDomaine = prod.Domaine.Id,
                     NomDomaine = prod.Domaine?.NomDomaine ?? string.Empty,
+                    IdCategorie = prod.Categorie.Id,
                     NomCategorie = prod.Categorie?.NomCategorie ?? string.Empty,
-                    IdCategorie = prod.Categorie?.Id ?? 0,
                     PrixVente = (prixVente == null) ? 0 : prixVente.PrixUnite,
                     PrixVenteCarton = (prixVente == null) ? 0 : prixVente.PrixCarton,
                     PrixAchat = prixAchat != null ? prixAchat.PrixUnite : 0,
@@ -80,9 +81,10 @@ namespace NegoSudLib.Extensions
                     DegreeAlcool = prod.DegreeAlcool,
                     Millesime = prod.Millesime,
                     PhotoProduitPath = prod.PhotoProduitPath,
+                    IdDomaine = prod.Domaine.Id,
                     NomDomaine = prod.Domaine?.NomDomaine ?? string.Empty,
+                    IdCategorie = prod.Categorie.Id,
                     NomCategorie = prod.Categorie?.NomCategorie ?? string.Empty,
-                    IdCategorie = prod.Categorie?.Id ?? 0,
                     PrixVente = prod.PrixVentes.Any() ? prod.PrixVentes.First().PrixUnite : 0,
                     PrixVenteCarton = prod.PrixVentes.Any() ? prod.PrixVentes.First().PrixCarton : 0,
                     PrixAchat = prod.PrixAchats.Any() ? prod.PrixAchats.First().PrixUnite : 0,
@@ -92,6 +94,28 @@ namespace NegoSudLib.Extensions
             }
         }
         public static ProduitFullDTO ToFullDTO(this Produit prod)
+        {
+            var test = prod;
+            return new ProduitFullDTO
+            {
+                Id = prod.Id,
+                NomProduit = prod.NomProduit,
+                ContenanceCl = prod.ContenanceCl,
+                QteEnStock = prod.QteEnStock,
+                CommandeMin = prod.CommandeMin,
+                SeuilCommandeMin = prod.SeuilCommandeMin,
+                QteCarton = prod.QteCarton,
+                DegreeAlcool = prod.DegreeAlcool,
+                Millesime = prod.Millesime,
+                PhotoProduitPath = prod.PhotoProduitPath,
+                NomDomaine = prod.Domaine?.NomDomaine ?? string.Empty,
+                NomCategorie = prod.Categorie?.NomCategorie ?? string.Empty,
+                HistoriquePrixVentes = prod.PrixVentes != null ? prod.PrixVentes : [],
+                HistoriquePrixAchats = prod.PrixAchats != null ? prod.PrixAchats : [],
+
+            };
+        }
+        public static ProduitFullDTO ToWriteDTO(this Produit prod)
         {
             var test = prod;
             return new ProduitFullDTO

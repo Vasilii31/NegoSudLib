@@ -29,7 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="MVVM\View\Template\CmdPanier.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\Template\Panier.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\CmdView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

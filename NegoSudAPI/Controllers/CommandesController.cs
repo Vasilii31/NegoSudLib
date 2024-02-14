@@ -86,7 +86,7 @@ namespace NegoSudAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var ComCreated = await _commandeservice.Post(commande);
-            if (ComCreated != null) return Created();
+            if (ComCreated != null) return Created("", ComCreated);
 
 
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");

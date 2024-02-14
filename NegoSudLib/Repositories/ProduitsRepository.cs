@@ -114,19 +114,34 @@ namespace NegoSudLib.Repositories
 
             if (prodEntity == null) { return null; }
 
+            /*  prodEntity.QteEnStock = ProdNew.QteEnStock;
+              prodEntity.NomProduit = ProdNew.NomProduit == string.Empty ? prodEntity.NomProduit : ProdNew.NomProduit;
+              prodEntity.ContenanceCl = ProdNew.ContenanceCl == 0 ? prodEntity.ContenanceCl : ProdNew.ContenanceCl;
+              prodEntity.DegreeAlcool = ProdNew.DegreeAlcool;
+              prodEntity.Millesime = ProdNew.Millesime == 0 ? prodEntity.Millesime : ProdNew.Millesime;
+              prodEntity.DescriptionProduit = ProdNew.DescriptionProduit == string.Empty ? prodEntity.DescriptionProduit : ProdNew.DescriptionProduit;
+              prodEntity.SeuilCommandeMin = ProdNew.SeuilCommandeMin;
+              prodEntity.CommandeMin = ProdNew.CommandeMin;
+              prodEntity.QteCarton = ProdNew.QteCarton == 0 ? prodEntity.QteCarton : ProdNew.QteCarton;
+              prodEntity.PhotoProduitPath = ProdNew.PhotoProduitPath == string.Empty ? prodEntity.PhotoProduitPath : ProdNew.PhotoProduitPath;
+              prodEntity.AlaVente = ProdNew.AlaVente;
+              prodEntity.DomaineId = ProdNew.IdDomaine == 0 ? prodEntity.DomaineId : ProdNew.IdDomaine;
+              prodEntity.CategorieId = ProdNew.IdCategorie == 0 ? prodEntity.CategorieId : ProdNew.IdCategorie;*/
+
             prodEntity.QteEnStock = ProdNew.QteEnStock;
-            prodEntity.NomProduit = ProdNew.NomProduit == string.Empty ? prodEntity.NomProduit : ProdNew.NomProduit;
-            prodEntity.ContenanceCl = ProdNew.ContenanceCl == 0 ? prodEntity.ContenanceCl : ProdNew.ContenanceCl;
+            prodEntity.NomProduit = ProdNew.NomProduit;
+            prodEntity.ContenanceCl = ProdNew.ContenanceCl;
             prodEntity.DegreeAlcool = ProdNew.DegreeAlcool;
-            prodEntity.Millesime = ProdNew.Millesime == 0 ? prodEntity.Millesime : ProdNew.Millesime;
-            prodEntity.DescriptionProduit = ProdNew.DescriptionProduit == string.Empty ? prodEntity.DescriptionProduit : ProdNew.DescriptionProduit;
+            prodEntity.Millesime = ProdNew.Millesime;
+            prodEntity.QteCarton = ProdNew.QteCarton;
+            prodEntity.PhotoProduitPath = ProdNew.PhotoProduitPath;
+            prodEntity.DescriptionProduit = ProdNew.DescriptionProduit;
             prodEntity.SeuilCommandeMin = ProdNew.SeuilCommandeMin;
             prodEntity.CommandeMin = ProdNew.CommandeMin;
-            prodEntity.QteCarton = ProdNew.QteCarton == 0 ? prodEntity.QteCarton : ProdNew.QteCarton;
-            prodEntity.PhotoProduitPath = ProdNew.PhotoProduitPath == string.Empty ? prodEntity.PhotoProduitPath : ProdNew.PhotoProduitPath;
             prodEntity.AlaVente = ProdNew.AlaVente;
-            prodEntity.DomaineId = ProdNew.IdDomaine == 0 ? prodEntity.DomaineId : ProdNew.IdDomaine;
-            prodEntity.CategorieId = ProdNew.IdCategorie == 0 ? prodEntity.CategorieId : ProdNew.IdCategorie;
+            prodEntity.DomaineId = ProdNew.IdDomaine;
+            prodEntity.CategorieId = ProdNew.IdCategorie;
+
 
             _context.Produits.Update(prodEntity);
             await _context.SaveChangesAsync();

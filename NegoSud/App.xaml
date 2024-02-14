@@ -24,6 +24,9 @@
             <DataTemplate DataType="{x:Type viewModel:VentesViewModel}">
                 <view:VentesView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:CmdViewModel}">
+                <view:CmdView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
                 <view:ProductsView/>
             </DataTemplate>

@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.write;
 using NegoSudLib.DTO.Write;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -130,6 +131,20 @@ namespace NegoSud.Services
             }
             return new List<ClientDTO>();
         }
+
+        internal static async Task<List<Fournisseur>> GetFournisseurs()
+        {
+            string route = $"api/Fournisseurs/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Fournisseur>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<Fournisseur>();
+        }
+
         internal static async Task<VentesDTO> AddVente(VentesWriteDTO vente)
         {
             var venteJson = JsonConvert.SerializeObject(vente);
@@ -143,6 +158,28 @@ namespace NegoSud.Services
             {
                 string resultat = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<VentesDTO>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
+
+        public static async Task<CommandeDTO> AddCommande(CommandeWriteDTO commande)
+        {
+            var venteJson = JsonConvert.SerializeObject(commande);
+            string route = $"api/Commandes";
+
+            var content = new StringContent(venteJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CommandeDTO>(resultat)
                     ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
             }
             else
