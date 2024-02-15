@@ -12,6 +12,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<VentesViewModel> _VentesViewModelFactory;
         private readonly IViewModelFactory<InventaireViewModel> _InventaireViewModelFactory;
         private readonly IViewModelFactory<CmdViewModel> _CmdViewModelFactory;
+        private readonly IViewModelFactory<HistoriqueViewModel> _HistoriqueViewModelFactory;
 
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
@@ -20,7 +21,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
             IViewModelFactory<VentesViewModel> ventesViewModelFactory,
             IViewModelFactory<EmployesViewModel> employesViewModelFactory,
             IViewModelFactory<InventaireViewModel> inventaireViewModelFactory,
-            IViewModelFactory<CmdViewModel> cmdViewModelFactory)
+            IViewModelFactory<CmdViewModel> cmdViewModelFactory,
+            IViewModelFactory<HistoriqueViewModel> historiqueViewModelFactory)
         {
             _HomeViewModelFactory = homeViewModelFactory;
             _ProductsViewModelFactory = productsViewModelFactory;
@@ -30,6 +32,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
             _VentesViewModelFactory = ventesViewModelFactory;
             _InventaireViewModelFactory = inventaireViewModelFactory;
             _CmdViewModelFactory = cmdViewModelFactory;
+            _HistoriqueViewModelFactory = historiqueViewModelFactory;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -52,6 +55,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _InventaireViewModelFactory.CreateViewModel();
                 case ViewType.Cmd:
                     return _CmdViewModelFactory.CreateViewModel();
+                case ViewType.Historique:
+                    return _HistoriqueViewModelFactory.CreateViewModel();
                 default:
                     throw new ArgumentException("View Type does not have an existing View Model", "viewType");
             }
