@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NegoSud.MVVM.View.Template;
+using NegoSud.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,15 @@ namespace NegoSud.MVVM.View
         public FournisseursView()
         {
             InitializeComponent();
+            ButtonAjouter.AjouterButtonClick += ButtonAjouter_Click;
+        }
+
+        private void ButtonAjouter_Click(object? sender, EventArgs e)
+        {
+            if (DataContext is FournisseurViewModel viewModel)
+            {
+                viewModel.CreateFournisseurCommand.Execute(null);
+            }
         }
     }
 }

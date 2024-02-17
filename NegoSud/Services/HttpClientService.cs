@@ -62,6 +62,22 @@ namespace NegoSud.Services
             throw new Exception(response.ReasonPhrase);
         }
 
+        public static async Task<bool> DeleteDomaine(int id)
+        {
+            string route = $"Domaines/{id}";
+            var response = await Client.DeleteAsync(route);
+            return response.IsSuccessStatusCode;
+        }
+
+        public static async Task<bool> PostDomaine(DomaineDTO domaine)
+        {
+            string route = "Domaines";
+            var json = JsonConvert.SerializeObject(domaine);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync(route, data);
+            return response.IsSuccessStatusCode;
+        }
+
         public static async Task<List<FournisseurDetailDTO>> GetFournisseurs()
         {
             string route = "fournisseurs";
@@ -74,5 +90,22 @@ namespace NegoSud.Services
             }
             throw new Exception(reponse.ReasonPhrase);         
         }
+
+        public static async Task<bool> DeleteFournisseur(int id)
+        {
+            string route = $"Fournisseurs/{id}";
+            var response = await Client.DeleteAsync(route);
+            return response.IsSuccessStatusCode;
+        }
+
+        public static async Task<bool> PostFournisseur(FournisseurDetailDTO fournisseur)
+        {
+            string route = "Fournisseurs";
+            var json = JsonConvert.SerializeObject(fournisseur);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync(route, data);
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }

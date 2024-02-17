@@ -27,7 +27,6 @@ namespace NegoSud.MVVM.View
         {
             InitializeComponent();
 
-
             // Écouter l'événement AjouterButtonClick du bouton Ajouter
             ButtonAjouter.AjouterButtonClick += ButtonAjouter_Click;
             ButtonConsultation.ConsultationButtonClick += ButtonView_Click;

@@ -1,4 +1,5 @@
-﻿using NegoSud.Services;
+﻿using NegoSud.Core;
+using NegoSud.Services;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using System;
@@ -9,9 +10,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NegoSud.MVVM.ViewModel
 {
+
     public class DomaineViewModel : ViewModelBase
     {
         private DomaineLightViewModel _selectedDomaine;
@@ -32,9 +35,33 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
+        public ICommand DeleteSelectedCommand { get; }
+
         public DomaineViewModel()
         {
             GetDomaine();
+            DeleteSelectedCommand = new RelayCommand(DeleteSelected, CanDeleteSelected);
+        }
+
+
+        private bool CanDeleteSelected(object parameter)
+        {
+            return SelectedDomaine != null;
+        }
+
+        private void DeleteSelected(object obj)
+        {
+           Task.Run(async () =>
+           {
+                return await httpClientService.DeleteDomaine(SelectedDomaine.Domaine.Id);
+            }).ContinueWith(t =>
+            {
+                if (t.Result)
+                {
+                    ListeDomaine.Remove(SelectedDomaine);
+                    OnPropertyChanged(nameof(NombreListeDomaine));
+                }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         public void GetDomaine()
