@@ -19,6 +19,7 @@ public class ProduitLightDTO
     public int IdCategorie { get; set; }
     public string NomCategorie { get; set; } = string.Empty;
     public bool ALaVente { get; set; }
+    public int IdFournisseur { get; set; }
     public string Fournisseur { get; set; } = string.Empty;
     public float PrixVente { get; set; }
     public float PrixVenteCarton { get; set; }

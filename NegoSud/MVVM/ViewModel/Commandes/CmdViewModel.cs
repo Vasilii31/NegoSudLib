@@ -23,6 +23,8 @@ namespace NegoSud.MVVM.ViewModel
             set
             {
                 _FournisseurSelectionne = value;
+                GetProducts(null);
+                Panier.Clear();
                 OnPropertyChanged(nameof(FournisseurSelectionne));
             }
         }
@@ -87,7 +89,7 @@ namespace NegoSud.MVVM.ViewModel
         }
         public CmdViewModel()
         {
-            GetProductsAll();
+
             GetFournisseurs();
         }
 
@@ -97,13 +99,13 @@ namespace NegoSud.MVVM.ViewModel
 
 
 
-        private void GetProductsAll()
+        private void GetProducts(string? nom)
         {
             ListeProduits.Clear();
 
             Task.Run(async () =>
             {
-                return await httpClientService.GetProduitsAll();
+                return await httpClientService.SearchProduits(0, 0, _FournisseurSelectionne.Id, nom, null);
 
             })
             .ContinueWith(t =>
@@ -278,6 +280,8 @@ namespace NegoSud.MVVM.ViewModel
 
                 CommandeDTO venteAjoutee = await httpClientService.AddCommande(Commande);
                 MessageBox.Show("La commande a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                Panier.Clear();
+                PanierVisible = Visibility.Collapsed;
             }
             catch (Exception ex)
             {

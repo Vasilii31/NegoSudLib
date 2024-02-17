@@ -280,6 +280,8 @@ namespace NegoSud.MVVM.ViewModel
                 // Appel de votre méthode AddVente pour ajouter la vente dans la base de données
                 VentesDTO venteAjoutee = await httpClientService.AddVente(Vente);
                 MessageBox.Show("La vente a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                Panier.Clear();
+                PanierVisible = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
