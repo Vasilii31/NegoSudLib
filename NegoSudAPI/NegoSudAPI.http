@@ -238,7 +238,6 @@ PUT {{NegoSudAPI_HostAddress}}/api/produits/1
 Content-Type: application/json
 
 {
-  "id": 1,
   "nomProduit": "string",
   "contenanceCl": 0,
   "qteEnStock": 0,
@@ -254,10 +253,10 @@ Content-Type: application/json
   "alaVente": true,
    "prixAchat": {
     "dateDebut": "2024-02-13T17:02:30.502Z",
-    "prixCarton": 6,
+    "prixCarton": 66,
     "prixUnite": 6,
     "produitId": 1,
-    "fournisseurId": 1
+    "fournisseurId": 2
   },
   "prixVente": {
     "dateDebut": "2024-02-13T17:02:30.502Z",
@@ -268,5 +267,18 @@ Content-Type: application/json
     "taxe": 0
   }
 }
+
+###
+
+GET {{NegoSudAPI_HostAddress}}/api/produits/recherche?four=1
+
+
+###
+
+GET {{NegoSudAPI_HostAddress}}/api/produits/recherche?cat=0&dom=0&four=0&nom=string
+
+###
+
+GET {{NegoSudAPI_HostAddress}}/api/produits/Recherche?cat=0&dom=0&four=0&nom=string
 
 ###

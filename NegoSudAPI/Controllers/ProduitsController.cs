@@ -69,10 +69,10 @@ namespace NegoSudAPI.Controllers
 
 
         // GET api/produits/5
-        [HttpGet("/recherche")]
-        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> Search([FromQuery] int cat, [FromQuery] int dom, [FromQuery] string? nom, [FromQuery] bool? enVente)
+        [HttpGet("Recherche")]
+        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> Search([FromQuery] int cat, [FromQuery] int dom, [FromQuery] int four, [FromQuery] string? nom, [FromQuery] bool? enVente)
         {
-            var produit = await _produitService.Search(cat, dom, nom, enVente);
+            var produit = await _produitService.Search(cat, dom, four, nom, enVente);
             if (produit == null)
             {
                 return NotFound();

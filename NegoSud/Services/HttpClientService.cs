@@ -105,6 +105,24 @@ namespace NegoSud.Services
             }
             return new List<ProduitLightDTO>();
         }
+        public static async Task<List<ProduitLightDTO>> SearchProduits(int? IdCat, int? IdDom, int four, string? nom, bool? Envente)
+        {
+            string route = $"api/Produits/Recherche?";
+            //cat=0&dom=0&four=0&nom=string
+            if (IdCat != 0) { route += $"&cat={IdCat}"; }
+            if (IdDom != 0) { route += $"&dom={IdDom}"; }
+            if (four != 0) { route += $"&four={four}"; }
+            if (!string.IsNullOrEmpty(nom)) { route += $"&nom={nom}"; }
+            if (Envente != null) { route += $"&Envente={Envente}"; }
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<ProduitLightDTO>();
+        }
 
         public static async Task<ProduitFullDTO> GetProductById(int id)
         {
@@ -188,6 +206,8 @@ namespace NegoSud.Services
                 throw new HttpRequestException(errorMessage);
             }
         }
+
+
 
         public static async Task<ProduitFullDTO> ModifyProduct(ProduitWriteDTO produitWriteDTO, int id)
         {

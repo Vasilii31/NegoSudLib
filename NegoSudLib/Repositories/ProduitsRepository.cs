@@ -16,8 +16,9 @@ namespace NegoSudLib.Repositories
         public async Task<IEnumerable<ProduitLightDTO?>> GetAll(bool? AlaVente)
         {
             return await _context.Produits
-                .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
-                .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
+                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+                .ThenInclude(p => p.Fournisseur)
+                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
                 .Where(p => (AlaVente == null) ? true : p.AlaVente == AlaVente)
@@ -27,20 +28,22 @@ namespace NegoSudLib.Repositories
         public async Task<IEnumerable<ProduitLightDTO?>> GetByCat(int catId)
         {
             return await _context.Produits
-                .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
-                .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
+                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+                .ThenInclude(p => p.Fournisseur)
+                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
                 .Where(p => p.CategorieId == catId && p.AlaVente)
                 .Select(p => p.ToLightDTO(null))
                 .ToListAsync();
         }
-        public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, string? name, bool? enVente)
+        public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, int Four, string? name, bool? enVente)
         {
 
-            return await _context.Produits
-                .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
-                .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
+            var result = await _context.Produits
+                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+                .ThenInclude(p => p.Fournisseur)
+                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
                 .Where(p => (enVente == null) || p.AlaVente == enVente)
@@ -49,13 +52,20 @@ namespace NegoSudLib.Repositories
                 .Where(p => (string.IsNullOrEmpty(name)) || p.NomProduit.Contains(name))
                 .Select(p => p.ToLightDTO(null))
                 .ToListAsync();
+
+            if (Four != 0)
+            {
+                return result.Where(p => p.IdFournisseur == Four);
+            }
+            return result;
         }
 
         public async Task<IEnumerable<ProduitLightDTO?>> GetByDom(int domId)
         {
             return await _context.Produits
-                .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
-                .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
+                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+                .ThenInclude(p => p.Fournisseur)
+                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
                 .Where(p => p.DomaineId == domId && p.AlaVente)
@@ -65,8 +75,9 @@ namespace NegoSudLib.Repositories
         public async Task<ProduitFullDTO?> GetById(int id)
         {
             return await _context.Produits
-                .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
-                .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
+                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+                .ThenInclude(p => p.Fournisseur)
+                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
                 .Where(p => p.Id == id)
@@ -76,8 +87,9 @@ namespace NegoSudLib.Repositories
         public async Task<ProduitLightDTO?> GetByIdDate(int id, DateTime date)
         {
             return await _context.Produits
-                .Include(p => p.PrixAchats.OrderByDescending(PrixAchat => PrixAchat.DateFin))
-                .Include(p => p.PrixVentes.OrderByDescending(PrixVente => PrixVente.DateFin))
+                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+                .ThenInclude(p => p.Fournisseur)
+                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
                 .Where(p => p.Id == id)
