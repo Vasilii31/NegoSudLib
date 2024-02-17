@@ -26,7 +26,7 @@ namespace NegoSudAPI.Controllers
 
         // GET: api/Commandes    => Tous les Commandes 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CommandeWriteDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CommandeDTO>>> GetAll()
         {
 
             var Commandes = await _commandeservice.GetAll();

@@ -7,6 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="Wheat">
     <Grid>
-        <TextBlock Text="couocu hisotir"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0">
+            <MenuItem Header="Ventes" Command="{Binding VentesTabCommande}"/>
+            <MenuItem Header="Commandes" Command="{Binding CommandesTabCommande}"/>
+            <MenuItem Header="Autres Mouvements" Command="{Binding AutresMvtTabCommande}"/>
+        </Menu>
+
+        <TabControl ItemsSource="{Binding ListTabs}"
+                    SelectedIndex="{Binding TabIndex}"
+                    Grid.Row="1" Margin="4" 
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <!--<materialDesign:PackIcon Kind="Close" Margin="20"
+                                                 HorizontalAlignment="Right" VerticalAlignment="top"
+                                                 MouseDown="Close_MouseDown"/>-->
+                        <ContentControl Content="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
     </Grid>
 </UserControl>

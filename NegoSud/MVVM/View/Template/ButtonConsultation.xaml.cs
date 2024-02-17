@@ -19,7 +19,7 @@ namespace NegoSud.MVVM.View.Template
     /// <summary>
     /// Logique d'interaction pour ButtonConsultation.xaml
     /// </summary>
-    public partial class ButtonConsultation : UserControl
+    public partial class ButtonConsultation : Button
     {
         public static event EventHandler ConsultationButtonClick;
         public ButtonConsultation()
@@ -34,12 +34,12 @@ namespace NegoSud.MVVM.View.Template
 
         private void ButtonAdd_MouseEnter(object sender, MouseEventArgs e)
         {
-            ButtonView.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#300117"));
+            this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#300117"));
         }
 
         private void ButtonAdd_MouseLeave(object sender, MouseEventArgs e)
         {
-            ButtonView.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#460A26"));
+            this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#460A26"));
         }
 
 

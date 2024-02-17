@@ -32,6 +32,12 @@
     <Compile Update="MVVM\View\Template\CmdPanier.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\Template\ConsultAutreMvt.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\Template\ConsultVente.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\Template\FormAddTypeMouvement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -39,6 +45,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\View\CmdView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\Template\TableauAutreMvt.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\Template\TableauCommandes.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

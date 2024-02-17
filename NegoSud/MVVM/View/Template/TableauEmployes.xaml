@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template">
 
-    
-                <Grid>
+
+    <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -46,17 +46,17 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="100" />
-                        
-                    </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding NomPrenom}" FontWeight="Bold" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding EmployeDTO.MailUtilisateur}" Margin="40 0 0 0" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Role}" Margin="40 0 0 0" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding NomPrenom}" FontWeight="Bold" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding EmployeDTO.MailUtilisateur}" Margin="40 0 0 0" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Role}" Margin="40 0 0 0" />
                                 <Grid Grid.Row="0" Grid.Column="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -65,17 +65,17 @@
                                     <Templates:ButtonModifier  Grid.Column="0" Width="20" HorizontalAlignment="Center" Command="{Binding ClickModifyCommand}"/>
                                     <Templates:ButtonDeleteAll Grid.Row="1" Grid.Column="3" Width="20" HorizontalAlignment="Center"  Command="{Binding ClickDeleteCommand}"/>
                                 </Grid>
-                    
+
                                 <!--<TextBlock Grid.Row="0" Grid.Column="3" Text="" />-->
 
-                    <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+                                <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
 
                     <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
 
                     <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
                     
                     <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>-->
-                </Grid>
+                            </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <!-- ListBox ItemTemplate stretch horizontally -->
@@ -91,20 +91,20 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="100" />
-                       
+
                     </Grid.ColumnDefinitions>
 
                     <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
 
                     <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
 
-                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border> 
-                    
+                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
+
                     <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>
                 </Grid>
 
             </Grid>
         </Grid>
     </Grid>
-            
+
 </UserControl>

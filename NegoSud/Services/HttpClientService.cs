@@ -324,6 +324,45 @@ namespace NegoSud.Services
             }
         }
 
+        public static async Task<IEnumerable<VentesDTO>> GetVentes()
+        {
+            string route = $"api/Ventes/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<VentesDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<VentesDTO>();
+        }
+
+        public static async Task<IEnumerable<CommandeDTO>> GetCommandes()
+        {
+            string route = $"api/Commandes/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<CommandeDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<CommandeDTO>();
+        }
+
+        public static async Task<IEnumerable<AutreMvtDTO>> GetAutresMvt()
+        {
+            string route = $"api/AutreMouvement/";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<AutreMvtDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<AutreMvtDTO>();
+        }
+
 
         //public static async Task<bool> UpdateEmploye(int id, )
         //{
