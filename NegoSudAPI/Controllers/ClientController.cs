@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
+using NegoSudLib.DTO.Read;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using NegoSudLib.Services;
 
 namespace NegoSudAPI.Controllers
 {
@@ -50,6 +44,7 @@ namespace NegoSudAPI.Controllers
 
         // PUT: api/Clients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Gérant,Employe,Client")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClient(int id, Client Client)
         {
@@ -71,12 +66,12 @@ namespace NegoSudAPI.Controllers
         // POST: api/Clients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Client>> PostClient(Client Client)
+        public async Task<ActionResult<ClientDTO>> PostClient(ClientDTO Client)
         {
             if (Client != null)
             {
-                var produitCreated = await _clientsService.Post(Client);
-                if (produitCreated != null) return Ok(produitCreated);
+                var clientCreated = await _clientsService.Post(Client);
+                if (clientCreated != null) return Created("", clientCreated);
 
                 return StatusCode(500, "Une erreur interne du serveur s'est produite.");
             }
@@ -85,6 +80,7 @@ namespace NegoSudAPI.Controllers
         }
 
         // DELETE: api/Clients/5
+        [Authorize(Roles = "Gérant,Employe,Client")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id)
         {
@@ -97,6 +93,6 @@ namespace NegoSudAPI.Controllers
             return NoContent();
         }
 
-        
+
     }
 }

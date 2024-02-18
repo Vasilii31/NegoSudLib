@@ -1,4 +1,4 @@
-﻿<Application x:Class="NegoSud.App"
+<Application x:Class="NegoSud.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:NegoSud"
@@ -21,8 +21,17 @@
             <DataTemplate DataType="{x:Type viewModel:LoginViewModel}">
                 <view:LoginView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:VentesViewModel}">
+                <view:VentesView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:CmdViewModel}">
+                <view:CmdView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
                 <view:ProductsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:HistoriqueViewModel}">
+                <view:HistoriqueView/>
             </DataTemplate>
             <Color x:Key="MainColor">#FF460A26</Color>
             <SolidColorBrush x:Key="MainColorBrush" Color="{StaticResource MainColor}"/>
@@ -33,6 +42,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:EmployesViewModel}">
                 <view:EmployesView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:InventaireViewModel}">
+                <view:InventaireView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:FournisseurViewModel}">
                 <view:FournisseursView/>

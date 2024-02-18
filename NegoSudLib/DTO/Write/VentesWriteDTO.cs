@@ -1,4 +1,4 @@
-﻿using NegoSudLib.DAO;
+﻿using NegoSudLib.DTO.Read;
 using System.ComponentModel.DataAnnotations;
 
 /// <summary>
@@ -15,6 +15,19 @@ public class VentesWriteDTO
     public int EmployeId { get; set; }
     [Required]
     public int ClientId { get; set; }
-    public IEnumerable<DetailMouvementStock>? DetailMouvementStocks { get; set; }
+    public List<DetailMouvementStockDTO>? DetailMouvementStocks { get; set; } = [];
+
+    public float Total { get; set; }
+    public void SetTotal()
+    {
+        if (DetailMouvementStocks != null)
+        {
+            foreach (var detMvt in DetailMouvementStocks)
+            {
+                this.Total += detMvt.SousTotal;
+            }
+        }
+
+    }
 
 }

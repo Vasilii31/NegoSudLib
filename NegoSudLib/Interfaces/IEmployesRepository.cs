@@ -6,13 +6,12 @@ namespace NegoSudLib.Interfaces
     public interface IEmployesRepository
     {
         Task<IEnumerable<EmployeDTO>> GetAll();
-        Task<Employe?> GetById(int id);
-        Task<Employe?> GetByMail(string mail);
-
+        Task<EmployeDTO?> GetById(int id);
+        Task<EmployeDTO?> GetByMail(string mail);
         Task<EmployeDTO?> Post(EmployeDTO Employe);
         Task<Employe?> Put(EmployeDTO Employe);
         Task Delete(int id);
         Task<bool> Exists(int id);
-
+        Task<EmployeDTO?> GetByUserName(string userName);
     }
 }

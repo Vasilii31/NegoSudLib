@@ -1,13 +1,10 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using NegoSud.MVVM.View;
 using NegoSud.MVVM.ViewModel;
 using NegoSud.MVVM.ViewModel.Factories;
 using NegoSud.Services.Authenticator;
 using NegoSud.Services.Authentification;
 using NegoSud.Services.Navigator;
+using System.Windows;
 
 namespace NegoSud
 {
@@ -60,14 +57,18 @@ namespace NegoSud
 
             services.AddSingleton<IViewModelAbstractFactory, ViewModelAbstractFactory>();
             services.AddSingleton<IViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
-            services.AddSingleton<IViewModelFactory<LoginViewModel>, LoginViewModelFactory>(services => 
-                new LoginViewModelFactory(services.GetRequiredService<IAuthenticator>(), 
+            services.AddSingleton<IViewModelFactory<LoginViewModel>, LoginViewModelFactory>(services =>
+                new LoginViewModelFactory(services.GetRequiredService<IAuthenticator>(),
                 new ViewModelFactoryRedirector<HomeViewModel>(services.GetRequiredService<INavigator>(),
                 services.GetRequiredService<IViewModelFactory<HomeViewModel>>())));
             services.AddSingleton<IViewModelFactory<ProductsViewModel>, ProductsViewModelFactory>();
             services.AddSingleton<IViewModelFactory<EmployesViewModel>, EmployesViewModelFactory>();
             services.AddSingleton<IViewModelFactory<ProductsViewModel>, ProductsViewModelFactory>();
             services.AddSingleton<IViewModelFactory<DomaineViewModel>, DomaineViewModelFactory>();
+            services.AddSingleton<IViewModelFactory<VentesViewModel>, VentesViewModelFactory>();
+            services.AddSingleton<IViewModelFactory<InventaireViewModel>, InventaireViewModelFactory>();
+            services.AddSingleton<IViewModelFactory<CmdViewModel>, CmdViewModelFactory>();
+            services.AddSingleton<IViewModelFactory<HistoriqueViewModel>, HistoriqueViewModelFactory>();
             services.AddSingleton<IViewModelFactory<FournisseurViewModel>, FourssieurViewModelIFactory>();
 
             services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));

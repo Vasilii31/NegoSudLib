@@ -1,10 +1,4 @@
-﻿using NegoSud.MVVM.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using NegoSud.MVVM.ViewModel;
 
 namespace NegoSud.Services.Navigator
 {
@@ -15,6 +9,10 @@ namespace NegoSud.Services.Navigator
         Domaines,
         Products,
         Employes,
+        Ventes,
+        Inventaire,
+        Cmd,
+        Historique,
         Fournisseurs
     }
     public interface INavigator

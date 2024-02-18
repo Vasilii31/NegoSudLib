@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.write;
@@ -9,6 +10,7 @@ using NegoSudLib.Interfaces;
 
 namespace NegoSudAPI.Controllers
 {
+    [Authorize(Roles = "Gérant,Employe")]
     [Route("api/[controller]")]
     [ApiController]
     public class CommandesController : ControllerBase
@@ -16,7 +18,7 @@ namespace NegoSudAPI.Controllers
 
         private readonly ICommandesService _commandeservice;
 
-         public CommandesController(ICommandesService commandeservice)
+        public CommandesController(ICommandesService commandeservice)
         {
             _commandeservice = commandeservice;
         }
@@ -33,14 +35,14 @@ namespace NegoSudAPI.Controllers
                 return Ok(Commandes);
             }
             return NotFound();
-                  
+
         }
 
         // GET api/Commandes/5
-        [HttpGet("{idNum}",Name = "Getby")]
+        [HttpGet("{idNum}", Name = "Getby")]
         public async Task<ActionResult<CommandeDTO?>> Getby(string idNum)
         {
-            if (int.TryParse(idNum ,out int id))
+            if (int.TryParse(idNum, out int id))
             {
                 // Si id est un entier on chercher par l'id
                 var commande = await _commandeservice.GetById(id);
@@ -59,9 +61,9 @@ namespace NegoSudAPI.Controllers
                     return NotFound();
                 }
                 return Ok(commande);
-            }      
+            }
         }
-         // GET api/Commandes/5
+        // GET api/Commandes/5
         [HttpGet("statut/{statut}")]
         public async Task<ActionResult<IEnumerable<CommandeDTO?>>> GetByStatut(Statuts statut)
         {
@@ -84,11 +86,11 @@ namespace NegoSudAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var ComCreated = await _commandeservice.Post(commande);
-            if (ComCreated != null) return Created();
+            if (ComCreated != null) return Created("", ComCreated);
 
 
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
-            
+
         }
 
         // PUT api/<ValuesController>/5
@@ -104,9 +106,9 @@ namespace NegoSudAPI.Controllers
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var produitUpdated = await _commandeservice.Put(id,commande);
-            if ( produitUpdated != null) return Ok(commande);
-           
+            var produitUpdated = await _commandeservice.Put(id, commande);
+            if (produitUpdated != null) return Ok(commande);
+
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
 
@@ -124,7 +126,7 @@ namespace NegoSudAPI.Controllers
             try
             {
                 await _commandeservice.Delete(id);
-                return NoContent(); 
+                return NoContent();
             }
             catch (Exception ex)
             {

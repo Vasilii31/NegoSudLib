@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NegoSudLib.DAO.AutreMouvement">
+    <Position X="0.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\AutreMouvement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Categorie">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\Categorie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Client">
+    <Position X="3.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>DAO\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Commande">
+    <Position X="5.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAAAEAAAAAAQA=</HashCode>
+      <FileName>DAO\Commande.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.DetailMouvementStock">
+    <Position X="11.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAGQAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\DetailMouvementStock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Domaine">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\Domaine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Employe">
+    <Position X="0.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAIAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\Employe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Fournisseur">
+    <Position X="8.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiAEAAAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\Fournisseur.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.MouvementStock">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACABAAAAAAEAAAAAAAAAAAAAAAhAAAAACAAAAAAAE=</HashCode>
+      <FileName>DAO\MouvementStock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Prix" Collapsed="true">
+    <Position X="6.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAgBAAAAAAAAAAAAAAgAAAAAAEAAAAAAA=</HashCode>
+      <FileName>DAO\Prix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.PrixAchat">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>DAO\PrixAchat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.PrixVente" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>DAO\PrixVente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Produit">
+    <Position X="14" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAACAABAABAgAAAIAAECAACCAAAYAAIAAAAQAEA=</HashCode>
+      <FileName>DAO\Produit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.TypeMouvement">
+    <Position X="12" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\TypeMouvement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.User">
+    <Position X="10.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DAO\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Utilisateur">
+    <Position X="1.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAQAAAAAAAAAAAAAACAgEAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>DAO\Utilisateur.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NegoSudLib.DAO.Vente">
+    <Position X="3.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>DAO\Vente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="NegoSudLib.DAO.Statuts">
+    <Position X="10.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAAAAAgAAAAAAAAAAAAAAAIAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>DAO\Commande.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

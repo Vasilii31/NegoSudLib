@@ -1,9 +1,4 @@
-﻿using NegoSud.Services.Navigator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NegoSud.Services.Navigator;
 
 namespace NegoSud.MVVM.ViewModel.Factories
 {
@@ -14,13 +9,21 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<LoginViewModel> _LoginViewModelFactory;
         private readonly IViewModelFactory<EmployesViewModel> _EmployesViewModelFactory;
         private readonly IViewModelFactory<DomaineViewModel> _DomaineViewModelFactory;
+        private readonly IViewModelFactory<VentesViewModel> _VentesViewModelFactory;
+        private readonly IViewModelFactory<InventaireViewModel> _InventaireViewModelFactory;
+        private readonly IViewModelFactory<CmdViewModel> _CmdViewModelFactory;
+        private readonly IViewModelFactory<HistoriqueViewModel> _HistoriqueViewModelFactory;
         private readonly IViewModelFactory<FournisseurViewModel> _FournisseurViewModelFactory;
 
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
             IViewModelFactory<LoginViewModel> loginFormViewModelFactory,
-            IViewModelFactory<DomaineViewModel> domaineViewModelFactory, 
+            IViewModelFactory<DomaineViewModel> domaineViewModelFactory,
+            IViewModelFactory<VentesViewModel> ventesViewModelFactory,
             IViewModelFactory<EmployesViewModel> employesViewModelFactory,
+            IViewModelFactory<InventaireViewModel> inventaireViewModelFactory,
+            IViewModelFactory<CmdViewModel> cmdViewModelFactory,
+            IViewModelFactory<HistoriqueViewModel> historiqueViewModelFactory,
             IViewModelFactory<FournisseurViewModel> fournisseurViewModel)
         {
             _HomeViewModelFactory = homeViewModelFactory;
@@ -28,6 +31,10 @@ namespace NegoSud.MVVM.ViewModel.Factories
             _LoginViewModelFactory = loginFormViewModelFactory;
             _DomaineViewModelFactory = domaineViewModelFactory;
             _EmployesViewModelFactory = employesViewModelFactory;
+            _VentesViewModelFactory = ventesViewModelFactory;
+            _InventaireViewModelFactory = inventaireViewModelFactory;
+            _CmdViewModelFactory = cmdViewModelFactory;
+            _HistoriqueViewModelFactory = historiqueViewModelFactory;
             _FournisseurViewModelFactory = fournisseurViewModel;
         }
 
@@ -45,6 +52,14 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _EmployesViewModelFactory.CreateViewModel();
                 case ViewType.Domaines:
                     return _DomaineViewModelFactory.CreateViewModel();
+                case ViewType.Ventes:
+                    return _VentesViewModelFactory.CreateViewModel();
+                case ViewType.Inventaire:
+                    return _InventaireViewModelFactory.CreateViewModel();
+                case ViewType.Cmd:
+                    return _CmdViewModelFactory.CreateViewModel();
+                case ViewType.Historique:
+                    return _HistoriqueViewModelFactory.CreateViewModel();
                 case ViewType.Fournisseurs:
                     return _FournisseurViewModelFactory.CreateViewModel();
                 default:

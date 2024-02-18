@@ -9,17 +9,17 @@
         xmlns:nav="clr-namespace:NegoSud.Services.Navigator"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
+        WindowState = "Maximized"
         Background="Transparent"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        AllowsTransparency="False"
-        Height="600" Width="920">
+        AllowsTransparency="False">
+    <!--Height="600" Width="920"-->
 
     <!--<Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>-->
-    
-    <Border Background="#460A26"
-            CornerRadius="20">
+
+    <Border Background="#460A26">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -32,7 +32,15 @@
                 <RowDefinition Height="75"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
+            <Image Grid.Row="0" Source="/img/Negosud.png" Height="75"/>
+            <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="NegoSud" VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Foreground="Wheat"
+                        FontSize="40" FontWeight="Bold" FontStyle="Italic"/>-->
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ChildViewName}" VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Foreground="Wheat"
+            FontSize="30" FontWeight="Bold"/>
             <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.Style>
                     <Style TargetType="Grid">
@@ -43,20 +51,11 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <TextBlock Text="NegoSud" VerticalAlignment="Center"
-           HorizontalAlignment="Center"
-           Foreground="Wheat"
-           FontSize="30" Margin="63,12,0,0"/>
 
-                <!--<TextBox Width="250"
-                     Height="40"
-                     VerticalContentAlignment="Center"
-                     HorizontalAlignment="Left"
-                     Margin="5"
-                     Grid.Column="1"
-                     Style="{StaticResource ModernTextbox}"/>-->
+
+
             </Grid>
-            <materialDesign:PackIcon Grid.Column="0" Kind="Menu" Foreground="#F9D9D9" Height="42" Width="54" RenderTransformOrigin="0.726,0.502" Grid.ColumnSpan="2"  Margin="7,14,0,0"/>
+            <!--<materialDesign:PackIcon Grid.Column="0" Kind="Menu" Foreground="#F9D9D9" Height="42" Width="54" RenderTransformOrigin="0.726,0.502" Grid.ColumnSpan="2"  Margin="7,14,0,0"/>-->
             <Grid Grid.Row="1" Grid.Column="0">
                 <Grid.Style>
                     <Style TargetType="Grid">
@@ -72,7 +71,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Home}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -80,19 +79,23 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Products}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Commandes"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Cmd}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Ventes"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Ventes}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -100,13 +103,13 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Domaines}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Catégories"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -114,7 +117,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Employes}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -122,19 +125,29 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Fournisseurs}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
-                    <RadioButton Content="Statistiques"
+                    <RadioButton Content="Inventaire"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Inventaire}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Historique"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Historique}"
+                             Height="50"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                 </StackPanel>
 
-                <materialDesign:PackIcon Grid.Column="0" Kind="Menu" Foreground="#F9D9D9" Height="42" Width="54" RenderTransformOrigin="0.726,0.502" Grid.ColumnSpan="2" Margin="7,14,0,0"/>
+                <!--<materialDesign:PackIcon Grid.Column="0" Kind="Menu" Foreground="#F9D9D9" Height="42" Width="54" RenderTransformOrigin="0.726,0.502" Grid.ColumnSpan="2" Margin="7,14,0,0"/>-->
 
                 <TextBlock Grid.Column="1" Foreground="#F9D9D9" VerticalAlignment="Top" FontSize="30" Margin="73,11,695,0" RenderTransformOrigin="0.368,0.762"/>
 
@@ -147,7 +160,7 @@
                             Margin="10"
                             Content="{Binding Navigator.CurrentViewModel}"/>
 
-            
+
 
         </Grid>
 

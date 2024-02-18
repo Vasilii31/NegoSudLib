@@ -1,15 +1,8 @@
 ﻿using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.write;
-using NegoSudLib.Extensions;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
@@ -28,13 +21,13 @@ namespace NegoSudLib.Services
         {
             return await _commandesRepository.GetAll();
         }
-         public async Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut)
+        public async Task<IEnumerable<CommandeDTO>> GetByStatut(Statuts statut)
         {
             return await _commandesRepository.GetByStatut(statut);
         }
         public async Task<CommandeDTO?> GetById(int id)
         {
-          var com =  await _commandesRepository.GetById(id);
+            var com = await _commandesRepository.GetById(id);
             if (com.DetailMouvementStocks.Any())
             {
                 foreach (var DetMvt in com.DetailMouvementStocks)
@@ -60,14 +53,43 @@ namespace NegoSudLib.Services
         }
         public async Task<CommandeDTO?> Post(CommandeWriteDTO com)
         {
-            var comAdded =  await _commandesRepository.Post(com);
+            var comAdded = await _commandesRepository.Post(com);
             if (comAdded == null) { return null; }
+            foreach (var lgnVente in comAdded.DetailMouvementStocks)
+            {
+                var pdtWrite = new ProduitWriteDTO()
+                {
+                    Id = lgnVente.ProduitId,
+                    NomProduit = lgnVente.Produit.NomProduit,
+                    IdDomaine = lgnVente.Produit.IdDomaine,
+                    IdCategorie = lgnVente.Produit.IdCategorie,
+                    ContenanceCl = lgnVente.Produit.ContenanceCl,
+                    QteEnStock = lgnVente.Produit.QteEnStock,
+                    QteCarton = lgnVente.Produit.QteCarton,
+                    DegreeAlcool = lgnVente.Produit.DegreeAlcool,
+                    Millesime = lgnVente.Produit.Millesime,
+                    PhotoProduitPath = lgnVente.Produit.PhotoProduitPath,
+                    DescriptionProduit = lgnVente.Produit.DescriptionProduit,
+                    SeuilCommandeMin = lgnVente.Produit.SeuilCommandeMin,
+                    CommandeMin = lgnVente.Produit.CommandeMin,
+                };
+                if (lgnVente.AuCarton)
+                {
+                    pdtWrite.QteEnStock += pdtWrite.QteCarton * lgnVente.QteProduit;
+                }
+                else
+                {
+                    pdtWrite.QteEnStock += lgnVente.QteProduit;
+                }
+                var result = await _produitService.Put(lgnVente.ProduitId, pdtWrite);
+
+            }
             return comAdded;
         }
 
-        public async Task<CommandeDTO?> Put(int id,CommandeWriteDTO com)
+        public async Task<CommandeDTO?> Put(int id, CommandeWriteDTO com)
         {
-            return await _commandesRepository.Put(id,com);
+            return await _commandesRepository.Put(id, com);
         }
 
         public async Task Delete(int id)

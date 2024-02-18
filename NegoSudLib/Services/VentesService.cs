@@ -1,15 +1,6 @@
-﻿using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
+﻿using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
-using NegoSudLib.Extensions;
 using NegoSudLib.Interfaces;
-using NegoSudLib.NegosudDbContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegoSudLib.Services
 {
@@ -18,11 +9,13 @@ namespace NegoSudLib.Services
         private readonly IVentesRepository _ventesRepository;
         private readonly IDetailMvtService _detMvtService;
         private readonly IProduitsServices _produitService;
-        public VentesService(IVentesRepository VentesRepository, IDetailMvtService detMvtService, IProduitsServices produitService)
+        private readonly IProduitsRepository _produitRepository;
+        public VentesService(IVentesRepository VentesRepository, IDetailMvtService detMvtService, IProduitsServices produitService, IProduitsRepository produitRepository)
         {
             this._ventesRepository = VentesRepository;
             this._detMvtService = detMvtService;
             this._produitService = produitService;
+            this._produitRepository = produitRepository;
         }
         public async Task<IEnumerable<VentesDTO>> GetAll()
         {
@@ -30,7 +23,7 @@ namespace NegoSudLib.Services
         }
         public async Task<VentesDTO?> GetById(int id)
         {
-          var com =  await _ventesRepository.GetById(id);
+            var com = await _ventesRepository.GetById(id);
             if (com != null)
             {
                 if (com.DetailMouvementStocks.Any())
@@ -62,14 +55,45 @@ namespace NegoSudLib.Services
         }
         public async Task<VentesDTO?> Post(VentesWriteDTO vente)
         {
-            var comAdded =  await _ventesRepository.Post(vente);
-            if (comAdded == null) { return null; }
-            return comAdded;
+            var venteAdded = await _ventesRepository.Post(vente);
+            if (venteAdded == null) { return null; }
+            foreach (var lgnVente in venteAdded.DetailMouvementStocks)
+            {
+
+                var pdtWrite = new ProduitWriteDTO()
+                {
+                    Id = lgnVente.ProduitId,
+                    NomProduit = lgnVente.Produit.NomProduit,
+                    IdDomaine = lgnVente.Produit.IdDomaine,
+                    IdCategorie = lgnVente.Produit.IdCategorie,
+                    ContenanceCl = lgnVente.Produit.ContenanceCl,
+                    QteEnStock = lgnVente.Produit.QteEnStock,
+                    QteCarton = lgnVente.Produit.QteCarton,
+                    DegreeAlcool = lgnVente.Produit.DegreeAlcool,
+                    Millesime = lgnVente.Produit.Millesime,
+                    PhotoProduitPath = lgnVente.Produit.PhotoProduitPath,
+                    DescriptionProduit = lgnVente.Produit.DescriptionProduit,
+                    SeuilCommandeMin = lgnVente.Produit.SeuilCommandeMin,
+                    CommandeMin = lgnVente.Produit.CommandeMin,
+                };
+                if (lgnVente.AuCarton)
+                {
+                    pdtWrite.QteEnStock -= pdtWrite.QteCarton * lgnVente.QteProduit;
+                }
+                else
+                {
+                    pdtWrite.QteEnStock -= lgnVente.QteProduit;
+                }
+                var result = await _produitRepository.Put(lgnVente.ProduitId, pdtWrite);
+
+            }
+
+            return venteAdded;
         }
 
-        public async Task<VentesDTO?> Put(int id,VentesWriteDTO vente)
+        public async Task<VentesDTO?> Put(int id, VentesWriteDTO vente)
         {
-            return await _ventesRepository.Put(id,vente);
+            return await _ventesRepository.Put(id, vente);
         }
 
         public async Task Delete(int id)

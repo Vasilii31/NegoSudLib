@@ -12,20 +12,20 @@ using System.Windows.Input;
 
 namespace NegoSud.MVVM.ViewModel
 {
-    public class EmployeItemViewModel : ViewModelBase
+    public class EmployeItemViewModel : Item
     {
         public EmployeDTO EmployeDTO { get;  }
         public string NomPrenom { get; set; }
         public string Role {  get; set; }
 
-        public ICommand ClickDeleteCommand { get; set; }
+        //public ICommand ClickDeleteCommand { get; set; }
 
-        public ICommand ClickModifyCommand { get; set; }
+        //public ICommand ClickModifyCommand { get; set; }
 
-        public event EventHandler deleted;
-        public event EventHandler modify;
+        //public event EventHandler deleted;
+        //public event EventHandler modify;
 
-        public EmployeItemViewModel(EmployeDTO employe)
+        public EmployeItemViewModel(EmployeDTO employe) 
         {
             EmployeDTO = employe;
             NomPrenom = employe.NomUtilisateur + " " + employe.PrenomUtilisateur;
@@ -50,7 +50,8 @@ namespace NegoSud.MVVM.ViewModel
                 {
                     if (t.Result == true)
                     {
-                        deleted?.Invoke(this, EventArgs.Empty);
+                        //deleted?.Invoke(this, EventArgs.Empty);
+                        base.invoke_Delete(this);
                         MessageBox.Show("L'employé a été supprimé avec succès.");
                     }
                     else
@@ -64,7 +65,8 @@ namespace NegoSud.MVVM.ViewModel
 
         private void ClickModify(object obk)
         {
-            modify.Invoke(this.EmployeDTO, EventArgs.Empty);
+            //modify.Invoke(this.EmployeDTO, EventArgs.Empty);
+            base.invoke_Modify(this.EmployeDTO);
         }
 
     }

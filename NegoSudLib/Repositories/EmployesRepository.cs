@@ -42,25 +42,46 @@ namespace NegoSudLib.Repositories
 
             return employesDTO;
         }
-        public async Task<Employe?> GetById(int id)
+        public async Task<EmployeDTO?> GetById(int id)
         {
-            return await _context.Employes
-                .Include(e => e.HistoriqueVentes)
-                .Include(e => e.HistoriqueCommandes)
-                .Include(e => e.HistoriqueAutreMouvements)
-                .Include(e => e.User)
-                .Where(e => e.Id == id)
-                .FirstOrDefaultAsync();
+            var employe = await _context.Employes
+            .Include(e => e.User)
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
+
+            if (employe == null) return null;
+
+            var isGerant = await _userManager.IsInRoleAsync(employe.User, "Gérant");
+
+            return employe.ToDTO(isGerant);
         }
-        public async Task<Employe?> GetByMail(string mail)
+        public async Task<EmployeDTO?> GetByMail(string mail)
         {
-            return await _context.Employes
-            .Include(e => e.HistoriqueVentes)
-            .Include(e => e.HistoriqueCommandes)
-            .Include(e => e.HistoriqueAutreMouvements)
+            var employe = await _context.Employes
             .Include(e => e.User)
             .Where(e => e.User.Email == mail)
             .FirstOrDefaultAsync();
+
+            if (employe == null) return null;
+
+            var isGerant = await _userManager.IsInRoleAsync(employe.User, "Gérant");
+
+            return employe.ToDTO(isGerant);
+
+        }
+        public async Task<EmployeDTO?> GetByUserName(string userName)
+        {
+            var employe = await _context.Employes
+            .Include(e => e.User)
+            .Where(e => e.User.UserName == userName)
+            .FirstOrDefaultAsync();
+
+            if (employe == null) return null;
+
+            var isGerant = await _userManager.IsInRoleAsync(employe.User, "Gérant");
+
+            return employe.ToDTO(isGerant);
+
         }
         public async Task<EmployeDTO?> Post(EmployeDTO employe)
         {
@@ -126,8 +147,13 @@ namespace NegoSudLib.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
             if (result != null)
             {
-                _context.Employes.Remove(result);
-                await _context.SaveChangesAsync();
+                var usr = await _userManager.FindByIdAsync(result.UserId);
+                if (usr != null)
+                {
+                    await _userManager.DeleteAsync(usr);
+                    _context.Employes.Remove(result);
+                    // await _context.SaveChangesAsync();
+                }
             }
         }
 

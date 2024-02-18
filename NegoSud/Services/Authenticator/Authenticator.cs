@@ -17,6 +17,7 @@ namespace NegoSud.Services.Authenticator
         {
             _authentificationService = authentificationService;
         }
+        
 
         private EmployeAccount _currentAccount;
         public EmployeAccount CurrentAccount 

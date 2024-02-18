@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using NegoSudLib.DAO;
-using NegoSudLib.NegosudDbContext;
-using System;
+﻿using NegoSudLib.DAO;
 namespace NegoSudLib.DTO.Read;
 
 // Produit entier avec historique achats
@@ -13,6 +9,8 @@ public class ProduitFullDTO
     public string NomProduit { get; set; } = string.Empty;
     public int ContenanceCl { get; set; }
     public int QteEnStock { get; set; }
+    public int CommandeMin { get; set; }
+    public int SeuilCommandeMin { get; set; }
     public float DegreeAlcool { get; set; }
     public int Millesime { get; set; }
     public int QteCarton { get; set; }

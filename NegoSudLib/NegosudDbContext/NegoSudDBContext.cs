@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using NegoSudLib.DAO;
-using NegoSudLib.NegosudDbContext;
 
 namespace NegoSudLib.NegosudDbContext
 {
@@ -26,16 +25,19 @@ namespace NegoSudLib.NegosudDbContext
         public DbSet<MouvementStock> MouvementStocks { get; set; }
 
     }
-}
 
-public class NegoSudDBContextFactory : IDesignTimeDbContextFactory<NegoSudDBContext>
-{
-    public NegoSudDBContext CreateDbContext(string[] args)
+
+
+    public class NegoSudDBContextFactory : IDesignTimeDbContextFactory<NegoSudDBContext>
     {
-        var connexionString = "server=localhost;port=3306;userid=root;password=;database=NegoSuddb;";
-        var optionsBuilder = new DbContextOptionsBuilder<NegoSudDBContext>();
-        optionsBuilder.UseMySql(connexionString, ServerVersion.AutoDetect(connexionString));
+        public NegoSudDBContext CreateDbContext(string[] args)
+        {
+            var connexionString = "server=localhost;port=3306;userid=root;password=;database=NegoSuddb;";
+            var optionsBuilder = new DbContextOptionsBuilder<NegoSudDBContext>();
+            optionsBuilder.UseMySql(connexionString, ServerVersion.AutoDetect(connexionString));
 
-        return new NegoSudDBContext(optionsBuilder.Options);
+            return new NegoSudDBContext(optionsBuilder.Options);
+        }
     }
+
 }

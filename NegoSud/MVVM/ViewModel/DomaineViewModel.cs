@@ -69,7 +69,7 @@ namespace NegoSud.MVVM.ViewModel
             ListeDomaine.Clear();
             Task.Run(async () =>
             {
-                return await httpClientService.GetDomaines();
+                return await httpClientService.GetDomainess();
 
 
             }).ContinueWith(t =>

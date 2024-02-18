@@ -29,6 +29,8 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.Client)
                  .Include(c => c.Employe)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Categorie)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Domaine)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
                  .Where(c => c.Id == id)
                  .Select(c => c.ToDTO())
@@ -54,13 +56,18 @@ namespace NegoSudLib.Repositories
         }
         public async Task<VentesDTO?> Post(VentesWriteDTO VenteDTO)
         {
+            List<DetailMouvementStock> DetailMvt = [];
+            foreach (var item in VenteDTO.DetailMouvementStocks)
+            {
+                DetailMvt.Add(item.ToDAO());
+            }
             Vente Vente = new Vente
             {
                 DateMouvement = DateTime.Now,
                 EmployeId = VenteDTO.EmployeId,
                 ClientId = VenteDTO.ClientId,
                 EntreeOuSortie = false,
-                DetailMouvementStocks = VenteDTO.DetailMouvementStocks,
+                DetailMouvementStocks = DetailMvt,
                 Commentaire = VenteDTO.Commentaire
             };
             await _context.Ventes.AddAsync(Vente);
