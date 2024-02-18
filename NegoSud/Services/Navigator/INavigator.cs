@@ -13,7 +13,8 @@ namespace NegoSud.Services.Navigator
         Inventaire,
         Cmd,
         Historique,
-        Fournisseurs
+        Fournisseurs,
+        Categories
     }
     public interface INavigator
     {

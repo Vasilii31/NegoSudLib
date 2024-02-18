@@ -108,6 +108,8 @@
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Catégories"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Categories}"
                              Height="50"
                              Foreground="White"
                              FontSize="22"

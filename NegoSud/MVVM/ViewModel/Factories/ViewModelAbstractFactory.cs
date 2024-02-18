@@ -14,7 +14,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<CmdViewModel> _CmdViewModelFactory;
         private readonly IViewModelFactory<HistoriqueViewModel> _HistoriqueViewModelFactory;
         private readonly IViewModelFactory<FournisseurViewModel> _FournisseurViewModelFactory;
-
+        private readonly IViewModelFactory<CategoriesViewModel> _CategoriesViewModelFactory;
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
             IViewModelFactory<LoginViewModel> loginFormViewModelFactory,
@@ -24,7 +24,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
             IViewModelFactory<InventaireViewModel> inventaireViewModelFactory,
             IViewModelFactory<CmdViewModel> cmdViewModelFactory,
             IViewModelFactory<HistoriqueViewModel> historiqueViewModelFactory,
-            IViewModelFactory<FournisseurViewModel> fournisseurViewModel)
+            IViewModelFactory<FournisseurViewModel> fournisseurViewModel, 
+            IViewModelFactory<CategoriesViewModel> categorieViewModelF)
         {
             _HomeViewModelFactory = homeViewModelFactory;
             _ProductsViewModelFactory = productsViewModelFactory;
@@ -36,6 +37,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
             _CmdViewModelFactory = cmdViewModelFactory;
             _HistoriqueViewModelFactory = historiqueViewModelFactory;
             _FournisseurViewModelFactory = fournisseurViewModel;
+            _CategoriesViewModelFactory = categorieViewModelF;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -62,6 +64,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _HistoriqueViewModelFactory.CreateViewModel();
                 case ViewType.Fournisseurs:
                     return _FournisseurViewModelFactory.CreateViewModel();
+                case ViewType.Categories:
+                    return _CategoriesViewModelFactory.CreateViewModel();
                 default:
                     throw new ArgumentException("View Type does not have an existing View Model", "viewType");
             }
