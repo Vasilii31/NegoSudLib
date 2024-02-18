@@ -105,6 +105,24 @@ namespace NegoSud.Services
             }
             return new List<ProduitLightDTO>();
         }
+        public static async Task<List<ProduitLightDTO>> SearchProduits(int? IdCat, int? IdDom, int four, string? nom, bool? Envente)
+        {
+            string route = $"api/Produits/Recherche?";
+            //cat=0&dom=0&four=0&nom=string
+            if (IdCat != 0) { route += $"&cat={IdCat}"; }
+            if (IdDom != 0) { route += $"&dom={IdDom}"; }
+            if (four != 0) { route += $"&four={four}"; }
+            if (!string.IsNullOrEmpty(nom)) { route += $"&nom={nom}"; }
+            if (Envente != null) { route += $"&Envente={Envente}"; }
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<ProduitLightDTO>();
+        }
 
         public static async Task<ProduitFullDTO> GetProductById(int id)
         {
@@ -189,13 +207,15 @@ namespace NegoSud.Services
             }
         }
 
+
+
         public static async Task<ProduitFullDTO> ModifyProduct(ProduitWriteDTO produitWriteDTO, int id)
         {
             var produitJson = JsonConvert.SerializeObject(produitWriteDTO);
             string route = $"api/Produits/{id}";
 
             var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
-            
+
             var response = await Client.PutAsync(route, content);
 
             if (response.IsSuccessStatusCode)
@@ -324,10 +344,32 @@ namespace NegoSud.Services
             }
         }
 
+        internal async static Task<ClientDTO> AddClient(ClientDTO clientAjout)
+        {
+            var mvtJson = JsonConvert.SerializeObject(clientAjout);
+            string route = $"api/Client";
+
+            var content = new StringContent(mvtJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ClientDTO>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
+
 
         //public static async Task<bool> UpdateEmploye(int id, )
         //{
-        public static async Task<List<DomaineDTO>> GetDomaines()
+        public static async Task<List<DomaineDTO>> GetDomainess()
         {
             string route = "domaines";
             var response = await Client.GetAsync(route);
@@ -356,7 +398,7 @@ namespace NegoSud.Services
             return response.IsSuccessStatusCode;
         }
 
-        public static async Task<List<FournisseurDetailDTO>> GetFournisseurs()
+        public static async Task<List<FournisseurDetailDTO>> GetFournisseurss()
         {
             string route = "fournisseurs";
             var reponse = await Client.GetAsync(route);

@@ -23,7 +23,24 @@ namespace NegoSud.MVVM.ViewModel
             set
             {
                 _FournisseurSelectionne = value;
+                SearchProduits();
+                Panier.Clear();
                 OnPropertyChanged(nameof(FournisseurSelectionne));
+            }
+        }
+
+        private string _recherche;
+
+        public string Recherche
+        {
+            get { return _recherche; }
+            set
+            {
+                if (value != _recherche)
+                {
+                    _recherche = value;
+                    OnPropertyChanged(nameof(Recherche));
+                }
             }
         }
 
@@ -87,7 +104,7 @@ namespace NegoSud.MVVM.ViewModel
         }
         public CmdViewModel()
         {
-            GetProductsAll();
+
             GetFournisseurs();
         }
 
@@ -97,13 +114,13 @@ namespace NegoSud.MVVM.ViewModel
 
 
 
-        private void GetProductsAll()
+        public void SearchProduits()
         {
             ListeProduits.Clear();
 
             Task.Run(async () =>
             {
-                return await httpClientService.GetProduitsAll();
+                return await httpClientService.SearchProduits(0, 0, _FournisseurSelectionne.Id, Recherche, null);
 
             })
             .ContinueWith(t =>
@@ -146,6 +163,11 @@ namespace NegoSud.MVVM.ViewModel
 
         public void VoirPanier(object? sender, EventArgs e)
         {
+            if (Panier.Count() == 0)
+            {
+                MessageBox.Show("Le panier est vide!", "Panier vide", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             PanierVisible = Visibility.Visible;
         }
         public void FermerPanier(object? sender, EventArgs e)
@@ -278,6 +300,9 @@ namespace NegoSud.MVVM.ViewModel
 
                 CommandeDTO venteAjoutee = await httpClientService.AddCommande(Commande);
                 MessageBox.Show("La commande a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                Panier.Clear();
+                PanierVisible = Visibility.Collapsed;
+                MajInfoPanier();
             }
             catch (Exception ex)
             {
@@ -286,5 +311,7 @@ namespace NegoSud.MVVM.ViewModel
             }
 
         }
+
+
     }
 }

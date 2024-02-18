@@ -30,9 +30,9 @@ namespace NegoSudLib.Services
         {
             return await this._produitRepository.GetByCat(catId);
         }
-        public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, string? name, bool? enVente)
+        public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, int four, string? name, bool? enVente)
         {
-            return await this._produitRepository.Search(cat, dom, name, enVente);
+            return await this._produitRepository.Search(cat, dom, four, name, enVente);
         }
 
         // Renvoie les produits par domaine

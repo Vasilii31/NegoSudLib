@@ -23,5 +23,10 @@ namespace NegoSud.MVVM.View.Template
             var vm = (VentesViewModel)this.DataContext;
             vm.FermerPanier(sender, e);
         }
+        private void NouveauClient_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var vm = (VentesViewModel)this.DataContext;
+            vm.voirClient(sender, e);
+        }
     }
 }

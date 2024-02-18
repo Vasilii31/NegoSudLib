@@ -70,8 +70,8 @@ namespace NegoSudAPI.Controllers
         {
             if (Client != null)
             {
-                var produitCreated = await _clientsService.Post(Client);
-                if (produitCreated != null) return Ok(produitCreated);
+                var clientCreated = await _clientsService.Post(Client);
+                if (clientCreated != null) return Created("", clientCreated);
 
                 return StatusCode(500, "Une erreur interne du serveur s'est produite.");
             }

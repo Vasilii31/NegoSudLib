@@ -16,8 +16,14 @@ namespace NegoSud.MVVM.View
 
         private void VoirPanier_Click(object sender, RoutedEventArgs e)
         {
-            var vm = (CmdViewModel)this.DataContext;
+            var vm = (VentesViewModel)this.DataContext;
             vm.VoirPanier(sender, e);
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = (VentesViewModel)this.DataContext;
+            vm.SearchProduits(sender, e);
         }
     }
 }

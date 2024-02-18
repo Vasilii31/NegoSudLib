@@ -127,7 +127,7 @@ namespace NegoSud.MVVM.ViewModel
             ListeFournisseur.Clear();
             Task.Run(async () =>
             {
-                return await httpClientService.GetFournisseurs();
+                return await httpClientService.GetFournisseurss();
 
 
             }).ContinueWith(t =>
