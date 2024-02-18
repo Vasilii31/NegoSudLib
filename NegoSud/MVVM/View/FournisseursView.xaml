@@ -8,7 +8,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:nav="clr-namespace:NegoSud.Services.Navigator"
              mc:Ignorable="d" 
-             d:DesignHeight="450" Background="Wheat" Width="700">
+             d:DesignHeight="450" Background="Wheat" d:DesignWidth="800">
     <Grid>
 
         <Grid.RowDefinitions>
