@@ -11,11 +11,22 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <Menu Grid.Row="0">
-            <MenuItem Header="Ventes" Command="{Binding VentesTabCommande}"/>
-            <MenuItem Header="Commandes" Command="{Binding CommandesTabCommande}"/>
-            <MenuItem Header="Autres Mouvements" Command="{Binding AutresMvtTabCommande}"/>
+
+        <Menu Grid.Row="0" Height="40" BorderThickness="5" Background="Wheat">
+            <Menu.BitmapEffect>
+                <DropShadowBitmapEffect />
+            </Menu.BitmapEffect>
+
+            <!--<Border BorderBrush="Black" BorderThickness="1">-->
+                <MenuItem Foreground="#460A26" FontWeight="Bold" Header="Ventes" Command="{Binding VentesTabCommande}"  Width="200" FontSize="20"/>
+            <!--</Border>-->
+            <!--<Border BorderBrush="Black" BorderThickness="1">-->
+            <MenuItem Foreground="#460A26" FontWeight="Bold" Header="Commandes" Command="{Binding CommandesTabCommande}" Width="200" FontSize="20"/>
+            <!--</Border>
+
+            <Border BorderBrush="Black" BorderThickness="1">-->
+            <MenuItem Foreground="#460A26" FontWeight="Bold" Header="Autres Mouvements" Command="{Binding AutresMvtTabCommande}" Width="200" FontSize="20"/>
+            <!--</Border>-->
         </Menu>
 
         <TabControl ItemsSource="{Binding ListTabs}"
