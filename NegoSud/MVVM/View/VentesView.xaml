@@ -176,6 +176,7 @@
 
             </Grid>
         </Grid>
-        <!--<Templates:Panier Grid.Column="1" Grid.RowSpan="2" x:Name="Panier" Visibility="{Binding PanierVisible}"/>-->
+        <Templates:Panier Grid.Column="1" Grid.RowSpan="2" x:Name="Panier" Visibility="{Binding PanierVisible}"/>
+        <Templates:FormClient Grid.Column="1" Grid.RowSpan="2" x:Name="Client" Visibility="{Binding AjoutClientVisible}"/>
     </Grid>
 </UserControl>

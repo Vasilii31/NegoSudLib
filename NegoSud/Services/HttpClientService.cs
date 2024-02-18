@@ -215,7 +215,7 @@ namespace NegoSud.Services
             string route = $"api/Produits/{id}";
 
             var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
-            
+
             var response = await Client.PutAsync(route, content);
 
             if (response.IsSuccessStatusCode)
@@ -335,6 +335,28 @@ namespace NegoSud.Services
             {
                 string resultat = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<TypeMouvement>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
+
+        internal async static Task<ClientDTO> AddClient(ClientDTO clientAjout)
+        {
+            var mvtJson = JsonConvert.SerializeObject(clientAjout);
+            string route = $"api/Client";
+
+            var content = new StringContent(mvtJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ClientDTO>(resultat)
                     ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
             }
             else

@@ -163,6 +163,11 @@ namespace NegoSud.MVVM.ViewModel
 
         public void VoirPanier(object? sender, EventArgs e)
         {
+            if (Panier.Count() == 0)
+            {
+                MessageBox.Show("Le panier est vide!", "Panier vide", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             PanierVisible = Visibility.Visible;
         }
         public void FermerPanier(object? sender, EventArgs e)
