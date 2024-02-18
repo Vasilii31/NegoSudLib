@@ -6,7 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:NegoSud.MVVM.View" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" Background="White" Width="700">
+             d:DesignHeight="450" Background="White" d:DesignWidth="800">
 
     <Grid>
 
