@@ -11,7 +11,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -19,28 +18,22 @@ using System.Windows.Shapes;
 namespace NegoSud.MVVM.View
 {
     /// <summary>
-    /// Logique d'interaction pour Domaines.xaml
+    /// Logique d'interaction pour FournisseursView.xaml
     /// </summary>
-    public partial class DomainesView : UserControl
+    public partial class FournisseursView : UserControl
     {
-        public DomainesView()
+        public FournisseursView()
         {
             InitializeComponent();
-
-            // Écouter l'événement AjouterButtonClick du bouton Ajouter
             ButtonAjouter.AjouterButtonClick += ButtonAjouter_Click;
-            ButtonConsultation.ConsultationButtonClick += ButtonView_Click;
         }
 
-        private void ButtonAjouter_Click(object sender, EventArgs e)
+        private void ButtonAjouter_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Ajout d'un domaine");
-
-        }
-
-        private void ButtonView_Click(object sender, EventArgs e)
-        {
-            
+            if (DataContext is FournisseurViewModel viewModel)
+            {
+                viewModel.CreateFournisseurCommand.Execute(null);
+            }
         }
     }
 }
