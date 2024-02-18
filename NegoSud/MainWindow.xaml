@@ -32,10 +32,11 @@
                 <RowDefinition Height="75"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="NegoSud" VerticalAlignment="Center"
+            <Image Grid.Row="0" Source="/img/Negosud.png" Height="75"/>
+            <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="NegoSud" VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Foreground="Wheat"
-                        FontSize="40" FontWeight="Bold" FontStyle="Italic"/>
+                        FontSize="40" FontWeight="Bold" FontStyle="Italic"/>-->
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ChildViewName}" VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Foreground="Wheat"
@@ -70,7 +71,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Home}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -78,7 +79,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Products}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -86,7 +87,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Cmd}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -94,7 +95,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Ventes}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -102,13 +103,13 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Domaines}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Catégories"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -116,13 +117,13 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Employes}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Fournisseurs"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -130,7 +131,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Inventaire}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
@@ -138,7 +139,7 @@
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Historique}"
                              Height="50"
-                             Foreground="Wheat"
+                             Foreground="White"
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>

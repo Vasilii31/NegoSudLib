@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Negosud.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Fonts\" />
     <Folder Include="Images\" />
     <Folder Include="MVVM\View\Uc\" />
@@ -26,6 +30,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NegoSudLib\NegoSudLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\Negosud.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
