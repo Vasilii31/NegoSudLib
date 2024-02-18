@@ -22,8 +22,8 @@
         </Border>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="20,0,0,0"  VerticalAlignment="Center">
-            <Template:ButtonAjouter x:Name="ButtonAdd" Margin="0, 0, 10, 0" Width="20"/>
-            <Template:ButtonModifier Margin="0, 0, 10, 0"  Width="20"/>
+            <Template:ButtonAjouter x:Name="ButtonAdd" Margin="0, 0, 10, 0" Width="20" Command="{Binding CreateCommand}"/>
+            <Template:ButtonModifier Margin="0, 0, 10, 0"  Width="20" Command="{Binding ModifyCommand}" />
             <Template:ButtonDeleteAll  Margin="0, 0,365, 0" Width="20" Command="{Binding DeleteSelectedCommand}"/>
             <Template:ComboBox x:Name="ComboBoxDomaine"/>
         </StackPanel>
@@ -56,7 +56,7 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        
+        <Template:AjoutDomaineView Visibility="{Binding IsPopUpVisible}"/>
     </Grid>
 
 

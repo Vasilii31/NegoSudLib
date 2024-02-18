@@ -18,8 +18,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="30,10,0,0"  VerticalAlignment="Center">
-            <Template:ButtonAjouter x:Name="ButtonAdd" Margin="0, 0, 10, 0" Width="20"/>
-            <Template:ButtonModifier Margin="0, 0, 10, 0"  Width="20"/>
+            <Template:ButtonAjouter x:Name="ButtonAdd" Margin="0, 0, 10, 0" Width="20" Command="{Binding CreateFournisseurCommand}"/>
+            <Template:ButtonModifier Margin="0, 0, 10, 0"  Width="20" Command="{Binding ModifyFournisseurCommand}"/>
             <Template:ButtonDeleteAll Margin="0, 0,365, 0" Width="20" Command="{Binding DeleteSelectedCommand}"/>
             <!--<Template:ComboBox x:Name="ComboBoxDomaine"/>-->
         </StackPanel>
@@ -86,15 +86,7 @@
 
                                 </Grid>
 
-                                <!--<TextBlock Grid.Row="0" Grid.Column="3" Text="" />-->
 
-                                <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
-
-            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
-
-            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
-            
-            <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>-->
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -126,36 +118,7 @@
             </Grid>
         </Grid>
 
-        <!--<ListBox Grid.Row="2" ItemsSource="{Binding ListeFournisseur}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Fournisseur.NomFournisseur}" FontWeight="Bold" />
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Fournisseur.AdresseFournisseur}" FontWeight="Bold" Margin="50,0,0,0" />
+        <Template:AjoutFournisseurView Visibility="{Binding IsPopUpVisible}"/>
 
-
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>-->
-       
-		
     </Grid>
 </UserControl>

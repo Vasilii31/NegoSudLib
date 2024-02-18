@@ -29,18 +29,13 @@ namespace NegoSud.MVVM.View
 
             // Écouter l'événement AjouterButtonClick du bouton Ajouter
             ButtonAjouter.AjouterButtonClick += ButtonAjouter_Click;
-            ButtonConsultation.ConsultationButtonClick += ButtonView_Click;
+
         }
 
         private void ButtonAjouter_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Ajout d'un domaine");
 
-        }
 
-        private void ButtonView_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }
