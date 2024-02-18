@@ -67,10 +67,21 @@ namespace NegoSudAPI.Controllers
             return NotFound();
         }
 
+        // GET api/produits/QteBasse
+        [HttpGet("QteBasse")]
+        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> GetAllProductsLow()
+        {
+            var produit = await _produitService.GetAllProductsLow();
+            if (produit == null)
+            {
+                return NotFound();
+            }
+            return Ok(produit);
+        }
 
         // GET api/produits/5
         [HttpGet("Recherche")]
-        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> Search([FromQuery] int cat, [FromQuery] int dom, [FromQuery] int four, [FromQuery] string? nom, [FromQuery] bool? enVente)
+        public async Task<ActionResult<IEnumerable<ProduitLightDTO>>> Search([FromQuery] int cat, [FromQuery] int dom, [FromQuery] int four, [FromQuery] string? nom, [FromQuery] bool? enVente, [FromQuery] bool? QteBasse)
         {
             var produit = await _produitService.Search(cat, dom, four, nom, enVente);
             if (produit == null)

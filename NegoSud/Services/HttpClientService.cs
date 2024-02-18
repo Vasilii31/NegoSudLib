@@ -1,4 +1,5 @@
-﻿using NegoSudLib.DAO;
+﻿using NegoSud.MVVM.ViewModel;
+using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.write;
 using NegoSudLib.DTO.Write;
@@ -381,6 +382,19 @@ namespace NegoSud.Services
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
             return new List<AutreMvtDTO>();
+        }
+
+        public static async Task<List<ProduitLightDTO>> GetProductsLow()
+        {
+            string route = $"api/Produits/QteBasse";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
+                ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            return new List<ProduitLightDTO>();
         }
 
 

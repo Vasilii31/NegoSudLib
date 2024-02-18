@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="NegoSud.MVVM.View.Template.TableauCmdsAValider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="Wheat">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock Text="Commandes automatiques à valider"  HorizontalAlignment="Center" Margin="10" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="Attention, vérifiez bien les quantités de ces commandes avant de valider !" FontSize="14" Foreground="Red" HorizontalAlignment="Center"></TextBlock>
+        </StackPanel>
+
+        <!--<Templates:ButtonNormal Grid.Row="2" Grid.Column="1" Width="100" Height="30" Content="Retour" Command="{Binding RetourCommand}"/>-->
+        
+        <Button Margin="3 , 0, 3 0" Grid.Row="2" Grid.Column="1"  Height="40" MaxWidth="100" Background="#460A26" Foreground="White" BorderBrush="Transparent" BorderThickness="1" Command="{Binding RetourCommand}">
+            <AccessText FontSize="12" Text="Retour" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
+
+        <!--ESPACE TRI ET RECHERCHE-->
+        <!--<Grid Grid.Row="0">
+                <TextBlock  Text="POur la barre de tri"></TextBlock>
+            </Grid>-->
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- En-tête de la table (thead) -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Date de commande" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Fournisseur" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Statut Commande" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Consulter" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+            </Grid>
+
+            <!-- Corps de la table (tbody) -->
+            <Grid Grid.Row="1">
+
+                <ListBox ItemsSource="{Binding CommandesAuto}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Grid.Column="0" Text="{Binding DateCommande}" FontWeight="Bold" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding NomFournisseur}"  />
+                                <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Text="{Binding CommandeToPush.StatutCommande}"  />
+                                <!--<Grid Grid.Row="0" Grid.Column="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>-->
+                                <Templates:ButtonConsultation  Grid.Row="0" Grid.Column="3" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding ConsultCommandeAutoCommand}"/>
+                                <!--<local:ButtonModifier  Grid.Column="0" Width="20" HorizontalAlignment="Center" Command="{Binding ClickModifyCommand}"/>
+                                    <local:ButtonDeleteAll Grid.Row="1" Grid.Column="3" Width="20" HorizontalAlignment="Center"  Command="{Binding ClickDeleteCommand}"/>-->
+                                <!--</Grid>-->
+
+                                <!--<TextBlock Grid.Row="0" Grid.Column="3" Text="" />-->
+
+                                <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+
+             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
+
+             <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
+             
+             <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>-->
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <!-- ListBox ItemTemplate stretch horizontally -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+
+                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
+
+                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
+
+                    <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

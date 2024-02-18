@@ -16,11 +16,21 @@ namespace NegoSudLib.Repositories
 
         public async Task<IEnumerable<VentesDTO>> GetAll()
         {
+
             return await _context.Ventes
                 .Include(c => c.Client)
                 .Include(c => c.Employe)
+                .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Categorie)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Domaine)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
                 .Select(c => c.ToDTO())
                 .ToListAsync();
+            //return await _context.Ventes
+            //    .Include(c => c.Client)
+            //    .Include(c => c.Employe)
+            //    .Select(c => c.ToDTO())
+            //    .ToListAsync();
         }
 
         public async Task<VentesDTO?> GetById(int id)
@@ -45,6 +55,8 @@ namespace NegoSudLib.Repositories
                  .Include(c => c.Client)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
                  .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Categorie)
+                 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Domaine)
                  .Include(c => c.Employe)
                  .Where(c => c.NumFacture == num)
                  .Select(c => c.ToDTO())

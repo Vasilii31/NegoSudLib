@@ -2,6 +2,7 @@
 using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.write;
+using NegoSudLib.DTO.Write;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -288,6 +289,8 @@ namespace NegoSud.MVVM.ViewModel
                 MessageBox.Show("Un problème est survenu", "Erreur", MessageBoxButton.OK, MessageBoxImage.Information);
                 // Vous pouvez logger l'exception ou afficher un message d'erreur à l'utilisateur
             }
+
+            
 
         }
     }

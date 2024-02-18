@@ -19,5 +19,10 @@ namespace NegoSud.MVVM.View
             var vm = (VentesViewModel)this.DataContext;
             vm.VoirPanier(sender, e);
         }
+
+        private void Panier_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

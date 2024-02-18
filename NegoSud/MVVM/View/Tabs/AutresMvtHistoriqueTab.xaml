@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" >
     <Grid>
         <Templates:TableauAutreMvt Grid.Row="1" Grid.Column="1" />
         <Templates:ConsultAutreMvt Visibility="{Binding ConsultAutreMvtVisible}"/>

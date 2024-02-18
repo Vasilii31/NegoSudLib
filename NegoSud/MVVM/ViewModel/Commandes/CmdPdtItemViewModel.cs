@@ -1,6 +1,7 @@
 ﻿using NegoSud.Core;
 using NegoSudLib.DTO.Read;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NegoSud.MVVM.ViewModel
 {
@@ -37,6 +38,21 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
+        private float _sousTotal;
+
+        public float SousTotal
+        {
+            get { return _sousTotal; }
+            set
+            {
+                if (_sousTotal != value)
+                {
+                    _sousTotal = value;
+                    OnPropertyChanged(nameof(SousTotal));
+                }
+            }
+        }
+
         private Visibility _ajoutVisible = Visibility.Collapsed;
 
         public Visibility AjoutVisible
@@ -53,6 +69,8 @@ namespace NegoSud.MVVM.ViewModel
         }
         public string PrixU { get; set; }
         public string PrixC { get; set; }
+
+        public ICommand CMD_DeleteCommandeAuto { get; set; }
         public CmdPdtItemViewModel(ProduitLightDTO produit)
         {
             ProduitLightDTO = produit;
@@ -64,6 +82,17 @@ namespace NegoSud.MVVM.ViewModel
             CMD_MoinsU = new RelayCommand(MoinsU);
             CMD_PlusC = new RelayCommand(PlusC);
             CMD_MoinsC = new RelayCommand(MoinsC);
+            CMD_DeleteCommandeAuto = new RelayCommand(DeleteCommandAuto);
+    }
+
+        private void DeleteCommandAuto(object obj)
+        {
+            invoke_DeleteCommandeAuto(this);
+        }
+
+        public void SetSousTotal()
+        {
+            SousTotal = QteUnite * ProduitLightDTO.PrixAchat;
         }
 
         public void AjoutPanier(object obk)

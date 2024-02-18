@@ -117,6 +117,11 @@ namespace NegoSudLib.Services
         {
             return await _produitRepository.Exists(id);
         }
+
+        public async Task<IEnumerable<ProduitLightDTO>> GetAllProductsLow()
+        {
+            return await this._produitRepository.GetAllProductsLow();
+        }
     }
 }
 

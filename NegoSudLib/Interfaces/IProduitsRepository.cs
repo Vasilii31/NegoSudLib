@@ -15,5 +15,6 @@ namespace NegoSudLib.Interfaces
         Task Delete(int id);
         Task<bool> Exists(int id);
         Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, int Four, string? name, bool? enVente);
+        Task<IEnumerable<ProduitLightDTO>> GetAllProductsLow();
     }
 }

@@ -33,7 +33,7 @@ namespace NegoSud.MVVM.ViewModel
 
         private void OuvrirDetailsVente(object obk)
         {
-            ouvrirVenteForm?.Invoke(this.Ventes, EventArgs.Empty);
+            ouvrirVenteForm?.Invoke(this, EventArgs.Empty);
         }
 
         

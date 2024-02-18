@@ -1,5 +1,6 @@
 ﻿using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
+using System.Numerics;
 
 namespace NegoSudLib.Interfaces
 {
@@ -15,5 +16,6 @@ namespace NegoSudLib.Interfaces
         Task Delete(int id);
         Task<bool> Exists(int id);
         Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, int four, string? name, bool? enVente);
+        Task<IEnumerable<ProduitLightDTO>> GetAllProductsLow();
     }
 }

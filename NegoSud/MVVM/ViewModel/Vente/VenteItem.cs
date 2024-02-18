@@ -17,6 +17,12 @@ namespace NegoSud.MVVM.ViewModel
         public event EventHandler EH_PlusC;
         public event EventHandler EH_MoinsC;
         public event EventHandler EH_VoirPdt;
+        public event EventHandler EH_DeleteCommandeAuto;
+
+        protected void invoke_DeleteCommandeAuto(object sender)
+        {
+            EH_DeleteCommandeAuto?.Invoke(sender, EventArgs.Empty);
+        }
 
         protected void invoke_AjoutPanier(object sender)
         {

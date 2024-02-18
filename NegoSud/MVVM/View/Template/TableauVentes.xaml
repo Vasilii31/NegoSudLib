@@ -64,13 +64,13 @@
 
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Ventes.numFacture}" FontWeight="Bold" />
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateVente}" Margin="40 0 0 0" />
-                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding ClientFullName}" Margin="40 0 0 0" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Ventes.NumFacture}" HorizontalAlignment="Center" FontWeight="Bold" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateVente}" HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding ClientFullName}" HorizontalAlignment="Center" />
                                     <Grid Grid.Row="0" Grid.Column="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            
                                         </Grid.ColumnDefinitions>
                                         <local:ButtonConsultation Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding OuvrirDetailsVenteCommand}"/>
                                         <!--<local:ButtonModifier  Grid.Column="0" Width="20" HorizontalAlignment="Center" Command="{Binding ClickModifyCommand}"/>

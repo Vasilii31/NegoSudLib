@@ -39,8 +39,7 @@ namespace NegoSudLib.Repositories
         }
         public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, int Four, string? name, bool? enVente)
         {
-
-            var result = await _context.Produits
+                  var  result = await _context.Produits
                 .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
                 .ThenInclude(p => p.Fournisseur)
                 .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
@@ -178,8 +177,19 @@ namespace NegoSudLib.Repositories
             }
         }
 
-
-
-
+        public async Task<IEnumerable<ProduitLightDTO>> GetAllProductsLow()
+        {
+            return await _context.Produits
+                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+                .ThenInclude(p => p.Fournisseur)
+                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
+                .Include(p => p.Domaine)
+                .Include(p => p.Categorie)
+                .Where(p => p.QteEnStock <= ((p.SeuilCommandeMin == null) ? 0 : p.SeuilCommandeMin))
+                .OrderBy(Fournisseur => Fournisseur.Id)
+                .Select(p => p.ToLightDTO(null))
+                
+                .ToListAsync();
+        }
     }
 }

@@ -73,6 +73,7 @@ namespace NegoSud.MVVM.ViewModel
                     var item = new ConsultVenteItemViewModel(vente);
                     //item.deleted += Item_deleted;
                     //item.modify += Item_modifyPopup;
+                    item.Ventes.SetTotaux();
                     item.ouvrirVenteForm += OuvrirForm;
                     ListeVentes.Add(item);
 
