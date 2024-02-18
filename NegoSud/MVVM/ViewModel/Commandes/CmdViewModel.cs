@@ -163,6 +163,11 @@ namespace NegoSud.MVVM.ViewModel
 
         public void VoirPanier(object? sender, EventArgs e)
         {
+            if (Panier.Count() == 0)
+            {
+                MessageBox.Show("Le panier est vide !", "Panier vide", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             PanierVisible = Visibility.Visible;
         }
         public void FermerPanier(object? sender, EventArgs e)
@@ -297,6 +302,7 @@ namespace NegoSud.MVVM.ViewModel
                 MessageBox.Show("La commande a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 Panier.Clear();
                 PanierVisible = Visibility.Collapsed;
+                MajInfoPanier();
             }
             catch (Exception ex)
             {
