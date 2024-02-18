@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace NegoSud.MVVM.View.Template
 {
     /// <summary>
-    /// Logique d'interaction pour AjoutFournisseurView.xaml
+    /// Logique d'interaction pour AjoutDomaineView.xaml
     /// </summary>
-    public partial class AjoutFournisseurView : UserControl
+    public partial class AjoutDomaineView : UserControl
     {
-        public AjoutFournisseurView()
+        public AjoutDomaineView()
         {
             InitializeComponent();
         }

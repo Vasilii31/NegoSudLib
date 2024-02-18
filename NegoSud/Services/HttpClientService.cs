@@ -437,17 +437,26 @@ namespace NegoSud.Services
 
         public static async Task<bool> DeleteDomaine(int id)
         {
-            string route = $"Domaines/{id}";
+            string route = $"api/Domaines/{id}";
             var response = await Client.DeleteAsync(route);
             return response.IsSuccessStatusCode;
         }
 
-        public static async Task<bool> PostDomaine(DomaineDTO domaine)
+        public static async Task<bool> CreateDomaine(DomaineDTO domaine)
         {
-            string route = $"api/Domaines";
+          string route = $"api/Domaines";
+            var json = JsonConvert.SerializeObject(domaine);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await Client.PostAsync(route, data);
+                return response.IsSuccessStatusCode;    
+        }
+
+        public static async Task<bool> UpdateDomaine(DomaineDTO domaine)
+        {
+            string route = $"api/Domaines/{domaine.Id}";
             var json = JsonConvert.SerializeObject(domaine);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await Client.PostAsync(route, data);
+            var response = await Client.PutAsync(route, data);
             return response.IsSuccessStatusCode;
         }
 
@@ -464,21 +473,29 @@ namespace NegoSud.Services
             throw new Exception(reponse.ReasonPhrase);         
         }
 
-        public static async Task<bool> DeleteFournisseur(int id)
+       public static async Task<bool> DeleteFournisseur(int id)
         {
-            string route = $"Fournisseurs/{id}";
+            string route = $"api/Fournisseurs/{id}";
             var response = await Client.DeleteAsync(route);
             return response.IsSuccessStatusCode;
         }
 
-        public static async Task<bool> PostFournisseur(FournisseurDetailDTO fournisseur)
+        public static async Task<bool>CreateFournisseur(FournisseurDetailDTO fournisseur)
         {
-            string route = "Fournisseurs";
+            string route = $"api/Fournisseurs";
             var json = JsonConvert.SerializeObject(fournisseur);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync(route, data);
             return response.IsSuccessStatusCode;
         }
 
+        public static async Task<bool> UpdateFournisseur(FournisseurDetailDTO fournisseur)
+        {
+            string route = $"api/Fournisseurs/{fournisseur.Id}";
+            var json = JsonConvert.SerializeObject(fournisseur);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await Client.PutAsync(route, data);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

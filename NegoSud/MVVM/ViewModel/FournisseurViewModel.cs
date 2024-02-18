@@ -37,75 +37,127 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
-        public FournisseurDetailDTO CurrentFournisseurDTO
+        private bool _isItemSelected;
+        public bool IsItemSelected
         {
-            get { return _currentFournisseurDTO; }
+            get { return _isItemSelected; }
             set
             {
-                _currentFournisseurDTO = value;
-                OnPropertyChanged(nameof(CurrentFournisseurDTO));
-            }
-        }
-
-        private bool _isAjoutFournisseurVisible;
-
-        public bool IsAjoutFournisseurVisible
-        {
-            get { return _isAjoutFournisseurVisible; }
-            set
-            {
-                _isAjoutFournisseurVisible = value;
-                OnPropertyChanged(nameof(IsAjoutFournisseurVisible));
+                _isItemSelected = value;
+                OnPropertyChanged(nameof(IsItemSelected));
             }
         }
 
         public ICommand DeleteSelectedCommand { get; private set; }
-
         public ICommand CreateFournisseurCommand { get; private set; }
+        public ICommand ModifyFournisseurCommand { get; private set; }
+        public ICommand ExitFormCommand { get; private set; }
+        public ICommand ValidateFormCommand { get; private set; }
 
         private bool modify = false;
 
+        public Visibility _isDeleteButtonVisible = Visibility.Visible;
+        public Visibility IsDeleteButtonVisible
+        {
+            get { return _isDeleteButtonVisible; }
+            set
+            {
+                _isDeleteButtonVisible = value;
+                OnPropertyChanged(nameof(IsDeleteButtonVisible));
+
+            }
+        }
+
+        public Visibility _isPopUpVisible = Visibility.Collapsed;
+        public Visibility IsPopUpVisible
+        {
+            get { return _isPopUpVisible; }
+            set
+            {
+                _isPopUpVisible = value;
+                OnPropertyChanged(nameof(IsPopUpVisible));
+
+            }
+        }
+
+        FournisseurLightViewModel _CurrentFournisseurDTO;
+
+        public FournisseurLightViewModel CurrentFournisseurDTO
+        {
+            get { return _CurrentFournisseurDTO; }
+            set
+            {
+                _CurrentFournisseurDTO = value;
+                OnPropertyChanged(nameof(CurrentFournisseurDTO));
+            }
+        }
 
         public FournisseurViewModel()
         {
-            CurrentFournisseurDTO = new FournisseurDetailDTO();
             GetFournisseur();
             DeleteSelectedCommand = new RelayCommand(DeleteSelected, CanDeleteSelected);
             CreateFournisseurCommand = new RelayCommand(CreateFournisseur);
+            ModifyFournisseurCommand = new RelayCommand(ModifyFournisseur);
+            ExitFormCommand = new RelayCommand(ExitForm);
+            ValidateFormCommand = new RelayCommand(ValidateForm);
+        }
+
+        private void ExitForm(object obj)
+        {
+            CurrentFournisseurDTO = null;
+            IsPopUpVisible = Visibility.Collapsed;
+        }
+
+        private async void ValidateForm(object obj)
+        {
+            var ob = CurrentFournisseurDTO;
+            if (modify)
+            { 
+            await httpClientService.UpdateFournisseur(ob.Fournisseur);
+            }
+            else
+            {
+                await httpClientService.CreateFournisseur(ob.Fournisseur);
+            }
+            
+            GetFournisseur();
+            IsPopUpVisible = Visibility.Collapsed;
+            
         }
 
         private void CreateFournisseur(object obj)
         {
-            IsAjoutFournisseurVisible = true;
+            IsPopUpVisible = Visibility.Visible;
+            CurrentFournisseurDTO = new FournisseurLightViewModel(new FournisseurDetailDTO());
+            IsDeleteButtonVisible = Visibility.Hidden;
+            modify = false;
+        }
 
-            if (CurrentFournisseurDTO == null)
+        private void ModifyFournisseur(object obj)
+        {
+            if (IsPopUpVisible == Visibility.Collapsed)
             {
-                CurrentFournisseurDTO = new FournisseurDetailDTO();
+                IsPopUpVisible = Visibility.Visible;
+
+                if (SelectedFournisseur != null)
+                {
+                    // Modification
+                    CurrentFournisseurDTO = new FournisseurLightViewModel(new FournisseurDetailDTO
+                    {
+                        Id = SelectedFournisseur.Fournisseur.Id,
+                        NomFournisseur = SelectedFournisseur.Fournisseur.NomFournisseur,
+                        AdresseFournisseur = SelectedFournisseur.Fournisseur.AdresseFournisseur,
+                        NumTelFournisseur = SelectedFournisseur.Fournisseur.NumTelFournisseur,
+                        EmailFournisseur = SelectedFournisseur.Fournisseur.EmailFournisseur
+
+
+                    });
+
+                    modify = true;
+                    IsDeleteButtonVisible = Visibility.Visible;
+                }
             }
 
-            FournisseurDetailDTO newFournisseur = new FournisseurDetailDTO
-            {
-                NomFournisseur = CurrentFournisseurDTO.NomFournisseur,
-                AdresseFournisseur = CurrentFournisseurDTO.AdresseFournisseur,
-                NumTelFournisseur = CurrentFournisseurDTO.NumTelFournisseur,
-                EmailFournisseur = CurrentFournisseurDTO.EmailFournisseur
-            };
-
-            Task.Run(async () =>
-            {
-                var isSuccess = await httpClientService.PostFournisseur(newFournisseur);
-
-                if (isSuccess)
-                {
-                    ListeFournisseur.Add(new FournisseurLightViewModel(newFournisseur));
-                    OnPropertyChanged(nameof(NombreListeFournisseur));
-                    MessageBox.Show("Fournisseur créé avec succès.");
-                }
-                else
-                {
-                    MessageBox.Show("La création du fournisseur a échoué.");
-                }
-            });
         }
 
         private bool CanDeleteSelected(object obj)
@@ -115,11 +167,17 @@ namespace NegoSud.MVVM.ViewModel
 
         private void DeleteSelected(object obj)
         {
-            if (SelectedFournisseur != null)
+            Task.Run(async () =>
             {
-                ListeFournisseur.Remove(SelectedFournisseur);
-                OnPropertyChanged(nameof(NombreListeFournisseur));
-            }
+                return await httpClientService.DeleteFournisseur(SelectedFournisseur.Fournisseur.Id);
+            }).ContinueWith(t =>
+            {
+                if (t.Result)
+                {
+                    ListeFournisseur.Remove(SelectedFournisseur);
+                    OnPropertyChanged(nameof(NombreListeFournisseur));
+                }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         public void GetFournisseur() 
@@ -134,6 +192,7 @@ namespace NegoSud.MVVM.ViewModel
             {
                 foreach (var fournisseur in t.Result)
                 {
+                    var fournisseurViewModel = new FournisseurLightViewModel(fournisseur);
                     ListeFournisseur.Add(new FournisseurLightViewModel(fournisseur));
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
