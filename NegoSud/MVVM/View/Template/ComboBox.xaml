@@ -4,8 +4,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <ComboBox x:Name="myComboBox"
-        MinWidth="72"        
-        ItemsSource="{Binding LongStringList}">
+        MinWidth="72"
+        ItemsSource="{Binding ListeDomaine}" SelectedItem="{Binding SelectedDomaine}">
+        <ComboBox.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Domaine.NomDomaine}" />
+            </DataTemplate>
+        </ComboBox.ItemTemplate>
     </ComboBox>
 
 </UserControl>

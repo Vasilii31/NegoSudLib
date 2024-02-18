@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="NegoSud.MVVM.View.Template.FormClient"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NegoSud.MVVM.View.Template"
+             xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--Titre-->
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Nouveau client" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="34" FontWeight="Bold"/>
+        
+        <!--Formulaire-->
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Label Content="Nom" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Width="100" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource MainColorBrush}" CornerRadius="5,5,5,5">
+                        <TextBox Width="100" Text="{Binding ClientAjout.NomUtilisateur}"/>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Orientation="Horizontal">
+                    <Label Content="Prenom" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Width="100" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource MainColorBrush}" CornerRadius="5,5,5,5">
+                        <TextBox Text="{Binding ClientAjout.PrenomUtilisateur}"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Mail" VerticalAlignment="Center"/>
+                <Border Width="500" VerticalAlignment="Center"   BorderThickness="1" BorderBrush="{StaticResource MainColorBrush}" CornerRadius="5,5,5,5">
+                    <TextBox Text="{Binding ClientAjout.MailUtilisateur}"/>
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Téléphone" VerticalAlignment="Center"/>
+                <Border Width="100" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource MainColorBrush}" CornerRadius="5,5,5,5">
+                    <TextBox Text="{Binding ClientAjout.NumTelUtilisateur}" />
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Adresse" VerticalAlignment="Center"/>
+                <Border Width="500" Height="60" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource MainColorBrush}" CornerRadius="5,5,5,5">
+                    <TextBox Text="{Binding ClientAjout.AdresseUtilisateur}" />
+                </Border>
+            </StackPanel>
+
+
+        </Grid>
+            
+        <!--Validation/Retour-->
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+
+            <Templates:ButtonNormal Margin="5" Content="Valider" Click="ValiderClient_Click" Height="30" Width="100"/>
+            <Templates:ButtonNormal  Margin="5" Content="Retour" Click="Back_Click" Height="30" Width="100"/>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

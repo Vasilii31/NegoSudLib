@@ -1,14 +1,8 @@
 ﻿using NegoSud.Core;
 using NegoSud.Services;
 using NegoSudLib.DAO;
-using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -25,7 +19,7 @@ namespace NegoSud.MVVM.ViewModel
         public ICommand CancelFormAddTypeMouvementCommand { get; set; }
         public ICommand CreerTypeMvtCommand { get; set; }
 
-    private TypeMouvement typeMouvementSelectionne;
+        private TypeMouvement typeMouvementSelectionne;
         public TypeMouvement TypeMouvementSelectionne
         {
             get { return typeMouvementSelectionne; }
@@ -85,6 +79,21 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
+        private string _recherche;
+
+        public string Recherche
+        {
+            get { return _recherche; }
+            set
+            {
+                if (value != _recherche)
+                {
+                    _recherche = value;
+                    OnPropertyChanged(nameof(Recherche));
+                }
+            }
+        }
+
         public InventaireViewModel()
         {
             GetProductsAll();
@@ -99,7 +108,7 @@ namespace NegoSud.MVVM.ViewModel
 
         private void CreateNewTypeMvt(object obj)
         {
-            if(NomNewTypeMvt == "")
+            if (NomNewTypeMvt == "")
             {
                 MessageBox.Show("Veuillez entrer un nom de type de mouvement.");
                 return;
@@ -141,7 +150,7 @@ namespace NegoSud.MVVM.ViewModel
 
         private void OpenAddTypeMouvementForm(object obj)
         {
-            
+
             IsFormAddTypeMouvementVisible = Visibility.Visible;
         }
 
@@ -169,12 +178,12 @@ namespace NegoSud.MVVM.ViewModel
                 return;
             //On créé le Autre mouvement qui va contenir tout les details de 
             //mouvement de stock
-            if(typeMouvementSelectionne == null)
+            if (typeMouvementSelectionne == null)
             {
                 MessageBox.Show("Veuillez sélectionner un type de mouvement.");
                 return;
             }
-            
+
             AutreMvtWriteDTO mvt = new AutreMvtWriteDTO()
             {
                 DateMouvement = DateTime.Now,
@@ -210,7 +219,7 @@ namespace NegoSud.MVVM.ViewModel
             })
             .ContinueWith(t =>
             {
-                if(t.Result == null)
+                if (t.Result == null)
                 {
                     MessageBox.Show("Une erreur est survenue.");
                 }
@@ -224,7 +233,7 @@ namespace NegoSud.MVVM.ViewModel
                 }
 
             }, TaskScheduler.FromCurrentSynchronizationContext());
-            
+
 
             //A la fin, on nettoie la liste
             //ListeMouvements.Clear();
@@ -275,6 +284,32 @@ namespace NegoSud.MVVM.ViewModel
                 }
 
             }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        internal void SearchProduits(object sender, RoutedEventArgs e)
+        {
+            ListeProduits.Clear();
+            Task.Run(async () =>
+            {
+                return await httpClientService.SearchProduits(0, 0, 0, Recherche, null);
+
+            })
+                        .ContinueWith(t =>
+                        {
+                            foreach (var produit in t.Result)
+                            {
+                                var item = new ItemInventaireViewModel(produit);
+                                item.EH_AjoutPanier += Item_AjoutPanier;
+                                //item.EH_VoirPdt += Item_VoirPdt;
+                                item.EH_PlusU += Item_PlusU;
+                                item.EH_MoinsU += Item_MoinsU;
+                                //item.EH_PlusC += Item_PlusC;
+                                //item.EH_MoinsC += Item_MoinsC;
+                                ListeProduits.Add(item);
+
+                            }
+
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         // Methodes pour les boutons dans la liste

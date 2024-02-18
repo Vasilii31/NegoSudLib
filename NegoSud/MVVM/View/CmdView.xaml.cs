@@ -19,5 +19,11 @@ namespace NegoSud.MVVM.View
             var vm = (CmdViewModel)this.DataContext;
             vm.VoirPanier(sender, e);
         }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = (CmdViewModel)this.DataContext;
+            vm.SearchProduits();
+        }
     }
 }

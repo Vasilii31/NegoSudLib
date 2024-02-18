@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using NegoSud.MVVM.ViewModel;
 using NegoSud.MVVM.ViewModel.Factories;
 using NegoSud.Services.Authenticator;
@@ -69,6 +69,8 @@ namespace NegoSud
             services.AddSingleton<IViewModelFactory<InventaireViewModel>, InventaireViewModelFactory>();
             services.AddSingleton<IViewModelFactory<CmdViewModel>, CmdViewModelFactory>();
             services.AddSingleton<IViewModelFactory<HistoriqueViewModel>, HistoriqueViewModelFactory>();
+            services.AddSingleton<IViewModelFactory<FournisseurViewModel>, FourssieurViewModelIFactory>();
+            services.AddSingleton<IViewModelFactory<CategoriesViewModel>, CategoriesViewModelFactory>();
 
             services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
             //services.AddScoped<LoginFormView>(s => new LoginFormView(s.GetRequiredService<LoginFormViewModel>()));

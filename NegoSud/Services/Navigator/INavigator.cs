@@ -1,4 +1,4 @@
-﻿using NegoSud.MVVM.ViewModel;
+using NegoSud.MVVM.ViewModel;
 
 namespace NegoSud.Services.Navigator
 {
@@ -12,7 +12,9 @@ namespace NegoSud.Services.Navigator
         Ventes,
         Inventaire,
         Cmd,
-        Historique
+        Historique,
+        Fournisseurs,
+        Categories
     }
     public interface INavigator
     {

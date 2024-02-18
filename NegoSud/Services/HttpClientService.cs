@@ -1,4 +1,4 @@
-﻿using NegoSud.MVVM.ViewModel;
+using NegoSud.MVVM.ViewModel;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.write;
@@ -216,7 +216,7 @@ namespace NegoSud.Services
             string route = $"api/Produits/{id}";
 
             var content = new StringContent(produitJson, Encoding.UTF8, "application/json");
-            
+
             var response = await Client.PutAsync(route, content);
 
             if (response.IsSuccessStatusCode)
@@ -397,10 +397,88 @@ namespace NegoSud.Services
             return new List<ProduitLightDTO>();
         }
 
+        internal async static Task<ClientDTO> AddClient(ClientDTO clientAjout)
+        {
+            var mvtJson = JsonConvert.SerializeObject(clientAjout);
+            string route = $"api/Client";
+
+            var content = new StringContent(mvtJson, Encoding.UTF8, "application/json");
+
+            var response = await Client.PostAsync(route, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ClientDTO>(resultat)
+                    ?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+            }
+            else
+            {
+                string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+                throw new HttpRequestException(errorMessage);
+            }
+        }
+
 
         //public static async Task<bool> UpdateEmploye(int id, )
         //{
+        public static async Task<List<DomaineDTO>> GetDomainess()
+        {
+            string route = $"api/domaines";
+            var response = await Client.GetAsync(route);
+            if (response.IsSuccessStatusCode)
+            {
+                string resultat = await response.Content.ReadAsStringAsync();               
+                return JsonConvert.DeserializeObject<List<DomaineDTO>>(resultat)
+                    ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            throw new Exception(response.ReasonPhrase);
+        }
 
-        //}
+        public static async Task<bool> DeleteDomaine(int id)
+        {
+            string route = $"Domaines/{id}";
+            var response = await Client.DeleteAsync(route);
+            return response.IsSuccessStatusCode;
+        }
+
+        public static async Task<bool> PostDomaine(DomaineDTO domaine)
+        {
+            string route = $"api/Domaines";
+            var json = JsonConvert.SerializeObject(domaine);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync(route, data);
+            return response.IsSuccessStatusCode;
+        }
+
+        public static async Task<List<FournisseurDetailDTO>> GetFournisseurss()
+        {
+            string route = $"api/fournisseurs";
+            var reponse = await Client.GetAsync(route);
+            if (reponse.IsSuccessStatusCode)
+            {
+                string resultat = await reponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<FournisseurDetailDTO>>(resultat)
+                    ?? throw new FormatException($"Erreur Http : {route}");
+            }
+            throw new Exception(reponse.ReasonPhrase);         
+        }
+
+        public static async Task<bool> DeleteFournisseur(int id)
+        {
+            string route = $"Fournisseurs/{id}";
+            var response = await Client.DeleteAsync(route);
+            return response.IsSuccessStatusCode;
+        }
+
+        public static async Task<bool> PostFournisseur(FournisseurDetailDTO fournisseur)
+        {
+            string route = "Fournisseurs";
+            var json = JsonConvert.SerializeObject(fournisseur);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync(route, data);
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }

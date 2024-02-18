@@ -15,6 +15,20 @@ namespace NegoSud.MVVM.ViewModel
 
         private VentesWriteDTO Vente = new VentesWriteDTO();
 
+        private string _recherche;
+
+        public string Recherche
+        {
+            get { return _recherche; }
+            set
+            {
+                if (value != _recherche)
+                {
+                    _recherche = value;
+                    OnPropertyChanged(nameof(Recherche));
+                }
+            }
+        }
 
         private ClientDTO _clientSelectionne;
         public ClientDTO ClientSelectionne
@@ -24,6 +38,17 @@ namespace NegoSud.MVVM.ViewModel
             {
                 _clientSelectionne = value;
                 OnPropertyChanged(nameof(ClientSelectionne));
+            }
+        }
+
+        private ClientDTO _clientAjout = new();
+        public ClientDTO ClientAjout
+        {
+            get { return _clientAjout; }
+            set
+            {
+                _clientAjout = value;
+                OnPropertyChanged(nameof(ClientAjout));
             }
         }
 
@@ -71,6 +96,19 @@ namespace NegoSud.MVVM.ViewModel
             {
                 _isPopUpVisible = value;
                 OnPropertyChanged(nameof(PanierVisible));
+
+            }
+        }
+
+        public Visibility _AjoutClientVisible = Visibility.Collapsed;
+
+        public Visibility AjoutClientVisible
+        {
+            get { return _AjoutClientVisible; }
+            set
+            {
+                _AjoutClientVisible = value;
+                OnPropertyChanged(nameof(AjoutClientVisible));
 
             }
         }
@@ -146,6 +184,12 @@ namespace NegoSud.MVVM.ViewModel
 
         public void VoirPanier(object? sender, EventArgs e)
         {
+            if (Panier.Count() == 0)
+            {
+
+                MessageBox.Show("Le panier est vide !", "Panier vide", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             PanierVisible = Visibility.Visible;
         }
         public void FermerPanier(object? sender, EventArgs e)
@@ -214,7 +258,9 @@ namespace NegoSud.MVVM.ViewModel
             {
                 Total += item.SousTotal;
             }
-            NbItemPanier = "Panier (" + Panier.Count() + ")";
+
+            NbItemPanier = Panier.Count() == 0 ? "Panier" : "Panier (" + Panier.Count() + ")";
+
         }
 
         private void Item_SupprimerDuPanier(object sender, EventArgs e)
@@ -265,7 +311,8 @@ namespace NegoSud.MVVM.ViewModel
             }
             else
             {
-                Vente.ClientId = 0;
+                MessageBox.Show("Merci de chosir un client", "Choisissez un client", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
             }
             Vente.Commentaire = Commentaire;
 
@@ -282,6 +329,7 @@ namespace NegoSud.MVVM.ViewModel
                 MessageBox.Show("La vente a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 Panier.Clear();
                 PanierVisible = Visibility.Collapsed;
+                MajInfoPanier();
             }
             catch (Exception ex)
             {
@@ -289,6 +337,65 @@ namespace NegoSud.MVVM.ViewModel
                 // Vous pouvez logger l'exception ou afficher un message d'erreur à l'utilisateur
             }
 
+        }
+
+        internal void SearchProduits(object sender, RoutedEventArgs e)
+        {
+            ListeProduits.Clear();
+            Task.Run(async () =>
+            {
+                return await httpClientService.SearchProduits(0, 0, 0, Recherche, null);
+
+            })
+                        .ContinueWith(t =>
+                        {
+                            foreach (var produit in t.Result)
+                            {
+                                var item = new VentePdtItemViewModel(produit);
+                                item.EH_AjoutPanier += Item_AjoutPanier;
+                                item.EH_VoirPdt += Item_VoirPdt;
+                                item.EH_PlusU += Item_PlusU;
+                                item.EH_MoinsU += Item_MoinsU;
+                                item.EH_PlusC += Item_PlusC;
+                                item.EH_MoinsC += Item_MoinsC;
+                                ListeProduits.Add(item);
+
+                            }
+
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        public async void ValiderClient(object sender, RoutedEventArgs e)
+        {
+
+            ClientAjout.UserName = ClientAjout.NomUtilisateur + ClientAjout.PrenomUtilisateur + "TMP";
+            ClientAjout.MotDePasse = "P@ssw0rd";
+            try
+            {
+
+                // Appel de votre méthode AddVente pour ajouter la vente dans la base de données
+                ClientDTO clientAjoute = await httpClientService.AddClient(ClientAjout);
+                MessageBox.Show("Le client a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                ClientSelectionne = clientAjoute;
+                ListeClients.Add(clientAjoute);
+                ClientAjout = new();
+                AjoutClientVisible = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Un problème est survenu", "Erreur", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Vous pouvez logger l'exception ou afficher un message d'erreur à l'utilisateur
+            }
+        }
+
+
+        public void voirClient(object? sender, EventArgs e)
+        {
+            AjoutClientVisible = Visibility.Visible;
+        }
+        public void FermerClient(object? sender, EventArgs e)
+        {
+            AjoutClientVisible = Visibility.Collapsed;
         }
     }
 }

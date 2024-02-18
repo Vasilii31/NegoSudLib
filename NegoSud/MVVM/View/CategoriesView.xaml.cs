@@ -21,26 +21,26 @@ namespace NegoSud.MVVM.View
     /// <summary>
     /// Logique d'interaction pour Domaines.xaml
     /// </summary>
-    public partial class DomainesView : UserControl
+    public partial class CategoriesView : UserControl
     {
-        public DomainesView()
+        public CategoriesView()
         {
             InitializeComponent();
 
             // Écouter l'événement AjouterButtonClick du bouton Ajouter
-            ButtonAjouter.AjouterButtonClick += ButtonAjouter_Click;
-            ButtonConsultation.ConsultationButtonClick += ButtonView_Click;
+            //ButtonAjouter.AjouterButtonClick += ButtonAjouter_Click;
+            //ButtonConsultation.ConsultationButtonClick += ButtonView_Click;
         }
 
-        private void ButtonAjouter_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Ajout d'un domaine");
+        //private void ButtonAjouter_Click(object sender, EventArgs e)
+        //{
+        //    MessageBox.Show("Ajout d'un domaine");
 
-        }
+        //}
 
-        private void ButtonView_Click(object sender, EventArgs e)
-        {
+        //private void ButtonView_Click(object sender, EventArgs e)
+        //{
             
-        }
+        //}
     }
 }
