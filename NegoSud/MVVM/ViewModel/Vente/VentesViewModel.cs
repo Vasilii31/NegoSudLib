@@ -41,6 +41,17 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
+        private ClientDTO _clientAjout = new();
+        public ClientDTO ClientAjout
+        {
+            get { return _clientAjout; }
+            set
+            {
+                _clientAjout = value;
+                OnPropertyChanged(nameof(ClientAjout));
+            }
+        }
+
         private string _nbItemPanier = "Panier";
 
         public string NbItemPanier
@@ -85,6 +96,19 @@ namespace NegoSud.MVVM.ViewModel
             {
                 _isPopUpVisible = value;
                 OnPropertyChanged(nameof(PanierVisible));
+
+            }
+        }
+
+        public Visibility _AjoutClientVisible = Visibility.Collapsed;
+
+        public Visibility AjoutClientVisible
+        {
+            get { return _AjoutClientVisible; }
+            set
+            {
+                _AjoutClientVisible = value;
+                OnPropertyChanged(nameof(AjoutClientVisible));
 
             }
         }
@@ -162,6 +186,7 @@ namespace NegoSud.MVVM.ViewModel
         {
             if (Panier.Count() == 0)
             {
+
                 MessageBox.Show("Le panier est vide !", "Panier vide", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
@@ -338,6 +363,39 @@ namespace NegoSud.MVVM.ViewModel
                             }
 
                         }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        public async void ValiderClient(object sender, RoutedEventArgs e)
+        {
+
+            ClientAjout.UserName = ClientAjout.NomUtilisateur + ClientAjout.PrenomUtilisateur + "TMP";
+            ClientAjout.MotDePasse = "P@ssw0rd";
+            try
+            {
+
+                // Appel de votre méthode AddVente pour ajouter la vente dans la base de données
+                ClientDTO clientAjoute = await httpClientService.AddClient(ClientAjout);
+                MessageBox.Show("Le client a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                ClientSelectionne = clientAjoute;
+                ListeClients.Add(clientAjoute);
+                ClientAjout = new();
+                AjoutClientVisible = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Un problème est survenu", "Erreur", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Vous pouvez logger l'exception ou afficher un message d'erreur à l'utilisateur
+            }
+        }
+
+
+        public void voirClient(object? sender, EventArgs e)
+        {
+            AjoutClientVisible = Visibility.Visible;
+        }
+        public void FermerClient(object? sender, EventArgs e)
+        {
+            AjoutClientVisible = Visibility.Collapsed;
         }
     }
 }
