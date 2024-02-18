@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NegoSud.MVVM.View.Template
+namespace NegoSud.MVVM.View
 {
     /// <summary>
-    /// Logique d'interaction pour FormulaireProduit.xaml
+    /// Logique d'interaction pour HistoriqueView.xaml
     /// </summary>
-    public partial class FormulaireProduit : UserControl
+    public partial class HistoriqueView : UserControl
     {
-        public FormulaireProduit()
+        public HistoriqueView()
         {
             InitializeComponent();
         }
-
-        
     }
 }

@@ -134,6 +134,14 @@
                              FontSize="22"
                              FontWeight="Bold"
                              Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Historique"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Historique}"
+                             Height="50"
+                             Foreground="Wheat"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             Style="{StaticResource MenuButtonTheme}"/>
                 </StackPanel>
 
                 <!--<materialDesign:PackIcon Grid.Column="0" Kind="Menu" Foreground="#F9D9D9" Height="42" Width="54" RenderTransformOrigin="0.726,0.502" Grid.ColumnSpan="2" Margin="7,14,0,0"/>-->

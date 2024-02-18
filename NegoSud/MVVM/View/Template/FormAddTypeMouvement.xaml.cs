@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace NegoSud.MVVM.View.Template
 {
     /// <summary>
-    /// Logique d'interaction pour FormulaireProduit.xaml
+    /// Logique d'interaction pour FormValidateAutreMvt.xaml
     /// </summary>
-    public partial class FormulaireProduit : UserControl
+    public partial class FormAddTypeMouvement : UserControl
     {
-        public FormulaireProduit()
+        public FormAddTypeMouvement()
         {
             InitializeComponent();
         }
-
-        
     }
 }

@@ -212,6 +212,8 @@ Content-Type: application/json
 
 ###
 
+
+
 DELETE {{NegoSudAPI_HostAddress}}/api/client/6
 
 ###

@@ -11,7 +11,8 @@ namespace NegoSud.Services.Navigator
         Employes,
         Ventes,
         Inventaire,
-        Cmd
+        Cmd,
+        Historique
     }
     public interface INavigator
     {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
+using NegoSudLib.DTO.Write;
 using NegoSudLib.NegosudDbContext;
 
 namespace NegoSudAPI.Controllers
@@ -79,6 +80,7 @@ namespace NegoSudAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<TypeMouvement>> PostTypeMouvement(TypeMouvement typeMouvement)
         {
+            
             _context.TypesMouvement.Add(typeMouvement);
             await _context.SaveChangesAsync();
 

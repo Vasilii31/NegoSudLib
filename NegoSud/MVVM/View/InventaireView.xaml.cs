@@ -12,6 +12,7 @@ namespace NegoSud.MVVM.View
         public InventaireView()
         {
             InitializeComponent();
+            
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
