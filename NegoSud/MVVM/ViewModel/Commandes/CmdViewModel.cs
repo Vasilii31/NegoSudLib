@@ -302,6 +302,7 @@ namespace NegoSud.MVVM.ViewModel
                 MessageBox.Show("La commande a été ajoutée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 Panier.Clear();
                 PanierVisible = Visibility.Collapsed;
+                MajInfoPanier();
             }
             catch (Exception ex)
             {
