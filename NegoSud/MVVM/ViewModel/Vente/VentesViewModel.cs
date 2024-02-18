@@ -15,6 +15,20 @@ namespace NegoSud.MVVM.ViewModel
 
         private VentesWriteDTO Vente = new VentesWriteDTO();
 
+        private string _recherche;
+
+        public string Recherche
+        {
+            get { return _recherche; }
+            set
+            {
+                if (value != _recherche)
+                {
+                    _recherche = value;
+                    OnPropertyChanged(nameof(Recherche));
+                }
+            }
+        }
 
         private ClientDTO _clientSelectionne;
         public ClientDTO ClientSelectionne
@@ -289,6 +303,32 @@ namespace NegoSud.MVVM.ViewModel
                 // Vous pouvez logger l'exception ou afficher un message d'erreur à l'utilisateur
             }
 
+        }
+
+        internal void SearchProduits(object sender, RoutedEventArgs e)
+        {
+            ListeProduits.Clear();
+            Task.Run(async () =>
+            {
+                return await httpClientService.SearchProduits(0, 0, 0, Recherche, null);
+
+            })
+                        .ContinueWith(t =>
+                        {
+                            foreach (var produit in t.Result)
+                            {
+                                var item = new VentePdtItemViewModel(produit);
+                                item.EH_AjoutPanier += Item_AjoutPanier;
+                                item.EH_VoirPdt += Item_VoirPdt;
+                                item.EH_PlusU += Item_PlusU;
+                                item.EH_MoinsU += Item_MoinsU;
+                                item.EH_PlusC += Item_PlusC;
+                                item.EH_MoinsC += Item_MoinsC;
+                                ListeProduits.Add(item);
+
+                            }
+
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }

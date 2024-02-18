@@ -1,14 +1,12 @@
 ﻿using NegoSud.Core;
 using NegoSud.Services;
 using NegoSudLib.DAO;
+
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -82,6 +80,21 @@ namespace NegoSud.MVVM.ViewModel
             {
                 _nomNewTypeMvt = value;
                 OnPropertyChanged(nameof(NomNewTypeMvt));
+            }
+        }
+
+        private string _recherche;
+
+        public string Recherche
+        {
+            get { return _recherche; }
+            set
+            {
+                if (value != _recherche)
+                {
+                    _recherche = value;
+                    OnPropertyChanged(nameof(Recherche));
+                }
             }
         }
 
@@ -275,6 +288,32 @@ namespace NegoSud.MVVM.ViewModel
                 }
 
             }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        internal void SearchProduits(object sender, RoutedEventArgs e)
+        {
+            ListeProduits.Clear();
+            Task.Run(async () =>
+            {
+                return await httpClientService.SearchProduits(0, 0, 0, Recherche, null);
+
+            })
+                        .ContinueWith(t =>
+                        {
+                            foreach (var produit in t.Result)
+                            {
+                                var item = new ItemInventaireViewModel(produit, ListeTypesMouvements);
+                                item.EH_AjoutPanier += Item_AjoutPanier;
+                                //item.EH_VoirPdt += Item_VoirPdt;
+                                item.EH_PlusU += Item_PlusU;
+                                item.EH_MoinsU += Item_MoinsU;
+                                //item.EH_PlusC += Item_PlusC;
+                                //item.EH_MoinsC += Item_MoinsC;
+                                ListeProduits.Add(item);
+
+                            }
+
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         // Methodes pour les boutons dans la liste

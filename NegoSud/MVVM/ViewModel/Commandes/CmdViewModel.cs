@@ -23,9 +23,24 @@ namespace NegoSud.MVVM.ViewModel
             set
             {
                 _FournisseurSelectionne = value;
-                GetProducts(null);
+                SearchProduits();
                 Panier.Clear();
                 OnPropertyChanged(nameof(FournisseurSelectionne));
+            }
+        }
+
+        private string _recherche;
+
+        public string Recherche
+        {
+            get { return _recherche; }
+            set
+            {
+                if (value != _recherche)
+                {
+                    _recherche = value;
+                    OnPropertyChanged(nameof(Recherche));
+                }
             }
         }
 
@@ -99,13 +114,13 @@ namespace NegoSud.MVVM.ViewModel
 
 
 
-        private void GetProducts(string? nom)
+        public void SearchProduits()
         {
             ListeProduits.Clear();
 
             Task.Run(async () =>
             {
-                return await httpClientService.SearchProduits(0, 0, _FournisseurSelectionne.Id, nom, null);
+                return await httpClientService.SearchProduits(0, 0, _FournisseurSelectionne.Id, Recherche, null);
 
             })
             .ContinueWith(t =>
@@ -290,5 +305,7 @@ namespace NegoSud.MVVM.ViewModel
             }
 
         }
+
+
     }
 }
