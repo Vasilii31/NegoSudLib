@@ -371,7 +371,7 @@ namespace NegoSud.Services
         //{
         public static async Task<List<DomaineDTO>> GetDomainess()
         {
-            string route = "domaines";
+            string route = $"api/domaines";
             var response = await Client.GetAsync(route);
             if (response.IsSuccessStatusCode)
             {
@@ -400,7 +400,7 @@ namespace NegoSud.Services
 
         public static async Task<List<FournisseurDetailDTO>> GetFournisseurss()
         {
-            string route = "fournisseurs";
+            string route = $"api/fournisseurs";
             var reponse = await Client.GetAsync(route);
             if (reponse.IsSuccessStatusCode)
             {
