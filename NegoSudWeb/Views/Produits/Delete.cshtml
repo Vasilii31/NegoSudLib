@@ -1,0 +1,99 @@
+﻿@model NegoSudLib.DAO.Produit
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Produit</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.QteEnStock)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.QteEnStock)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NomProduit)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NomProduit)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContenanceCl)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContenanceCl)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DegreeAlcool)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DegreeAlcool)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Millesime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Millesime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DescriptionProduit)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DescriptionProduit)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SeuilCommandeMin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SeuilCommandeMin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CommandeMin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CommandeMin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.QteCarton)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.QteCarton)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhotoProduitPath)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhotoProduitPath)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AlaVente)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AlaVente)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Domaine)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Domaine.NomDomaine)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Categorie)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Categorie.NomCategorie)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
