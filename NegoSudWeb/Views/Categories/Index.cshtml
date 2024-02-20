@@ -9,7 +9,7 @@
 <div class="product-container">
 	@foreach (var categorie in Model)
 	{	
-	<div class="product-card">
+		<div class="product-card" id="categorie-@categorie.Id">
 		
 			<div class="product-picInfo">
 				@if (categorie.NomCategorie == "Rouge")
@@ -41,10 +41,21 @@
 										
 							@*<div class="product-action">
 								<a href="#" class="btn btn-primary">Voir les produits</a>
-							</div>*@
-			
+							</div>*@			
 	</div>
 	}
 </div>
 
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		var productCards = document.querySelectorAll('.product-card');
+
+		productCards.forEach(function (card) {
+			card.addEventListener('click', function () {
+				var categoryId = card.id.split('-')[1];
+				window.location.href = '/Produits/Index?categoryId=' + categoryId;
+			});
+		});
+	});
+</script>
 
