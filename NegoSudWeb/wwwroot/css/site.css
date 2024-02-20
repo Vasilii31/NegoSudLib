@@ -1,30 +1,30 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
-.product-container{
-    display : flex;
-    flex-direction :row;
-    flex-wrap:wrap;
+.product-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .product-card {
@@ -40,7 +40,7 @@ body {
 
 .product-domaine {
     width: 300px;
-    height:30px;
+    height: 30px;
     text-align: center;
     background: #460A26;
     border-radius: 20px 20px 0 0;
@@ -55,20 +55,77 @@ body {
 
 .product-pic {
     width: 120px;
-    height:120px;
+    height: 120px;
 }
 
 .product-info {
     width: 240px;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
 }
+
 .product-title {
     font-size: 20px;
     font-weight: bold;
 }
 
-product-prices{
+product-prices {
     display: flex;
     flex-direction: row;
+}
+
+.panier-button path {
+    fill: #460A26;
+    color: #460A26;
+}
+
+.page-panier-container {
+    display: flex;
+    flex-direction: row;
+    background-color: wheat;
+    justify-content: space-between;
+}
+
+.recap-panier {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: aquamarine;
+    border: solid 1px #460A26;
+    border-radius: 10px;
+    width: 25%;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.recap-panier div button{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.panier {
+    background-color: blueviolet;
+    border: solid 1px #460A26;
+    border-radius: 10px;
+    width: 70%
+}
+
+.infos-green {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: forestgreen;
+}
+
+.button-passer-commande {
+    width: 80%;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    align-self: center;
+    border-radius: 10px;
+    border: solid 3px #460A26;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: yellow;
 }
