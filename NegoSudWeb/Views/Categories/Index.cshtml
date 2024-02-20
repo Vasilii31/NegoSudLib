@@ -4,13 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Accueil</h1>
+<h1>Nos catégories à explorer :</h1>
 
 <div class="product-container">
 	@foreach (var categorie in Model)
 	{	
 	<div class="product-card">
-		<div class="product-domaine">Catalogue à explorer : @categorie.NomCategorie</div>
+		
 			<div class="product-picInfo">
 				@if (categorie.NomCategorie == "Rouge")
 				{
@@ -22,13 +22,27 @@
 				}
 				else if (categorie.NomCategorie == "Rosé")
 				{
-					<img class="img-categorieBlanc" src="~/img/vinRose.png">
+					<img class="img-categorieRose" src="~/img/vinRose.png">
 				}
+				else if (categorie.NomCategorie == "Pétillant")
+				{
+					<img class="img-categoriePetillant" src="~/img/vinPetillant.png">
+				}
+				else if (categorie.NomCategorie == "Champagne")
+				{
+					<img class="img-categorieChampagne" src="~/img/vinChampagne.png">
+				}
+				else if (categorie.NomCategorie == "Digestifs")
+				{
+					<img class="img-categorieDigestifs" src="~/img/vinDigestif.png">
+				}
+			</div>
+				<h2 class="CategorieNom">@categorie.NomCategorie</h2>
 										
 							@*<div class="product-action">
 								<a href="#" class="btn btn-primary">Voir les produits</a>
 							</div>*@
-			</div>
+			
 	</div>
 	}
 </div>
