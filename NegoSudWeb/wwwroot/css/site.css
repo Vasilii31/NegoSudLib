@@ -129,12 +129,20 @@ product-prices {
     justify-content:space-between;
 }
 
-.pic-infos{
-.product-prices{
+.pic-infos {
+    display:flex;
+
+}
+
+.img-item-panier{
+    max-height:150px;
+}
+
+.product-prices {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width:300px;
+    width: 300px;
 }
 .product-price {
     width: 130px;
