@@ -20,3 +20,55 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.product-container{
+    display : flex;
+    flex-direction :row;
+    flex-wrap:wrap;
+}
+
+.product-card {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    border: solid 1px #460A26;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.product-domaine {
+    width: 300px;
+    height:30px;
+    text-align: center;
+    background: #460A26;
+    border-radius: 20px 20px 0 0;
+    color: white;
+}
+
+.product-picInfo {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+}
+
+.product-pic {
+    width: 120px;
+    height:120px;
+}
+
+.product-info {
+    width: 240px;
+    display: flex;
+    flex-direction:column;
+}
+.product-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+product-prices{
+    display: flex;
+    flex-direction: row;
+}

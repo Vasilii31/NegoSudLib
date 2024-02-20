@@ -1,0 +1,148 @@
+﻿@model IEnumerable<ProduitsViewModel>
+
+@{
+    ViewData["Title"] = "NegoSud";
+}
+
+<h1>Index</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QteEnStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomProduit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContenanceCl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegreeAlcool)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Millesime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptionProduit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeuilCommandeMin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommandeMin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QteCarton)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoProduitPath)
+            </th>
+          @*   <th>
+                @Html.DisplayNameFor(model => model.AlaVente)
+            </th> *@
+           @*  <th>
+                @Html.DisplayNameFor(model => model.Domaine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categorie)
+            </th> 
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.QteEnStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomProduit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContenanceCl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegreeAlcool)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Millesime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionProduit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeuilCommandeMin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommandeMin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QteCarton)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoProduitPath)
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.AlaVente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Domaine.NomDomaine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categorie.NomCategorie)
+            </td> 
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+ *@
+
+<div class="product-container">
+    @foreach (var product in Model)
+    {
+        <div class="product-card">               
+            <div class="product-domaine">@product.Produit.NomDomaine</div>
+            <div class="product-picInfo">
+                <img class="product-pic" src="@product.Produit.PhotoProduitPath" alt="@product.Produit.NomProduit">
+                <div class="product-info">
+                    <div class="product-title">@product.Produit.NomProduit</div>
+                    <div class="product-description">@product.infoCard</div>
+                </div>
+            </div>
+            <form method="post">
+                <div class="product-prices">
+                 <div class="product-price">
+                     <div class="price-info">"A l'unité"</div>
+                     <div class="price">@product.prixUnite</div>
+                     <button>+</button>
+                     <input type="number" value="@product.QteUnite"/>
+                     <button>-</button>
+                 </div>
+                 <div class="product-price">
+                     <div class="price-info">@product.infoCarton</div>
+                     <div class="price">@product.prixCarton</div>
+                     <button>+</button>
+                     <input type="number" value="@product.QteCarton"/>
+                     <button>-</button>
+                 </div>
+
+                </div>
+
+                <input type="hidden" name="productId" value="@product.Produit.Id" />
+                @* <input type="hidden" name="productQuantity" value="@product.Quantity" /> *@
+                @* <input type="hidden" name="productCarton" value="@product.AuCarton" /> *@
+                <button type="submit">Add to Cart</button>
+            </form>
+        </div>
+    }
+</div>
