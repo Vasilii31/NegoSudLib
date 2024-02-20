@@ -1,0 +1,36 @@
+﻿@model IEnumerable<NegoSudLib.DAO.Categorie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Accueil</h1>
+
+<div class="product-container">
+	@foreach (var categorie in Model)
+	{	
+	<div class="product-card">
+		<div class="product-domaine">Catalogue à explorer : @categorie.NomCategorie</div>
+			<div class="product-picInfo">
+				@if (categorie.NomCategorie == "Rouge")
+				{
+					<img class="img-categorieRouge" src="~/img/vinRouge.png">
+				}
+				else if (categorie.NomCategorie == "Blanc")
+				{
+					<img class="img-categorieBlanc" src="~/img/vinBlancc.png">
+				}
+				else if (categorie.NomCategorie == "Rosé")
+				{
+					<img class="img-categorieBlanc" src="~/img/vinRose.png">
+				}
+										
+							@*<div class="product-action">
+								<a href="#" class="btn btn-primary">Voir les produits</a>
+							</div>*@
+			</div>
+	</div>
+	}
+</div>
+
+
