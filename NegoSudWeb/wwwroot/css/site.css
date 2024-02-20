@@ -107,6 +107,7 @@ product-prices {
     width: 25%;
     font-weight: bold;
     font-size: 20px;
+    max-height: 250px
 }
 
 .recap-panier div button{
@@ -120,6 +121,49 @@ product-prices {
     border-radius: 10px;
     width: 70%
 }
+
+.item-panier{
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    justify-content:space-between;
+}
+
+.pic-infos{
+    display: flex;
+    flex-direction: row;
+}
+
+.item-panier-infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.img-item-panier {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.description-item-panier{
+    display: flex;
+    flex-direction: column;
+}
+
+.description-item-panier h1 {
+    font-size: 30px;
+}
+
+.gestion-item-panier{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+
+
+
 
 .infos-green {
     margin-top: 5px;
@@ -138,4 +182,10 @@ product-prices {
     font-weight: bold;
     font-size: 18px;
     background-color: yellow;
+}
+
+.item-recap-prix{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
