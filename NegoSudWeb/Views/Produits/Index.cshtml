@@ -6,107 +6,6 @@
 
 <h1>Index</h1>
 
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
-@* <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.QteEnStock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NomProduit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContenanceCl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DegreeAlcool)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Millesime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescriptionProduit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SeuilCommandeMin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CommandeMin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.QteCarton)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhotoProduitPath)
-            </th>
-          @*   <th>
-                @Html.DisplayNameFor(model => model.AlaVente)
-            </th> *@
-           @*  <th>
-                @Html.DisplayNameFor(model => model.Domaine)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categorie)
-            </th> 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.QteEnStock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomProduit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContenanceCl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DegreeAlcool)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Millesime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptionProduit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SeuilCommandeMin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CommandeMin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QteCarton)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhotoProduitPath)
-            </td>
-            @* <td>
-                @Html.DisplayFor(modelItem => item.AlaVente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Domaine.NomDomaine)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categorie.NomCategorie)
-            </td> 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
- *@
-
 <div class="product-container">
     @foreach (var product in Model)
     {
@@ -119,30 +18,91 @@
                     <div class="product-description">@product.infoCard</div>
                 </div>
             </div>
-            <form method="post">
+            <form class="product-form" method="post" onsubmit="false">
                 <div class="product-prices">
-                 <div class="product-price">
-                     <div class="price-info">"A l'unité"</div>
-                     <div class="price">@product.prixUnite</div>
-                     <button>+</button>
-                     <input type="number" value="@product.QteUnite"/>
-                     <button>-</button>
-                 </div>
-                 <div class="product-price">
-                     <div class="price-info">@product.infoCarton</div>
-                     <div class="price">@product.prixCarton</div>
-                     <button>+</button>
-                     <input type="number" value="@product.QteCarton"/>
-                     <button>-</button>
-                 </div>
+                     <div class="product-price">
+                         <div class="product-priceInfo">"A l'unité"</div>
+                         <div class="product-priceValue">@product.prixUnite</div>
+                         <div class="product-quantity">
+                            <button type="button" class="product-plusMinus" onclick="minus(@product.Produit.Id,false)"> - </button>
+                               
+                            <input class="product-qtValue" name="qteUnite_@product.Produit.Id" type="number" value="@product.QteUnite" />
+                            <button type="button" class="product-plusMinus" onclick="plus(@product.Produit.Id,false)">+</button>
+                         </div>
+                     </div>
+                     <div class="product-price">
+                        <div class="product-priceInfo">@product.infoCarton</div>
+                        <div class="product-priceValue">@product.prixCarton</div>
+                         <div class="product-quantity">
+                            <button type="button" class="product-plusMinus" onclick="minus(@product.Produit.Id,true)"> - </button>
+                            <input class="product-qtValue" name="qteCarton_@product.Produit.Id" type="number" value="@product.QteCarton" />
+                            <button type="button" class="product-plusMinus" onclick="plus(@product.Produit.Id,true)">+</button>
+                        </div>
+                     </div>
 
                 </div>
 
                 <input type="hidden" name="productId" value="@product.Produit.Id" />
                 @* <input type="hidden" name="productQuantity" value="@product.Quantity" /> *@
                 @* <input type="hidden" name="productCarton" value="@product.AuCarton" /> *@
-                <button type="submit">Add to Cart</button>
+                <button type="button" class="product-AddToCart" onclick="addToCart(@product.Produit.Id)" >Ajouter au panier</button>
             </form>
         </div>
     }
 </div>
+
+<script>
+    function addToCart(productId) {
+        event.preventDefault();
+        var qteUnite = $("input[name='qteUnite_"+productId+"']").val();
+        var qteCarton= $("input[name='qteCarton_"+productId+"']").val();
+
+        $.ajax({
+            url: '@Url.Action("AddToCart", "Produits")',
+            type: 'POST',
+            data: {
+                productId: productId,
+                qteUnite: qteUnite,
+                qteCarton: qteCarton
+            },
+            success: function () {
+                alert('Produit ajouté au panier!');
+            },
+            error: function () {
+                alert('Erreur lors de l\'ajout au panier.');
+            }
+        });
+    }
+
+    function minus(produitId, AuCarton) {
+        if (AuCarton == true) {
+            var qteCarton = $("input[name='qteCarton_" + produitId + "']").val();
+            qteCarton--;
+            if (qteCarton < 0) {
+                qteCarton = 0;
+            }
+            $("input[name='qteCarton_" + produitId + "']").val(qteCarton);
+        }else{
+            var qteUnite = $("input[name='qteUnite_" + produitId + "']").val();
+            qteUnite--;
+            if (qteUnite < 0) {
+                qteUnite = 0;
+            }
+            $("input[name='qteUnite_" + produitId + "']").val(qteUnite);
+        }
+
+    }
+     function plus(produitId, AuCarton) {
+        if (AuCarton == true) {
+            var qteCarton = $("input[name='qteCarton_" + produitId + "']").val();
+            qteCarton++;
+            $("input[name='qteCarton_" + produitId + "']").val(qteCarton);
+        }else{
+            var qteUnite = $("input[name='qteUnite_" + produitId + "']").val();
+            qteUnite++
+            $("input[name='qteUnite_" + produitId + "']").val(qteUnite);
+        }
+
+    }
+
+</script>

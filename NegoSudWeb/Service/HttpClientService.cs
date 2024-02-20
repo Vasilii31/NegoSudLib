@@ -132,17 +132,17 @@ namespace NegoSudWeb.Services
             return new List<ProduitLightDTO>();
         }
 
-        public static async Task<ProduitFullDTO> GetProductById(int id)
+        public static async Task<ProduitLightDTO> GetProductById(int id)
         {
             string route = $"api/Produits/{id}";
             var response = await Client.GetAsync(route);
             if (response.IsSuccessStatusCode)
             {
                 string resultat = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<ProduitFullDTO>(resultat)
+                return JsonConvert.DeserializeObject<ProduitLightDTO>(resultat)
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
-            return new ProduitFullDTO();
+            return new ProduitLightDTO();
         }
 
         internal static async Task<List<ClientDTO>> GetClients()

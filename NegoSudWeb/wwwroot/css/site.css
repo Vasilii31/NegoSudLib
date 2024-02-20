@@ -29,7 +29,6 @@ body {
 
 .product-card {
     width: 300px;
-    height: 400px;
     display: flex;
     flex-direction: column;
     margin: 10px;
@@ -49,6 +48,7 @@ body {
 
 .product-picInfo {
     width: 300px;
+    margin:10px;
     display: flex;
     flex-direction: row;
 }
@@ -130,62 +130,67 @@ product-prices {
 }
 
 .pic-infos{
-    display: flex;
-    flex-direction: row;
-}
-
-.item-panier-infos {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.img-item-panier {
-    max-width: 200px;
-    max-height: 200px;
-}
-
-.description-item-panier{
-    display: flex;
-    flex-direction: column;
-}
-
-.description-item-panier h1 {
-    font-size: 30px;
-}
-
-.gestion-item-panier{
+.product-prices{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
-    
+    width:300px;
 }
-
-
-
-
-.infos-green {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: forestgreen;
-}
-
-.button-passer-commande {
-    width: 80%;
-    margin-top: 30px;
-    margin-bottom: 5px;
-    align-self: center;
-    border-radius: 10px;
-    border: solid 3px #460A26;
-    font-weight: bold;
-    font-size: 18px;
-    background-color: yellow;
-}
-
-.item-recap-prix{
+.product-price {
+    width: 130px;
+    height: 130px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
+    align-items:center;
+    border: solid 1px #460A26;
+    border-radius: 20px;
+    padding: 5px;
+}
+.product-quantity{
+    display: flex;
+    flex-direction: row;
+
+}
+.product-priceValue {
+    font-size: 20px;
+    font-weight: bold;
+}
+.product-qtValue {
+    width: 50px;
+    margin: 0px 5px;
+}
+.product-plusMinus{
+    width:30px;
+    height:30px;
+}
+
+.product-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:space-around;
+    margin:10px;
+}
+
+.product-AddToCart{
+    margin:10px;
+    padding:10px;
+    border-radius: 10px;
+}
+button {
+    background: #460A26;
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
 }
