@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NegoSudLib.DTO.Read.ProduitLightDTO>
+﻿@model IEnumerable<ProduitsViewModel>
 
 @{
     ViewData["Title"] = "NegoSud";
@@ -111,17 +111,34 @@
     @foreach (var product in Model)
     {
         <div class="product-card">               
-            <div class="product-domaine">@product.NomDomaine</div>
+            <div class="product-domaine">@product.Produit.NomDomaine</div>
             <div class="product-picInfo">
-                <img class="product-pic"  src="@product.PhotoProduitPath" alt="@product.NomProduit">
+                <img class="product-pic" src="@product.Produit.PhotoProduitPath" alt="@product.Produit.NomProduit">
                 <div class="product-info">
-                    <div class="card-title">@product.NomProduit</div>
-                    <div class="card-description">@product.DescriptionProduit</div>
+                    <div class="product-title">@product.Produit.NomProduit</div>
+                    <div class="product-description">@product.infoCard</div>
                 </div>
             </div>
-            <div class="price">@product.PrixAchat.ToString("C")</div>
             <form method="post">
-                <input type="hidden" name="productId" value="@product.Id" />
+                <div class="product-prices">
+                 <div class="product-price">
+                     <div class="price-info">"A l'unité"</div>
+                     <div class="price">@product.prixUnite</div>
+                     <button>+</button>
+                     <input type="number" value="@product.QteUnite"/>
+                     <button>-</button>
+                 </div>
+                 <div class="product-price">
+                     <div class="price-info">@product.infoCarton</div>
+                     <div class="price">@product.prixCarton</div>
+                     <button>+</button>
+                     <input type="number" value="@product.QteCarton"/>
+                     <button>-</button>
+                 </div>
+
+                </div>
+
+                <input type="hidden" name="productId" value="@product.Produit.Id" />
                 @* <input type="hidden" name="productQuantity" value="@product.Quantity" /> *@
                 @* <input type="hidden" name="productCarton" value="@product.AuCarton" /> *@
                 <button type="submit">Add to Cart</button>

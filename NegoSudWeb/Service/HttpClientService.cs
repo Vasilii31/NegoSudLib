@@ -2,6 +2,7 @@ using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.write;
 using NegoSudLib.DTO.Write;
+using NegoSudWeb.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
@@ -92,17 +93,25 @@ namespace NegoSudWeb.Services
             return new EmployeDTO();
         }
 
-        public static async Task<List<ProduitLightDTO>> GetProduitsAll()
+        public static async Task<List<ProduitsViewModel>> GetProduitsAll()
         {
             string route = $"api/Produits/";
             var response = await Client.GetAsync(route);
+            var resultDTO = new List<ProduitLightDTO>();
             if (response.IsSuccessStatusCode)
             {
                 string resultat = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
-                ?? throw new FormatException($"Erreur Http : {route}");
+                resultDTO = JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
+               ?? throw new FormatException($"Erreur Http : {route}");
             }
-            return new List<ProduitLightDTO>();
+
+            var resultModel = new List<ProduitsViewModel>();
+
+            foreach (var pdt in resultDTO)
+            {
+                resultModel.Add(new ProduitsViewModel(pdt));
+            }
+            return resultModel;
         }
         public static async Task<List<ProduitLightDTO>> SearchProduits(int? IdCat, int? IdDom, int four, string? nom, bool? Envente)
         {
