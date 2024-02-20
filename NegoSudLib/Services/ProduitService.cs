@@ -44,7 +44,7 @@ namespace NegoSudLib.Services
 
 
         // renvoi le produit par Id
-        public async Task<ProduitFullDTO?> GetById(int id)
+        public async Task<ProduitLightDTO?> GetById(int id)
         {
             return await this._produitRepository.GetById(id);
         }

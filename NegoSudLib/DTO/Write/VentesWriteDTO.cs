@@ -11,7 +11,6 @@ public class VentesWriteDTO
 
     public string NumFacture { get; set; } = string.Empty;
     public string Commentaire { get; set; } = string.Empty;
-    [Required]
     public int EmployeId { get; set; }
     [Required]
     public int ClientId { get; set; }

@@ -94,7 +94,7 @@ namespace NegoSudAPI.Controllers
 
         // GET api/produits/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProduitFullDTO?>> GetbyId(int id)
+        public async Task<ActionResult<ProduitLightDTO?>> GetbyId(int id)
         {
             var produit = await _produitService.GetById(id);
             if (produit == null)
