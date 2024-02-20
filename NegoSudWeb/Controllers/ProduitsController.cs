@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NegoSudLib.DAO;
-using NegoSudLib.NegosudDbContext;
-
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
 using NegoSudWeb.Services;
+using Newtonsoft.Json;
 
 namespace NegoSudWeb.Controllers
 {
     public class ProduitsController : Controller
     {
-        private readonly NegoSudDBContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session;
 
-        public ProduitsController(NegoSudDBContext context)
+        public ProduitsController(IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+            _session = _httpContextAccessor.HttpContext.Session;
         }
+
 
         // GET: Produits
         public async Task<IActionResult> Index()
@@ -30,7 +31,7 @@ namespace NegoSudWeb.Controllers
         // GET: Produits/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
             }
@@ -44,128 +45,80 @@ namespace NegoSudWeb.Controllers
                 return NotFound();
             }
 
-            return View(produit);
+            return View(produit);*/
+            throw new NotImplementedException();
         }
 
-        // GET: Produits/Create
-        public IActionResult Create()
-        {
-            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "NomCategorie");
-            ViewData["DomaineId"] = new SelectList(_context.Domaines, "Id", "NomDomaine");
-            return View();
-        }
 
-        // POST: Produits/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,QteEnStock,NomProduit,ContenanceCl,DegreeAlcool,Millesime,DescriptionProduit,SeuilCommandeMin,CommandeMin,QteCarton,PhotoProduitPath,AlaVente,DomaineId,CategorieId")] Produit produit)
+        public async Task<IActionResult> AddToCart(int productId, int qteUnite, int qteCarton)
         {
-            if (ModelState.IsValid)
+            var product = await httpClientService.GetProductById(productId);
+            if (product == null)
             {
-                _context.Add(produit);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "NomCategorie", produit.CategorieId);
-            ViewData["DomaineId"] = new SelectList(_context.Domaines, "Id", "NomDomaine", produit.DomaineId);
-            return View(produit);
-        }
-
-        // GET: Produits/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                Json(new { success = false });
             }
 
-            var produit = await _context.Produits.FindAsync(id);
-            if (produit == null)
+            var dtMvtUnite = new DetailMouvementStockDTO();
+            var dtMvtCarton = new DetailMouvementStockDTO();
+            if (qteUnite != 0)
             {
-                return NotFound();
-            }
-            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "NomCategorie", produit.CategorieId);
-            ViewData["DomaineId"] = new SelectList(_context.Domaines, "Id", "NomDomaine", produit.DomaineId);
-            return View(produit);
-        }
+                dtMvtUnite.ProduitId = product.Id;
+                dtMvtUnite.Produit = product;
+                dtMvtUnite.AuCarton = false;
+                dtMvtUnite.QteProduit = qteUnite;
 
-        // POST: Produits/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,QteEnStock,NomProduit,ContenanceCl,DegreeAlcool,Millesime,DescriptionProduit,SeuilCommandeMin,CommandeMin,QteCarton,PhotoProduitPath,AlaVente,DomaineId,CategorieId")] Produit produit)
-        {
-            if (id != produit.Id)
-            {
-                return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if (qteCarton != 0)
             {
-                try
+                dtMvtCarton.ProduitId = product.Id;
+                dtMvtCarton.Produit = product;
+                dtMvtCarton.AuCarton = true;
+                dtMvtCarton.QteProduit = qteCarton;
+            };
+
+            //var shoppingCart = HttpContext.Session.Get<VentesWriteDTO>("Panier") ?? new VentesWriteDTO();
+            var panierJson = _session.GetString("Panier");
+            var panier = new VentesWriteDTO();
+            if (panierJson != null)
+            {
+                panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
+            }
+            if (dtMvtUnite.ProduitId != 0)
+            {
+                var mvt = panier.DetailMouvementStocks.FirstOrDefault(item => item.ProduitId == dtMvtUnite.ProduitId && item.AuCarton == dtMvtUnite.AuCarton);
+                if (mvt == null)
                 {
-                    _context.Update(produit);
-                    await _context.SaveChangesAsync();
+                    panier.DetailMouvementStocks.Add(dtMvtUnite);
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!ProduitExists(produit.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    mvt.QteProduit += dtMvtUnite.QteProduit;
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "NomCategorie", produit.CategorieId);
-            ViewData["DomaineId"] = new SelectList(_context.Domaines, "Id", "NomDomaine", produit.DomaineId);
-            return View(produit);
-        }
-
-        // GET: Produits/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            if (dtMvtCarton.ProduitId != 0)
             {
-                return NotFound();
+                var mvt = panier.DetailMouvementStocks.FirstOrDefault(item => item.ProduitId == dtMvtCarton.ProduitId && item.AuCarton == dtMvtCarton.AuCarton);
+                if (mvt == null)
+                {
+                    panier.DetailMouvementStocks.Add(dtMvtCarton);
+                }
+                else
+                {
+                    mvt.QteProduit += dtMvtCarton.QteProduit;
+                }
             }
-
-            var produit = await _context.Produits
-                .Include(p => p.Categorie)
-                .Include(p => p.Domaine)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (produit == null)
-            {
-                return NotFound();
-            }
-
-            return View(produit);
+            panierJson = JsonConvert.SerializeObject(panier);
+            _session.SetString("Panier", panierJson);
+            var test = _session.GetString("Panier");
+            Console.Write(test);
+            return Json(new { success = true });
         }
 
-        // POST: Produits/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var produit = await _context.Produits.FindAsync(id);
-            if (produit != null)
-            {
-                _context.Produits.Remove(produit);
-            }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
-        private bool ProduitExists(int id)
-        {
-            return _context.Produits.Any(e => e.Id == id);
-        }
+
+
+
     }
 }

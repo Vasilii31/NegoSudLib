@@ -39,18 +39,18 @@ namespace NegoSudLib.Repositories
         }
         public async Task<IEnumerable<ProduitLightDTO>> Search(int cat, int dom, int Four, string? name, bool? enVente)
         {
-                  var  result = await _context.Produits
-                .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
-                .ThenInclude(p => p.Fournisseur)
-                .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
-                .Include(p => p.Domaine)
-                .Include(p => p.Categorie)
-                .Where(p => (enVente == null) || p.AlaVente == enVente)
-                .Where(p => (cat == 0) || p.CategorieId == cat)
-                .Where(p => (dom == 0) || p.DomaineId == dom)
-                .Where(p => (string.IsNullOrEmpty(name)) || p.NomProduit.Contains(name))
-                .Select(p => p.ToLightDTO(null))
-                .ToListAsync();
+            var result = await _context.Produits
+          .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
+          .ThenInclude(p => p.Fournisseur)
+          .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
+          .Include(p => p.Domaine)
+          .Include(p => p.Categorie)
+          .Where(p => (enVente == null) || p.AlaVente == enVente)
+          .Where(p => (cat == 0) || p.CategorieId == cat)
+          .Where(p => (dom == 0) || p.DomaineId == dom)
+          .Where(p => (string.IsNullOrEmpty(name)) || p.NomProduit.Contains(name))
+          .Select(p => p.ToLightDTO(null))
+          .ToListAsync();
 
             if (Four != 0)
             {
@@ -71,17 +71,17 @@ namespace NegoSudLib.Repositories
                 .Select(p => p.ToLightDTO(null))
                 .ToListAsync();
         }
-        public async Task<ProduitFullDTO?> GetById(int id)
+        public async Task<ProduitLightDTO?> GetById(int id)
         {
-            return await _context.Produits
+            var pdt = await _context.Produits
                 .Include(p => p.PrixAchats.OrderBy(PrixAchat => PrixAchat.DateFin))
                 .ThenInclude(p => p.Fournisseur)
                 .Include(p => p.PrixVentes.OrderBy(PrixVente => PrixVente.DateFin))
                 .Include(p => p.Domaine)
                 .Include(p => p.Categorie)
                 .Where(p => p.Id == id)
-                .Select(p => p.ToFullDTO())
                 .FirstOrDefaultAsync();
+            return pdt.ToLightDTO();
         }
         public async Task<ProduitLightDTO?> GetByIdDate(int id, DateTime date)
         {
@@ -188,7 +188,7 @@ namespace NegoSudLib.Repositories
                 .Where(p => p.QteEnStock <= ((p.SeuilCommandeMin == null) ? 0 : p.SeuilCommandeMin))
                 .OrderBy(Fournisseur => Fournisseur.Id)
                 .Select(p => p.ToLightDTO(null))
-                
+
                 .ToListAsync();
         }
     }
