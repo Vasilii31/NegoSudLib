@@ -245,7 +245,6 @@ input[type=number] {
 }
 
 
-
 .panier {
     width: 70%
 }
@@ -253,4 +252,37 @@ input[type=number] {
 
 .panier-picInfo {
     display: flex;
+}
+
+#header-accueil {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 80px;
+    white-space: nowrap;
+    background-image: url('../img/vinAccueil.png'); 
+    background-size: cover; 
+    background-position: center; 
+    color: white; 
+    padding: 40px;
+}
+
+#header-accueil a {
+        margin-left: 200px; 
+        margin-top: 20px;
+}
+
+.social-icon {
+    max-width: 100%; 
+    height: auto; 
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+.social-icons li {
+        margin-right: 10px;
 }

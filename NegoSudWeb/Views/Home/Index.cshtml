@@ -1,8 +1,46 @@
-﻿ <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div> 
-
-
-
-
+﻿<div id="footer" class="container">
+    <div class="row" id="header-accueil">
+			<div class="col-md-4">
+				<section>
+					<h2>Acheter des grands vins à prix sages.</h2>
+					<p>Vous cherchez des grands crus de garde ?</p>
+                    <p>Des millésime prêts à boire ?</p>
+				</section>
+			</div>
+			<div>
+				<section>
+                    <a href="@Url.Action("Index", "Produits")" class="btn btn-primary">La liste des vins</a>
+                    <a href="@Url.Action("Index", "Categories")" class="btn btn-primary">Le catalogue</a>
+				</section>
+			</div>
+	 </div>
+		<div class="row">
+        <div class="col-md-4">
+            <section>
+                <h2>Restons en contact</h2>
+                <ul class="social-icons">
+                    <li><a href="#" class="icon brands alt fa-twitter-f"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+                </ul>
+                <dl class="alt">
+                    <dd>8, Rue des Frères Charles et Alcide d' Orbigny</dd>
+                    <dd>64000 Pau, France</dd>
+                    <dd>Tel: 05 30 24 14 12</dd>
+                    <dd>Email: olivierfranco@lebg.fr</dd>
+                </dl>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section>
+                <h2>Nos Partenariats</h2>
+                <ul class="d-flex flex-wrap">
+                    <li class="social-icons"><a href="https://www.cochonou.fr/" class="btn btn-outline-primary">Cochonou</a></li>
+                    <li class="social-icons"><a href="https://www.ricard.com/" class="btn btn-outline-primary">Ricard</a></li>
+                    <li class="social-icons"><a href="https://csharp.aesisoft.fr/" class="btn btn-outline-primary">Merci Nadine</a></li>
+                    <li class="social-icons"><a href="https://www.beertime.fr/1664" class="btn btn-outline-primary">1664</a></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
