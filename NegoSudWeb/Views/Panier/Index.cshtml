@@ -1,0 +1,84 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+	ViewData["Title"] = "Index";
+	var panier = HttpContextAccessor.HttpContext.Session.GetString("Panier");
+	
+}
+
+<h1>Votre panier</h1>
+<h2>@panier</h2>
+<div class="page-panier-container">
+	<div class="panier">
+		<div class="item-panier">
+			<div class="pic-infos">
+				<img class="img-item-panier" src="~/img/vinRouge.png"/>
+				<div class="item-panier-infos">
+					<div class="description-item-panier">
+						<h1>Nom Article</h1>
+						<P>En stock</P>
+					</div>
+					<div class="gestion-item-panier">
+						<select name="Qté">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+						</select>
+						<p>Supprimer</p>
+					
+					</div>
+				</div>
+			</div>
+			<div class="item-recap-prix">
+				<p>Promotion</p>
+				<p>55,99 $</p>
+			</div>
+		</div>
+
+
+		<div class="item-panier">
+			<div class="pic-infos">
+				<img class="img-item-panier" src="~/img/vinRouge.png"/>
+				<div class="item-panier-infos">
+					<div class="description-item-panier">
+						<h1>Nom Article</h1>
+						<P>En stock</P>
+					</div>
+					<div class="gestion-item-panier">
+						<select name="Qté"> 
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+						</select>
+						<p> Supprimer</p>
+
+					</div>
+				</div>
+			</div>
+			<div class="item-recap-prix">
+				<p>Promotion</p>
+				<p>55,99 $</p>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="recap-panier">
+		<div class="infos-green">Votre commande est éligible à la livraison Standard gratuite en France métropolitaine. Restrictions applicables</div>
+		<div>Sous-total (4 articles) :</div>
+		<div>455,55$</div>
+		<button class="button-passer-commande">Passer la commande</button>
+	</div>
+</div>
+
