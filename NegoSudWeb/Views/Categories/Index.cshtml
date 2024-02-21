@@ -8,8 +8,11 @@
 
 <div class="product-container">
 	@foreach (var categorie in Model)
-	{	
-		<div class="product-card" id="categorie-@categorie.Id">
+	{
+		<a class="product-card-link" asp-area="" asp-controller="Produits" asp-action="Index" asp-route-id="@categorie.Id">
+
+		<div class="product-card">
+			
 		
 			<div class="product-picInfo">
 				@if (categorie.NomCategorie == "Rouge")
@@ -37,25 +40,15 @@
 					<img class="img-categorieDigestifs" src="~/img/vinDigestif.png">
 				}
 			</div>
-				<h2 class="CategorieNom">@categorie.NomCategorie</h2>
-										
-							@*<div class="product-action">
+			<h2 class="CategorieNom">@categorie.NomCategorie
+			</h2>
+		</div>
+		</a>
+		@*<div class="product-action">
 								<a href="#" class="btn btn-primary">Voir les produits</a>
 							</div>*@			
-	</div>
+	
 	}
 </div>
 
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		var productCards = document.querySelectorAll('.product-card');
-
-		productCards.forEach(function (card) {
-			card.addEventListener('click', function () {
-				var categoryId = card.id.split('-')[1];
-				window.location.href = '/Produits/Index?categoryId=' + categoryId;
-			});
-		});
-	});
-</script>
 
