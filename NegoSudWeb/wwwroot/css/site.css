@@ -111,59 +111,6 @@ product-prices {
     flex-direction: row;
 }
 
-.panier-button path {
-    fill: #460A26;
-    color: #460A26;
-}
-
-.page-panier-container {
-    display: flex;
-    flex-direction: row;
-    background-color: wheat;
-    justify-content: space-between;
-}
-
-.recap-panier {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    background-color: aquamarine;
-    border: solid 1px #460A26;
-    border-radius: 10px;
-    width: 25%;
-    font-weight: bold;
-    font-size: 20px;
-    max-height: 250px
-}
-
-.recap-panier div button{
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.panier {
-    background-color: blueviolet;
-    border: solid 1px #460A26;
-    border-radius: 10px;
-    width: 70%
-}
-
-.item-panier{
-    display: flex;
-    flex-direction: row;
-    margin: 20px;
-    justify-content:space-between;
-}
-
-.pic-infos {
-    display:flex;
-
-}
-
-.img-item-panier{
-    max-height:150px;
-}
 
 .product-prices {
     display: flex;
@@ -228,4 +175,82 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield; /* Firefox */
+}
+
+.panier-deleteBtn {
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    margin: 5px;
+    display:flex;
+    justify-content:space-around;
+}
+
+.deleteIcon{
+    height:15px;
+    width:15px;
+    align-self:center;
+
+}
+
+.panier-item {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    justify-content: space-between;
+    border: solid 1px #460A26;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.panier-img {
+    width: 100px;
+    height: 100px;
+    align-self:center;
+    margin-right:20px;
+}
+
+.panier-button path {
+    fill: #460A26;
+    color: #460A26;
+}
+
+.panier-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.panier-gestion{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.panier-gestion *{
+    margin: 10px;
+}
+
+.recap-panier {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: aquamarine;
+    border: solid 1px #460A26;
+    border-radius: 10px;
+    width: 25%;
+    font-weight: bold;
+    font-size: 20px;
+    max-height: 250px
+}
+
+
+
+.panier {
+    width: 70%
+}
+
+
+.panier-picInfo {
+    display: flex;
 }

@@ -114,27 +114,7 @@ namespace NegoSudWeb.Services
             return resultModel;
         }
 
-        public static async Task<List<ProduitsViewModel>> GetProductsByCategory(int catId)
-        {
-			string route = $"api/Produits/Categorie/{catId}";
-			var response = await Client.GetAsync(route);
-			var resultDTO = new List<ProduitLightDTO>();
-			if (response.IsSuccessStatusCode)
-			{
-				string resultat = await response.Content.ReadAsStringAsync();
-				resultDTO = JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
-			   ?? throw new FormatException($"Erreur Http : {route}");
-			}
-
-			var resultModel = new List<ProduitsViewModel>();
-
-			foreach (var pdt in resultDTO)
-			{
-				resultModel.Add(new ProduitsViewModel(pdt));
-			}
-			return resultModel;
-		}
-        public static async Task<List<ProduitLightDTO>> SearchProduits(int? IdCat, int? IdDom, int four, string? nom, bool? Envente)
+        public static async Task<List<ProduitsViewModel>> SearchProduits(int? IdCat, int? IdDom, int four, string? nom, bool? Envente)
         {
             string route = $"api/Produits/Recherche?";
             //cat=0&dom=0&four=0&nom=string
@@ -144,13 +124,21 @@ namespace NegoSudWeb.Services
             if (!string.IsNullOrEmpty(nom)) { route += $"&nom={nom}"; }
             if (Envente != null) { route += $"&Envente={Envente}"; }
             var response = await Client.GetAsync(route);
+            var resultDTO = new List<ProduitLightDTO>();
+
             if (response.IsSuccessStatusCode)
             {
                 string resultat = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
+                resultDTO = JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
-            return new List<ProduitLightDTO>();
+            var resultModel = new List<ProduitsViewModel>();
+
+            foreach (var pdt in resultDTO)
+            {
+                resultModel.Add(new ProduitsViewModel(pdt));
+            }
+            return resultModel;
         }
 
         public static async Task<ProduitLightDTO> GetProductById(int id)

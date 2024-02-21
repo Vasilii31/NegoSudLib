@@ -1,7 +1,18 @@
-﻿@model IEnumerable<ProduitsViewModel>
+﻿@using NegoSudLib.DTO.Write
+@using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<ProduitsViewModel>
 
 @{
     ViewData["Title"] = "NegoSud";
+
+    var panierJson = HttpContextAccessor.HttpContext.Session.GetString("Panier");
+    var panier = new VentesWriteDTO();
+    if (!string.IsNullOrEmpty(panierJson))
+    {
+        panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
+        panier.SetTotaux();
+    }
 }
 
 <h1>Index</h1>
@@ -24,19 +35,19 @@
                          <div class="product-priceInfo">"A l'unité"</div>
                          <div class="product-priceValue">@product.prixUnite</div>
                          <div class="product-quantity">
-                            <button type="button" class="product-plusMinus" onclick="minus(@product.Produit.Id,false)"> - </button>
+                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,false,false)"> - </button>
                                
-                            <input class="product-qtValue" name="qteUnite_@product.Produit.Id" type="number" value="@product.QteUnite" />
-                            <button type="button" class="product-plusMinus" onclick="plus(@product.Produit.Id,false)">+</button>
+                            <input class="product-qtValue" id="qteUnite_@product.Produit.Id" type="number" value="@product.QteUnite" />
+                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,false,true)">+</button>
                          </div>
                      </div>
                      <div class="product-price">
-                        <div class="product-priceInfo">@product.infoCarton</div>
+                        <div class="product-priceInfo">@product.infoCardCarton</div>
                         <div class="product-priceValue">@product.prixCarton</div>
                          <div class="product-quantity">
-                            <button type="button" class="product-plusMinus" onclick="minus(@product.Produit.Id,true)"> - </button>
-                            <input class="product-qtValue" name="qteCarton_@product.Produit.Id" type="number" value="@product.QteCarton" />
-                            <button type="button" class="product-plusMinus" onclick="plus(@product.Produit.Id,true)">+</button>
+                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,true,false)"> - </button>
+                            <input class="product-qtValue" id="qteCarton_@product.Produit.Id" type="number" value="@product.QteCarton" />
+                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,true,true)">+</button>
                         </div>
                      </div>
 
@@ -52,10 +63,12 @@
 </div>
 
 <script>
+
+
     function addToCart(productId) {
         event.preventDefault();
-        var qteUnite = $("input[name='qteUnite_"+productId+"']").val();
-        var qteCarton= $("input[name='qteCarton_"+productId+"']").val();
+        var qteUnite = $("#qteUnite_"+productId).val();
+        var qteCarton= $("#qteCarton_"+productId).val();
 
         $.ajax({
             url: '@Url.Action("AddToCart", "Produits")',
@@ -74,35 +87,21 @@
         });
     }
 
-    function minus(produitId, AuCarton) {
-        if (AuCarton == true) {
-            var qteCarton = $("input[name='qteCarton_" + produitId + "']").val();
-            qteCarton--;
-            if (qteCarton < 0) {
-                qteCarton = 0;
-            }
-            $("input[name='qteCarton_" + produitId + "']").val(qteCarton);
-        }else{
-            var qteUnite = $("input[name='qteUnite_" + produitId + "']").val();
-            qteUnite--;
-            if (qteUnite < 0) {
-                qteUnite = 0;
-            }
-            $("input[name='qteUnite_" + produitId + "']").val(qteUnite);
-        }
+    function modifyQt(produitId, AuCarton ,add) {
+        var inputQte = AuCarton ? $("#qteCarton_" + produitId) : $("#qteUnite_" + produitId);
+        var valQte = inputQte.val()
+        if (add) {
+            valQte++;
+        } else {
 
-    }
-     function plus(produitId, AuCarton) {
-        if (AuCarton == true) {
-            var qteCarton = $("input[name='qteCarton_" + produitId + "']").val();
-            qteCarton++;
-            $("input[name='qteCarton_" + produitId + "']").val(qteCarton);
-        }else{
-            var qteUnite = $("input[name='qteUnite_" + produitId + "']").val();
-            qteUnite++
-            $("input[name='qteUnite_" + produitId + "']").val(qteUnite);
-        }
+            valQte--;
+            if (valQte < 0) {
+                valQte = 0;
+            }
 
+        }
+        inputQte.val(valQte)
     }
+    
 
 </script>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NegoSudWeb.Models;
+using NegoSudWeb.Services;
 using System.Diagnostics;
 
 namespace NegoSudWeb.Controllers
@@ -13,10 +14,13 @@ namespace NegoSudWeb.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var produits = await httpClientService.GetProduitsAll();
+            return View(produits);
         }
+
+
 
         public IActionResult Privacy()
         {
