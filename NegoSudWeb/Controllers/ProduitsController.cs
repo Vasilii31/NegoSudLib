@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
-using NegoSudLib.Services;
 using NegoSudWeb.Models;
 using NegoSudWeb.Services;
 using Newtonsoft.Json;
@@ -21,13 +20,16 @@ namespace NegoSudWeb.Controllers
 
 
         // GET: Produits
-        public async Task<IActionResult> Index2()
+        public async Task<IActionResult> Categorie(int id)
         {
+            var produits = new List<ProduitsViewModel>();
 
-            var produits = await httpClientService.GetProduitsAll();
+            if (id <= 0) return NotFound();
+
+            produits = await httpClientService.SearchProduits(id, 0, 0, null, null);
+
             return View(produits);
 
-            //return View(await negoSudDBContext.ToListAsync());
         }
 
         // GET: Produits/Details/5
@@ -51,32 +53,18 @@ namespace NegoSudWeb.Controllers
             throw new NotImplementedException();
         }
 
-		// GET: Produits/Index
-		// GET: Produits/Index
-		public async Task<IActionResult> Index(int id)
-		{
-			var produits = new List<ProduitsViewModel>();
+        // GET: Produits/Index
+        public async Task<IActionResult> Index()
+        {
 
-			if (id != 0)
-			{
-				produits = await httpClientService.GetProductsByCategory(id);
-
-				if (produits.Any())
-				{
-					return View(produits);
-				}
-
-				return NotFound();
-			}
-
-			produits = await httpClientService.GetProduitsAll();
-			return View(produits);
-		}
+            var produits = await httpClientService.GetProduitsAll();
+            return View(produits);
+        }
 
 
 
 
-		[HttpPost]
+        [HttpPost]
         public async Task<IActionResult> AddToCart(int productId, int qteUnite, int qteCarton)
         {
             var product = await httpClientService.GetProductById(productId);

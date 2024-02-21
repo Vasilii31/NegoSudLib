@@ -1,46 +1,48 @@
 ﻿<div class="product-container">
-    @foreach (var product in Model)
-    {
-        <div class="product-card">
-            <div class="product-domaine">@product.Produit.NomDomaine</div>
-            <div class="product-picInfo">
-                <img class="product-pic" src="@product.Produit.PhotoProduitPath" alt="@product.Produit.NomProduit">
-                <div class="product-info">
-                    <div class="product-title">@product.Produit.NomProduit</div>
-                    <div class="product-description">@product.infoCard</div>
+
+        
+        @foreach (var product in Model)
+        {
+            <div class="product-card">
+                <div class="product-domaine">@product.Produit.NomDomaine</div>
+                <div class="product-picInfo">
+                    <img class="product-pic" src="@product.Produit.PhotoProduitPath" alt="@product.Produit.NomProduit">
+                    <div class="product-info">
+                        <div class="product-title">@product.Produit.NomProduit</div>
+                        <div class="product-description">@product.infoCard</div>
+                    </div>
                 </div>
+                <form class="product-form" method="post" onsubmit="false">
+                    <div class="product-prices">
+                        <div class="product-price">
+                            <div class="product-priceInfo">"A l'unité"</div>
+                            <div class="product-priceValue">@product.prixUnite</div>
+                            <div class="product-quantity">
+                                <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,false,false)"> - </button>
+
+                                <input class="product-qtValue" id="qteUnite_@product.Produit.Id" type="number" value="@product.QteUnite" />
+                                <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,false,true)">+</button>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <div class="product-priceInfo">@product.infoCardCarton</div>
+                            <div class="product-priceValue">@product.prixCarton</div>
+                            <div class="product-quantity">
+                                <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,true,false)"> - </button>
+                                <input class="product-qtValue" id="qteCarton_@product.Produit.Id" type="number" value="@product.QteCarton" />
+                                <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,true,true)">+</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" name="productId" value="@product.Produit.Id" />
+                    @* <input type="hidden" name="productQuantity" value="@product.Quantity" /> *@
+                    @* <input type="hidden" name="productCarton" value="@product.AuCarton" /> *@
+                    <button type="button" class="product-AddToCart" onclick="addToCart(@product.Produit.Id)">Ajouter au panier</button>
+                </form>
             </div>
-            <form class="product-form" method="post" onsubmit="false">
-                <div class="product-prices">
-                    <div class="product-price">
-                        <div class="product-priceInfo">"A l'unité"</div>
-                        <div class="product-priceValue">@product.prixUnite</div>
-                        <div class="product-quantity">
-                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,false,false)"> - </button>
-
-                            <input class="product-qtValue" id="qteUnite_@product.Produit.Id" type="number" value="@product.QteUnite" />
-                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,false,true)">+</button>
-                        </div>
-                    </div>
-                    <div class="product-price">
-                        <div class="product-priceInfo">@product.infoCardCarton</div>
-                        <div class="product-priceValue">@product.prixCarton</div>
-                        <div class="product-quantity">
-                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,true,false)"> - </button>
-                            <input class="product-qtValue" id="qteCarton_@product.Produit.Id" type="number" value="@product.QteCarton" />
-                            <button type="button" class="product-plusMinus" onclick="modifyQt(@product.Produit.Id,true,true)">+</button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <input type="hidden" name="productId" value="@product.Produit.Id" />
-                @* <input type="hidden" name="productQuantity" value="@product.Quantity" /> *@
-                @* <input type="hidden" name="productCarton" value="@product.AuCarton" /> *@
-                <button type="button" class="product-AddToCart" onclick="addToCart(@product.Produit.Id)">Ajouter au panier</button>
-            </form>
-        </div>
-    }
+        }
 </div>
 
 <script>
