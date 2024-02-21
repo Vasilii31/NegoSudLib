@@ -1,10 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using NegoSudLib.DTO.Write
+@using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<ProduitsViewModel>
 
-<div class="text-center">
+@{
+    ViewData["Title"] = "Home Page";
+    var panierJson = HttpContextAccessor.HttpContext.Session.GetString("Panier");
+    var panier = new VentesWriteDTO();
+    if (!string.IsNullOrEmpty(panierJson))
+    {
+        panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
+        panier.SetTotaux();
+    }
+}
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+</div> *@
+
+@Html.Partial("_Produit", Model)
+
 
 

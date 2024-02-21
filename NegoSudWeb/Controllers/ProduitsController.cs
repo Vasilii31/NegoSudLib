@@ -67,6 +67,7 @@ namespace NegoSudWeb.Controllers
                 dtMvtUnite.Produit = product;
                 dtMvtUnite.AuCarton = false;
                 dtMvtUnite.QteProduit = qteUnite;
+                dtMvtUnite.PrixApresRistourne = -1;
 
             }
             if (qteCarton != 0)
@@ -75,6 +76,8 @@ namespace NegoSudWeb.Controllers
                 dtMvtCarton.Produit = product;
                 dtMvtCarton.AuCarton = true;
                 dtMvtCarton.QteProduit = qteCarton;
+                dtMvtCarton.PrixApresRistourne = -1;
+
             };
 
             //var shoppingCart = HttpContext.Session.Get<VentesWriteDTO>("Panier") ?? new VentesWriteDTO();
@@ -117,7 +120,12 @@ namespace NegoSudWeb.Controllers
 
 
 
-
+        [HttpPost]
+        public async Task<IActionResult> UpdateCart(string panierJson)
+        {
+            _session.SetString("Panier", panierJson);
+            return Json(new { success = true });
+        }
 
 
     }
