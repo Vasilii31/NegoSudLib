@@ -49,8 +49,8 @@ namespace NegoSudWeb.Services
 
         public static async Task<bool> Login(string email, string password)
         {
-            //var jsonString = "{ \"email\": \"" + email +"\", \"password\": \""+ password + "\" }";
-            var jsonString = "{ \"email\": \"JulietteDu31\", \"password\": \"mdpMDP&1\", \"twoFactorCode\": \"string\", \"twoFactorRecoveryCode\": \"string\" }";
+            var jsonString = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
+            //var jsonString = "{ \"email\": \"JulietteDu31\", \"password\": \"mdpMDP&1\", \"twoFactorCode\": \"string\", \"twoFactorRecoveryCode\": \"string\" }";
             var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync("login?useCookies=true&useSessionCookies=true", httpContent);
             var cookies = cookieContainer.GetCookies(new Uri(baseAddress));
