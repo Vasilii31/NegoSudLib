@@ -21,6 +21,13 @@ body {
     margin-bottom: 60px;
 }
 
+.title-header {
+    padding-top: 30px;
+    font-size: 25px;
+    margin-right: 60px;
+    color: #460A26;
+}
+
 .product-container {
     display: flex;
     flex-direction: row;
@@ -51,6 +58,7 @@ body {
     height: 30px;
     text-align: center;
     color: black;
+    text-decoration: none;
 }
 
 .product-picInfo {
@@ -249,7 +257,6 @@ input[type=number] {
 }
 
 
-
 .panier {
     width: 70%
 }
@@ -257,4 +264,52 @@ input[type=number] {
 
 .panier-picInfo {
     display: flex;
+}
+
+
+#header-accueil {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 80px;
+    white-space: nowrap;
+    background-image: url('../img/vinAccueil.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px;
+}
+
+#header-accueil a {
+        margin-left: 200px; 
+        margin-top: 20px;
+        background: #460A26;
+        border-color: #460A26;
+        padding: 15px;
+}
+
+#info-accueil section {
+
+}
+
+.social-icon {
+    max-width: 100%; 
+    height: auto; 
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+.social-icons li {
+        margin-right: 10px;
+}
+
+#navbarNav {
+display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
