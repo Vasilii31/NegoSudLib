@@ -20,6 +20,10 @@ namespace NegoSudLib.Services
         {
             return await _clientRepository.GetById(id);
         }
+        public async Task<ClientDTO?> GetByUserName(string userName)
+        {
+            return await _clientRepository.GetByUserName(userName);
+        }
         public async Task<ClientDTO?> Post(ClientDTO Client)
         {
             return await _clientRepository.Post(Client);

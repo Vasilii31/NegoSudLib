@@ -1,16 +1,9 @@
 ﻿@using NegoSudLib.DTO.Write
 @using Newtonsoft.Json
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@model VentesWriteDTO
 @{
-	ViewData["Title"] = "Index";
-	var panierJson = HttpContextAccessor.HttpContext.Session.GetString("Panier");
-	var panier = new VentesWriteDTO();
-	if (!string.IsNullOrEmpty(panierJson))
-	{
-		panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
-		panier.SetTotaux();
-	}
+	ViewData["Title"] = "Panier";	
 }
 
 <h1>Votre panier</h1>
@@ -18,9 +11,9 @@
 	
 <div class="panier-container">
 	<div class="panier">
-@for (int i = 0; i < panier.DetailMouvementStocks.Count(); i++)
+@for (int i = 0; i < Model.DetailMouvementStocks.Count(); i++)
 {
-			var dtMvt = panier.DetailMouvementStocks[i];
+			var dtMvt = Model.DetailMouvementStocks[i];
 			var pdt = new ProduitsViewModel(dtMvt.Produit);
 			var auCarton = dtMvt.AuCarton ? "carton(s)" :"bouteille(s)";
 
@@ -61,15 +54,17 @@
 	<div class="recap-panier">
 		<div class="infos-green">Votre commande est éligible à la livraison Standard gratuite en France métropolitaine. Restrictions applicables</div>
 		<div>Total (4 articles) :</div>
-		<div id="totalPanier">@panier.Total</div>
-		<button class="button-passer-commande">Passer la commande</button>
+		<div id="totalPanier">@Model.Total</div>
+		<form asp-action="Valider">
+			<button class="button-passer-commande">Passer la commande</button>
+		</form>
 	</div>
 		
 </div>
 
 <script>
 
-	var panier = @Html.Raw(JsonConvert.SerializeObject(panier));
+	var panier = @Html.Raw(JsonConvert.SerializeObject(Model));
 
 	function modifyCart(dtMvtIndice, add) {
 		var inputQte =$("#qtePanier_" + dtMvtIndice)

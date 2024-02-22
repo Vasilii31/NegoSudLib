@@ -1,0 +1,37 @@
+﻿@using NegoSudLib.DTO.Read
+@using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Valider la commande";
+    var clientJson = HttpContextAccessor.HttpContext.Session.GetString("InfoClient");
+    var client = JsonConvert.DeserializeObject<ClientDTO>(clientJson);
+}
+
+<body class="container">
+
+<h1 class="mt-5">Confirmer les informations de livraison</h1>
+
+<form action="/Commande/Valider" method="post">
+
+    <!-- Informations d'expédition -->
+    <div class="mt-4">
+        <h4>Adresse d'Expédition</h4>
+        <div class="mb-2 col">
+            <span class="mr-2">@client.NomUtilisateur</span>
+                <spanclass ="mr-2"> @client.PrenomUtilisateur</spanclass>
+        </div>
+        <div class="mb-2 col">
+                <span class="mr-2"> @client.AdresseUtilisateur</span>
+        </div>
+        <div>
+                <span class="mr-2"> @client.NumTelUtilisateur</span>
+        </div>
+        <a  asp-area="" asp-controller="Clients" asp-action="Edit">Modifier mes informations</a>
+    </div>
+
+        <!-- Bouton de soumission -->
+        <button type="submit" class="buttonNormal">Valider la Commande</button>
+</form>
+
+</body>

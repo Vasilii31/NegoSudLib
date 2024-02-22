@@ -11,6 +11,6 @@ namespace NegoSudLib.Interfaces
         Task<Client?> Put(Client Client);
         Task Delete(int id);
         Task<bool> Exists(int id);
-
+        Task<ClientDTO?> GetByUserName(string userName);
     }
 }

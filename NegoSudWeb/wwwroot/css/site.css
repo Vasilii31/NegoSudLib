@@ -167,6 +167,10 @@ button {
     border-radius: 5px;
 }
 
+.buttonNormal{
+    padding:10px;
+    margin: 10px;
+}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;

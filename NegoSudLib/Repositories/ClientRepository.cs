@@ -28,6 +28,7 @@ namespace NegoSudLib.Repositories
                 .Where(c => c.Id == id)
                 .FirstOrDefaultAsync();
         }
+
         public async Task<ClientDTO?> Post(ClientDTO Client)
         {
             User user = new User()
@@ -52,6 +53,8 @@ namespace NegoSudLib.Repositories
             await _context.SaveChangesAsync();
             return cliEntity.toDTO();
         }
+
+
         public async Task<Client?> Put(Client Client)
         {
             var result = await _context.Clients
@@ -96,6 +99,16 @@ namespace NegoSudLib.Repositories
         public async Task<bool> Exists(int id)
         {
             return await _context.Clients.AnyAsync(e => e.Id == id);
+        }
+
+        public async Task<ClientDTO?> GetByUserName(string userName)
+        {
+            return await _context.Clients
+               .Include(c => c.HistoriqueVentes)
+               .Include(c => c.User)
+               .Where(c => c.User.UserName == userName)
+               .Select(c => c.toDTO())
+               .FirstOrDefaultAsync();
         }
     }
 }
