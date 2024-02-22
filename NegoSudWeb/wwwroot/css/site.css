@@ -21,6 +21,13 @@ body {
     margin-bottom: 60px;
 }
 
+.title-header {
+    padding-top: 30px;
+    font-size: 25px;
+    margin-right: 60px;
+    color: #460A26;
+}
+
 .product-container {
     display: flex;
     flex-direction: row;
@@ -294,4 +301,11 @@ input[type=number] {
 }
 .social-icons li {
         margin-right: 10px;
+}
+
+#navbarNav {
+display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
