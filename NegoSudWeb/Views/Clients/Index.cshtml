@@ -1,4 +1,4 @@
-﻿@* @using NegoSudLib.DTO.Read
+﻿@using NegoSudLib.DTO.Read
 
 @model ClientDTO
 
@@ -6,21 +6,12 @@
     ViewData["Title"] = "Connexion";
 }
 
-<h1>Index</h1>
+<h1>Bienvenue @Model.UserName</h1>
 
-<p>
-    <a asp-action="Create">Pas de compte? Inscrivez vous</a>
-</p>
 
-<form method="post">
-    <div>
-        <label for="Username">Username:</label>
-    </div>
-    <div>
-        <label for="Password">Password:</label>
-        <input asp-for="Password" type="password" />
-    </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
-</form> *@
+<p>Nom : @Model.NomUtilisateur</p>
+<p>Prénom : @Model.PrenomUtilisateur</p>
+<p>Adresse : @Model.AdresseUtilisateur</p>
+<p>E-mail : @Model.MailUtilisateur</p>
+<p>Numéro de téléphone : @Model.NumTelUtilisateur</p>
+

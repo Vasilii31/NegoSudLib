@@ -1,0 +1,20 @@
+﻿@model NegoSudLib.DTO.Read.ClientDTO
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="UserName" class="control-label">Pseudo</label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+  
+    <div class="form-group">
+        <label asp-for="MotDePasse" class="control-label">Mot de passe</label>
+        <input type="password" asp-for="MotDePasse" class="form-control" />
+        <span asp-validation-for="MotDePasse" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Connect" class="btn btn-primary" />
+    </div>
+</form>
