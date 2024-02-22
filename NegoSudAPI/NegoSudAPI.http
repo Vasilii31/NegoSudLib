@@ -200,7 +200,7 @@ Content-Type: application/json
 ###
 
 
-POST {{NegoSudAPI_HostAddress}}/login?useCookies=true&useSessionCookies=true
+POST {{NegoSudAPI_HostAddress}}/login?useCookies=true&useSessionCookies=false
 Content-Type: application/json
 
 {

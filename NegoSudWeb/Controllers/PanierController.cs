@@ -1,83 +1,74 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NegoSudLib.DAO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
+using NegoSudWeb.Services;
+using Newtonsoft.Json;
 
 namespace NegoSudWeb.Controllers
 {
-	public class PanierController : Controller
-	{
-		// GET: PanierController
-		public ActionResult Index()
-		{
-			return View();
-		}
+    public class PanierController : Controller
+    {
 
-		// GET: PanierController/Details/5
-		public ActionResult Details(int id)
-		{
-			return View();
-		}
+        private readonly ILogger<HomeController> _logger; private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-		// GET: PanierController/Create
-		public ActionResult Create()
-		{
-			return View();
-		}
+        public PanierController(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager,
+                              SignInManager<User> signInManager)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _session = _httpContextAccessor.HttpContext.Session;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+        // GET: PanierController
+        public async Task<ActionResult> Index()
+        {
+            if (_session == null)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                if (user != null)
+                {
+                    ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
+                    var clientJson = JsonConvert.SerializeObject(clientConnecté);
+                    _session.SetString("InfoClient", clientJson);
+                }
+            }
 
-		// POST: PanierController/Create
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create(IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
+            var panierJson = Request.Cookies["Panier"];
+            var panier = new VentesWriteDTO();
+            if (panierJson != null)
+            {
+                panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
+            }
+            panier.SetTotaux();
+            return View(panier);
+        }
 
-		// GET: PanierController/Edit/5
-		public ActionResult Edit(int id)
-		{
-			return View();
-		}
+        // GET: PanierController
+        public async Task<ActionResult> Valider()
+        {
+            if (_session == null)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                if (user != null)
+                {
+                    ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
+                    var clientJson = JsonConvert.SerializeObject(clientConnecté);
+                    _session.SetString("InfoClient", clientJson);
+                }
+            }
 
-		// POST: PanierController/Edit/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
 
-		// GET: PanierController/Delete/5
-		public ActionResult Delete(int id)
-		{
-			return View();
-		}
+            return View();
+        }
 
-		// POST: PanierController/Delete/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
-	}
+
+
+
+
+    }
 }

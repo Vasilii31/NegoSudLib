@@ -58,6 +58,8 @@ namespace NegoSudWeb.Services
             return response.IsSuccessStatusCode;
         }
 
+
+
         public static async Task<List<EmployeDTO>> GetEmployes()
         {
             string route = $"api/Employes/";
@@ -154,17 +156,17 @@ namespace NegoSudWeb.Services
             return new ProduitLightDTO();
         }
 
-        internal static async Task<List<ClientDTO>> GetClients()
+        internal static async Task<ClientDTO> GetClientByUserName(string userName)
         {
-            string route = $"api/Client/";
+            string route = $"api/Client/userName/" + userName;
             var response = await Client.GetAsync(route);
             if (response.IsSuccessStatusCode)
             {
                 string resultat = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ClientDTO>>(resultat)
+                return JsonConvert.DeserializeObject<ClientDTO>(resultat)
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
-            return new List<ClientDTO>();
+            return new ClientDTO();
         }
 
         internal static async Task<List<Fournisseur>> GetFournisseurs()
