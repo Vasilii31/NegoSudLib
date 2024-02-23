@@ -177,7 +177,7 @@ button {
 
 .buttonNormal{
     padding:10px;
-    margin: 10px;
+    margin: 10px, 0px;
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -247,7 +247,7 @@ input[type=number] {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    background-color: aquamarine;
+    background-color: wheat;
     border: solid 1px #460A26;
     border-radius: 10px;
     width: 25%;

@@ -176,7 +176,7 @@ Content-Type: application/json
   "userName": "JulietteDu31",
   "nomUtilisateur": "Legendre",
   "prenomUtilisateur": "Juliette",
-  "adresseUtilisateur": "rue du test",
+  "adresseUtilisateur": "12 rue du test",
   "mailUtilisateur": "juliette@mail.fr",
   "numTelUtilisateur": "0123456789",
   "motDePasse": "mdpMDP&1",

@@ -70,7 +70,7 @@ namespace NegoSudAPI.Controllers
 
         // POST api/<ValuesController>
         //[Authorize]
-        [Authorize(Roles = "Gérant,Employé,Client")]
+        [Authorize(Roles = "Gérant, Employé, Client")]
         [HttpPost]
         public async Task<ActionResult<VentesDTO?>> Post([FromBody] VentesWriteDTO vente)
         {
