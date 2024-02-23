@@ -1,4 +1,5 @@
-﻿using NegoSud.Services;
+﻿using NegoSud.Core;
+using NegoSud.Services;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
 using System.Collections.ObjectModel;
@@ -13,7 +14,9 @@ namespace NegoSud.MVVM.ViewModel
         public ObservableCollection<ClientDTO> ListeClients { get; set; } = new();
         public ObservableCollection<PanierItemViewModel> Panier { get; set; } = new();
 
-        private VentesWriteDTO Vente = new VentesWriteDTO();
+		public ObservableCollection<ConsultVenteItemViewModel> ListeVentes { get; set; } = new();
+
+		private VentesWriteDTO Vente = new VentesWriteDTO();
 
         private string _recherche;
 
@@ -30,7 +33,20 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
-        private ClientDTO _clientSelectionne;
+		private List<DetailMouvementStockDTO> _currentListVente = new();
+
+		public List<DetailMouvementStockDTO> CurrentListVente
+		{
+			get { return _currentListVente; }
+			set
+			{
+				_currentListVente = value;
+				OnPropertyChanged(nameof(CurrentListVente));
+
+			}
+		}
+
+		private ClientDTO _clientSelectionne;
         public ClientDTO ClientSelectionne
         {
             get { return _clientSelectionne; }
@@ -113,7 +129,7 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
-        private ProduitLightDTO _currentProduitDTO;
+		private ProduitLightDTO _currentProduitDTO;
         public ProduitLightDTO CurrentProduitDTO
         {
             get { return _currentProduitDTO; }
@@ -123,13 +139,129 @@ namespace NegoSud.MVVM.ViewModel
                 OnPropertyChanged(nameof(CurrentProduitDTO));
             }
         }
-        public VentesViewModel()
-        {
-            GetProductsAll();
-            GetClients();
-        }
 
-        public ICommand CMD_VoirPanier { get; set; }
+		public Visibility _venteLocaleVisibility = Visibility.Hidden;
+
+		public Visibility VenteLocaleVisibility
+		{
+			get { return _venteLocaleVisibility; }
+			set
+			{
+				_venteLocaleVisibility = value;
+				OnPropertyChanged(nameof(VenteLocaleVisibility));
+
+			}
+		}
+
+		public Visibility _consultVenteVisible = Visibility.Hidden;
+
+		public Visibility ConsultVenteVisible
+		{
+			get { return _consultVenteVisible; }
+			set
+			{
+				_consultVenteVisible = value;
+				OnPropertyChanged(nameof(ConsultVenteVisible));
+
+			}
+		}
+
+		public Visibility _venteEnLigneVisibility = Visibility.Hidden;
+
+		public Visibility VenteEnLigneVisibility
+		{
+			get { return _venteEnLigneVisibility; }
+			set
+			{
+				_venteEnLigneVisibility = value;
+				OnPropertyChanged(nameof(VenteEnLigneVisibility));
+
+			}
+		}
+
+		private ConsultVenteItemViewModel _currentVente;
+		public ConsultVenteItemViewModel CurrentVente
+		{
+			get { return _currentVente; }
+			set
+			{
+				_currentVente = value;
+				OnPropertyChanged(nameof(CurrentVente));
+
+			}
+		}
+
+		public ICommand AfficherVenteLocaleCommand { get; set; }
+        public ICommand AfficherVenteEnLigneCommand { get; set; }
+		public ICommand FermerVenteConsultCommand { get; set; }
+
+		public VentesViewModel()
+        {
+			CreateListeVentes();
+			GetProductsAll();
+            GetClients();
+
+            AfficherVenteLocaleCommand = new RelayCommand(AfficherVenteLocale);
+			AfficherVenteEnLigneCommand = new RelayCommand(AfficherVenteEnLigne);
+			FermerVenteConsultCommand = new RelayCommand(FermerEcranConsult);
+		}
+
+		private void FermerEcranConsult(object obj)
+		{
+			ConsultVenteVisible = Visibility.Hidden;
+		}
+
+		private void CreateListeVentes()
+		{
+			ListeVentes.Clear();
+
+			Task.Run(async () =>
+			{
+				return await httpClientService.GetVentesEnLigne();
+
+			})
+			.ContinueWith(t =>
+			{
+				foreach (var vente in t.Result)
+				{
+					var item = new ConsultVenteItemViewModel(vente);
+					//item.deleted += Item_deleted;
+					//item.modify += Item_modifyPopup;
+					item.Ventes.SetTotaux();
+					item.ouvrirVenteForm += OuvrirForm;
+					ListeVentes.Add(item);
+
+				}
+
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		internal void FermerConsult(object sender, RoutedEventArgs e)
+		{
+			CurrentVente = null;
+			CurrentListVente.Clear();
+			ConsultVenteVisible = Visibility.Hidden;
+		}
+
+		private void OuvrirForm(object? sender, EventArgs e)
+		{
+			CurrentVente = (ConsultVenteItemViewModel)sender;
+			CurrentListVente = CurrentVente.Ventes.DetailMouvementStocks.ToList();
+			ConsultVenteVisible = Visibility.Visible;
+		}
+		private void AfficherVenteEnLigne(object obj)
+		{
+			VenteEnLigneVisibility = Visibility.Visible;
+			VenteLocaleVisibility = Visibility.Hidden;
+		}
+
+		private void AfficherVenteLocale(object obj)
+		{
+            VenteLocaleVisibility = Visibility.Visible;
+            VenteEnLigneVisibility = Visibility.Hidden;
+		}
+
+		public ICommand CMD_VoirPanier { get; set; }
 
         public event EventHandler EH_VoirPanier;
 

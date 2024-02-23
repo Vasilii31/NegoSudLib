@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NegoSudLib.NegosudDbContext;
 
@@ -10,9 +11,11 @@ using NegoSudLib.NegosudDbContext;
 namespace NegoSudLib.Migrations
 {
     [DbContext(typeof(NegoSudDBContext))]
-    partial class NegoSudDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240221081247_inventaire4")]
+    partial class inventaire4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,10 +266,10 @@ namespace NegoSudLib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("IdProduit")
+                    b.Property<int>("IdInventaire")
                         .HasColumnType("int");
 
-                    b.Property<int>("InventaireId")
+                    b.Property<int>("IdProduit")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantiteApresInventaire")
@@ -278,8 +281,6 @@ namespace NegoSudLib.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdProduit");
-
-                    b.HasIndex("InventaireId");
 
                     b.ToTable("LignesInventaires");
                 });
@@ -717,12 +718,6 @@ namespace NegoSudLib.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NegoSudLib.DAO.Inventaire", null)
-                        .WithMany("LigneInventaires")
-                        .HasForeignKey("InventaireId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Produit");
                 });
 
@@ -837,11 +832,6 @@ namespace NegoSudLib.Migrations
                         .HasForeignKey("ProduitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("NegoSudLib.DAO.Inventaire", b =>
-                {
-                    b.Navigation("LigneInventaires");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.MouvementStock", b =>

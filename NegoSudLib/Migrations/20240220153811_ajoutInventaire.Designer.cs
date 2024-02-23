@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NegoSudLib.NegosudDbContext;
 
@@ -10,9 +11,11 @@ using NegoSudLib.NegosudDbContext;
 namespace NegoSudLib.Migrations
 {
     [DbContext(typeof(NegoSudDBContext))]
-    partial class NegoSudDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240220153811_ajoutInventaire")]
+    partial class ajoutInventaire
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,50 +241,6 @@ namespace NegoSudLib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Fournisseurs");
-                });
-
-            modelBuilder.Entity("NegoSudLib.DAO.Inventaire", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateInventaire")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsValidated")
-                        .HasColumnType("tinyint(1)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Inventaires");
-                });
-
-            modelBuilder.Entity("NegoSudLib.DAO.LigneInventaire", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdProduit")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InventaireId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantiteApresInventaire")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantiteAvantInventaire")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdProduit");
-
-                    b.HasIndex("InventaireId");
-
-                    b.ToTable("LignesInventaires");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.MouvementStock", b =>
@@ -709,23 +668,6 @@ namespace NegoSudLib.Migrations
                     b.Navigation("Produit");
                 });
 
-            modelBuilder.Entity("NegoSudLib.DAO.LigneInventaire", b =>
-                {
-                    b.HasOne("NegoSudLib.DAO.Produit", "Produit")
-                        .WithMany()
-                        .HasForeignKey("IdProduit")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NegoSudLib.DAO.Inventaire", null)
-                        .WithMany("LigneInventaires")
-                        .HasForeignKey("InventaireId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produit");
-                });
-
             modelBuilder.Entity("NegoSudLib.DAO.Produit", b =>
                 {
                     b.HasOne("NegoSudLib.DAO.Categorie", "Categorie")
@@ -837,11 +779,6 @@ namespace NegoSudLib.Migrations
                         .HasForeignKey("ProduitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("NegoSudLib.DAO.Inventaire", b =>
-                {
-                    b.Navigation("LigneInventaires");
                 });
 
             modelBuilder.Entity("NegoSudLib.DAO.MouvementStock", b =>

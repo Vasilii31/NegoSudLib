@@ -23,6 +23,8 @@ namespace NegoSudLib.NegosudDbContext
         public DbSet<TypeMouvement> TypesMouvement { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<MouvementStock> MouvementStocks { get; set; }
+        public DbSet<Inventaire> Inventaires { get; set; }
+        public DbSet<LigneInventaire> LignesInventaires { get; set; }
 
     }
 

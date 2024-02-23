@@ -15,6 +15,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
         private readonly IViewModelFactory<HistoriqueViewModel> _HistoriqueViewModelFactory;
         private readonly IViewModelFactory<FournisseurViewModel> _FournisseurViewModelFactory;
         private readonly IViewModelFactory<CategoriesViewModel> _CategoriesViewModelFactory;
+        private readonly IViewModelFactory<GestionInventaireViewModel> _GestionInventaireViewModel;
         public ViewModelAbstractFactory(IViewModelFactory<HomeViewModel> homeViewModelFactory,
             IViewModelFactory<ProductsViewModel> productsViewModelFactory,
             IViewModelFactory<LoginViewModel> loginFormViewModelFactory,
@@ -25,7 +26,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
             IViewModelFactory<CmdViewModel> cmdViewModelFactory,
             IViewModelFactory<HistoriqueViewModel> historiqueViewModelFactory,
             IViewModelFactory<FournisseurViewModel> fournisseurViewModel, 
-            IViewModelFactory<CategoriesViewModel> categorieViewModelF)
+            IViewModelFactory<CategoriesViewModel> categorieViewModelF,
+            IViewModelFactory<GestionInventaireViewModel> gestionInventaireFactory)
         {
             _HomeViewModelFactory = homeViewModelFactory;
             _ProductsViewModelFactory = productsViewModelFactory;
@@ -38,6 +40,7 @@ namespace NegoSud.MVVM.ViewModel.Factories
             _HistoriqueViewModelFactory = historiqueViewModelFactory;
             _FournisseurViewModelFactory = fournisseurViewModel;
             _CategoriesViewModelFactory = categorieViewModelF;
+            _GestionInventaireViewModel = gestionInventaireFactory;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -66,6 +69,8 @@ namespace NegoSud.MVVM.ViewModel.Factories
                     return _FournisseurViewModelFactory.CreateViewModel();
                 case ViewType.Categories:
                     return _CategoriesViewModelFactory.CreateViewModel();
+                case ViewType.GestionInventaire:
+                    return _GestionInventaireViewModel.CreateViewModel();
                 default:
                     throw new ArgumentException("View Type does not have an existing View Model", "viewType");
             }

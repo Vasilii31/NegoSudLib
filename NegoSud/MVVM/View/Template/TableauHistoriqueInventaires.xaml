@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="NegoSud.MVVM.View.Template.TableauHistoriqueInventaires"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Templates="clr-namespace:NegoSud.MVVM.View.Template">
+
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- En-tête de la table (thead) -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Date" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                    <TextBlock Text="Consulter" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+            </Grid>
+
+            <!-- Corps de la table (tbody) -->
+            <Grid Grid.Row="1">
+
+                <ListBox ItemsSource="{Binding ListeInventaireHistorique}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{Binding inventaire.DateInventaire}" HorizontalAlignment="Center" FontWeight="Bold" />
+                                <Templates:ButtonModifier  Grid.Column="1" Width="20" HorizontalAlignment="Center" Command="{Binding ConsultInventaireCommand}"/>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <!-- ListBox ItemTemplate stretch horizontally -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+
+                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+
+</UserControl>

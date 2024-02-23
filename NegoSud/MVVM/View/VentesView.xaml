@@ -9,7 +9,8 @@
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -18,145 +19,69 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="1" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="150" />
 
+        <Grid Grid.Row="1" Grid.Column="1"  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" VerticalAlignment="Center" CornerRadius="10,10,10,10" Background="White" BorderBrush="#F9D9D9" BorderThickness="1">
-                <Grid Width="200">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="50"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Margin="5,0,0,0" Text="{Binding Recherche}"  BorderThickness="0" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"/>
-                    <Border Grid.Column="1" HorizontalAlignment="Right" Width="40"  Background="#F9D9D9" CornerRadius="10,10,10,10" >
-                        <Button  Background="#F9D9D9"   Click="Search_Click" BorderThickness="0" Margin="0,0,10,0" >
-                            <materialDesign:PackIcon Kind="Search" Grid.Column="1" Height="20" Background="#F9D9D9"  Width="15"/>
-                        </Button>
-                    </Border>
-                </Grid>
-            </Border>
-            <Templates:ButtonNormal Grid.Column="2" Content="{Binding NbItemPanier}" Click="VoirPanier_Click" Height="30"/>
+            <Templates:ButtonNormal Grid.Column="0" FontSize="20" Content="Effectuer une vente locale" Margin="0, 0, 5, 0" Command="{Binding AfficherVenteLocaleCommand}"/>
+            <Templates:ButtonNormal Grid.Column="1" FontSize="20" Content="Consulter les ventes en lignes" Margin="5, 0, 0, 0" Command="{Binding AfficherVenteEnLigneCommand}"/>
+
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="1" Visibility="{Binding VenteEnLigneVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Templates:TableauVentes Grid.Row="1" Grid.Column="1" />
+            <Templates:ConsultVente Grid.Row="1" Grid.Column="1" Visibility="{Binding ConsultVenteVisible}" Panel.ZIndex="10"/>
         </Grid>
 
 
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="2" Grid.Column="1" Visibility="{Binding VenteLocaleVisibility}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-
-            <!-- En-tête de la table (thead) -->
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0" >
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="150" />
 
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="Produit" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                <Border Grid.Column="0" VerticalAlignment="Center" CornerRadius="10,10,10,10" Background="White" BorderBrush="#F9D9D9" BorderThickness="1">
+                    <Grid Width="200">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Margin="5,0,0,0" Text="{Binding Recherche}"  BorderThickness="0" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"/>
+                        <Border Grid.Column="1" HorizontalAlignment="Right" Width="40"  Background="#F9D9D9" CornerRadius="10,10,10,10" >
+                            <Button  Background="#F9D9D9"   Click="Search_Click" BorderThickness="0" Margin="0,0,10,0" >
+                                <materialDesign:PackIcon Kind="Search" Grid.Column="1" Height="20" Background="#F9D9D9"  Width="15"/>
+                            </Button>
+                        </Border>
+                    </Grid>
                 </Border>
-
-                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="A l'unité" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-
-                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="Au carton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-
-                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
-                    <TextBlock Text="" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-
+                <Templates:ButtonNormal Grid.Column="2" Content="{Binding NbItemPanier}" Click="VoirPanier_Click" Height="30"/>
             </Grid>
 
-            <!-- Corps de la table (tbody) -->
-            <Grid Grid.Row="1">
-
-                <ListBox ItemsSource="{Binding ListeProduits}" >
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="100" />
-                                </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
 
-                                <!--Colonne Produit-->
-                                <Grid Grid.Row="0" Grid.Column="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="5" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="1" Text="{Binding ProduitLightDTO.NomProduit}" FontWeight="Bold" />
-                                    <!--<Templates:ButtonConsultation  Grid.Column="2" />-->
-                                </Grid>
-                                <!--Colonne unité-->
-                                <Grid Grid.Row="0" Grid.Column="1"  >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="5" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="1"  Text="{Binding PrixU}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="2" Command="{Binding CMD_MoinsU}"  />
-                                    <TextBox Margin="5,0" x:Name="Unité" Text="{Binding QteUnite}" Grid.Column="3" ></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusU}" />
-                                </Grid>
-                                <!--Colonne Carton-->
-                                <Grid Grid.Row="0" Grid.Column="2" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="5" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock  Grid.Column="1" Text="{Binding PrixC}" FontWeight="Bold" />
-                                    <Templates:ButtonDelete Grid.Column="2"  Command="{Binding CMD_MoinsC}"/>
-                                    <TextBox  Margin="5,0"  x:Name="Carton" Text="{Binding QteCarton}" Grid.Column="3"></TextBox>
-                                    <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusC}"/>
-                                </Grid>
-
-                                <!--Colonne ajoutPanier-->
-                                <Grid Grid.Row="0" Grid.Column="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="30"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Templates:ButtonAjouterAuPanier  Grid.Column="0" Width="40" HorizontalAlignment="Center" Command="{Binding CMD_AjoutPanier}"/>
-                                    <materialDesign:PackIcon Grid.Column="1"  Kind="Tick" VerticalAlignment="Center" Visibility="{Binding AjoutVisible}"/>
-                                </Grid>
-
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <!-- ListBox ItemTemplate stretch horizontally -->
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-                <Grid>
+                <!-- En-tête de la table (thead) -->
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -165,18 +90,124 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                        <TextBlock Text="Produit" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    </Border>
 
-                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
+                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                        <TextBlock Text="A l'unité" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
 
-                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
+                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                        <TextBlock Text="Au carton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
 
-                    <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>
+                    <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="#460A26">
+                        <TextBlock Text="" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
                 </Grid>
 
+                <!-- Corps de la table (tbody) -->
+                <Grid Grid.Row="1">
+
+                    <ListBox ItemsSource="{Binding ListeProduits}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <!--Colonne Produit-->
+                                    <Grid Grid.Row="0" Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="5" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="1" Text="{Binding ProduitLightDTO.NomProduit}" FontWeight="Bold" />
+                                        <!--<Templates:ButtonConsultation  Grid.Column="2" />-->
+                                    </Grid>
+                                    <!--Colonne unité-->
+                                    <Grid Grid.Row="0" Grid.Column="1"  >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="5" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="1"  Text="{Binding PrixU}" FontWeight="Bold" />
+                                        <Templates:ButtonDelete Grid.Column="2" Command="{Binding CMD_MoinsU}"  />
+                                        <TextBox Margin="5,0" x:Name="Unité" Text="{Binding QteUnite}" Grid.Column="3" ></TextBox>
+                                        <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusU}" />
+                                    </Grid>
+                                    <!--Colonne Carton-->
+                                    <Grid Grid.Row="0" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="5" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock  Grid.Column="1" Text="{Binding PrixC}" FontWeight="Bold" />
+                                        <Templates:ButtonDelete Grid.Column="2"  Command="{Binding CMD_MoinsC}"/>
+                                        <TextBox  Margin="5,0"  x:Name="Carton" Text="{Binding QteCarton}" Grid.Column="3"></TextBox>
+                                        <Templates:ButtonAjouter Grid.Column="4" Command="{Binding CMD_PlusC}"/>
+                                    </Grid>
+
+                                    <!--Colonne ajoutPanier-->
+                                    <Grid Grid.Row="0" Grid.Column="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="30"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Templates:ButtonAjouterAuPanier  Grid.Column="0" Width="40" HorizontalAlignment="Center" Command="{Binding CMD_AjoutPanier}"/>
+                                        <materialDesign:PackIcon Grid.Column="1"  Kind="Tick" VerticalAlignment="Center" Visibility="{Binding AjoutVisible}"/>
+                                    </Grid>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <!-- ListBox ItemTemplate stretch horizontally -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"></Border>
+
+                        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"></Border>
+
+                        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1"></Border>
+
+                        <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1"></Border>
+                    </Grid>
+
+                </Grid>
             </Grid>
+            <Templates:Panier Grid.Column="1" Grid.RowSpan="2" x:Name="Panier" Visibility="{Binding PanierVisible}"/>
+            <Templates:FormClient Grid.Column="1" Grid.RowSpan="2" x:Name="Client" Visibility="{Binding AjoutClientVisible}"/>
         </Grid>
-        <Templates:Panier Grid.Column="1" Grid.RowSpan="2" x:Name="Panier" Visibility="{Binding PanierVisible}"/>
-        <Templates:FormClient Grid.Column="1" Grid.RowSpan="2" x:Name="Client" Visibility="{Binding AjoutClientVisible}"/>
+        
     </Grid>
 </UserControl>

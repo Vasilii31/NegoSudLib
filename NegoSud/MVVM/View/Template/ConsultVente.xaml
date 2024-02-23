@@ -195,6 +195,6 @@
             </StackPanel>
             
         </Grid>
-        <Templates:ButtonNormal Height="40" Width="150" Grid.Row="4" Grid.Column="1" Margin="5" Content="Retour" HorizontalAlignment="Center" Click="FermerConsult_Click"/>
+        <Templates:ButtonNormal Height="40" Width="150" Grid.Row="4" Grid.Column="1" Margin="5" Content="Retour" HorizontalAlignment="Center" Command="{Binding FermerVenteConsultCommand}"/>
     </Grid>
 </UserControl>

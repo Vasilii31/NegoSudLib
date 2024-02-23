@@ -14,8 +14,9 @@ namespace NegoSud.Services.Navigator
         Cmd,
         Historique,
         Fournisseurs,
-        Categories
-    }
+        Categories,
+		GestionInventaire
+	}
     public interface INavigator
     {
         ViewModelBase CurrentViewModel { get; set; }

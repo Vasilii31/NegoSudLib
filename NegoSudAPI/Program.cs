@@ -53,6 +53,8 @@ builder.Services.AddScoped<IVentesRepository, VentesRepository>();
 builder.Services.AddScoped<IVentesService, VentesService>();
 builder.Services.AddScoped<IAutreMvtRepository, AutreMvtRepository>();
 builder.Services.AddScoped<IAutreMvtService, AutreMvtService>();
+builder.Services.AddScoped<IInventaireService, InventaireService>();
+builder.Services.AddScoped<IInventaireRepository, InventaireRepository>();
 
 // Configuration nLog
 builder.Logging.ClearProviders();

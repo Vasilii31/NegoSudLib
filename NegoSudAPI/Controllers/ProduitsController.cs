@@ -111,7 +111,7 @@ namespace NegoSudAPI.Controllers
         {
             if (produit == null)
             {
-                return BadRequest("Impossible d'ajouter un produit sans données");
+                return BadRequest("Impossible d'ajouter un produit sans données.");
             }
 
             if (!ModelState.IsValid)
@@ -142,7 +142,7 @@ namespace NegoSudAPI.Controllers
 
 
             var produitUpdated = await _produitService.Put(id, produitNew);
-            if (produitUpdated != null) return Ok(produitNew);
+            if (produitUpdated != null) return Ok(produitUpdated);
 
             return StatusCode(500, "Une erreur interne du serveur s'est produite.");
         }
