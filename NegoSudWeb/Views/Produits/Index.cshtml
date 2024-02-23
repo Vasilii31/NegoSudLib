@@ -15,13 +15,48 @@
     }
 }
 
-<h1>Tout les produits</h1>
+<h1 id="Titre">Tout les produits</h1>
 
-<@if (Model.Count() != 0)
+    <input type="text" id="nomRecherche" name="nomRecherche" placeholder="Rechercher un produit...">
+    <button type="button" onclick="searchProducts()">Rechercher</button>
+
+
+<div id="partialViewContainer">
+      @Html.Partial("_Produit", Model)
+</div>
+@* @if (Model.Count() != 0)
 {
     @Html.Partial("_Produit", Model)
 }
 else
 {
     @Html.Partial("_NoProduit")
-}
+} *@
+<script>
+
+    function searchProducts() {
+                // Récupérer la valeur de la barre de recherche
+        var searchTerm = document.getElementById('nomRecherche').value;
+
+                // Effectuer une requête AJAX vers votre action de recherche
+                $.ajax({
+                    url: '/Produits/Recherche',
+                    type: 'GET',
+                    data: { nom: searchTerm },
+                    success: function (result) {
+                        // Remplacer le contenu du conteneur avec le nouveau HTML partiel
+                        $('#partialViewContainer').html(result);
+                        if (searchTerm.trim()== "") {
+                            $('#Titre').text("Tous les produits");
+                        } else {
+                            $('#Titre').text("Resultats pour "+searchTerm)
+
+                        }
+
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de la recherche :', error);
+                    }
+                });
+            }
+</script>

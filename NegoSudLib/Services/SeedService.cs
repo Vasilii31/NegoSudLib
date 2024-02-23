@@ -526,6 +526,24 @@ namespace NegoSudLib.Services
                 DegreeAlcool = 12f
             });
 
+            _context.PrixAchats.Add(new PrixAchat
+            {
+                ProduitId = 14,
+                DateDebut = DateTime.Now,
+                PrixCarton = 120,
+                PrixUnite = 10,
+                FournisseurId = 1
+            });
+            _context.PrixVentes.Add(new PrixVente
+            {
+                ProduitId = 14,
+                DateDebut = DateTime.Now,
+                PrixCarton = 120,
+                PrixUnite = 10,
+                Taxe = 20,
+                Promotion = 0
+            });
+
             _context.Produits.Add(new Produit
             {
                 Id = 15,
