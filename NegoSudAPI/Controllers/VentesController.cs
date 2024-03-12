@@ -70,10 +70,11 @@ namespace NegoSudAPI.Controllers
 
         // POST api/<ValuesController>
         //[Authorize]
-        [Authorize(Roles = "Gérant, Employé, Client")]
+        [Authorize(Roles = "Gérant,Employé,Client")]
         [HttpPost]
         public async Task<ActionResult<VentesDTO?>> Post([FromBody] VentesWriteDTO vente)
         {
+
             if (vente == null) return BadRequest("Impossible d'ajouter une vente sans données");
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -90,6 +91,7 @@ namespace NegoSudAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Commande?>> Put(int id, [FromBody] VentesWriteDTO vente)
         {
+
             // Renvoyer un code 404 si le produit n'est pas trouvé
             if (!(await _ventesService.Exists(id))) return NotFound();
             if (vente == null) return BadRequest("Impossible d'ajouter une vente sans données");

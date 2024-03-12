@@ -42,6 +42,7 @@ namespace NegoSudAPI.Controllers
             return NotFound();
         }
 
+        //[Authorize(Roles = "Gérant,Employe,Client")]
         // GET: api/Clients/5
         [HttpGet("userName/{userName}")]
         public async Task<ActionResult<ClientDTO>> GetByUserName(string userName)

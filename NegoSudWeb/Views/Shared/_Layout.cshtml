@@ -48,7 +48,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="@action">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="@action" asp-route-ReturnUrl="@(Context.Request.Path + Context.Request.QueryString)">
 								@Html.Partial("_" + action)
 							</a>
 						</li>

@@ -12,12 +12,32 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Ajout Autorisation via Identity
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddIdentityCookies();
+.AddIdentityCookies();
+
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("AllowWebApp", builder =>
+	{
+		builder.WithOrigins("https://localhost:7070/")
+			   .AllowAnyHeader()
+			   .AllowAnyMethod()
+			   .AllowCredentials(); // Allow cookies, if needed
+	});
+});
+
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/Login";
+//        options.Cookie.Name = ".AspNetCore.Identity.Application";
+//        // Other cookie options...
+//    });
 builder.Services.AddAuthorizationBuilder();
 builder.Services.AddIdentityCore<User>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<NegoSudDBContext>()
-    .AddApiEndpoints();
+	.AddRoles<IdentityRole>()
+	.AddEntityFrameworkStores<NegoSudDBContext>()
+	.AddApiEndpoints();
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -28,11 +48,11 @@ builder.Services.AddSwaggerGen();
 
 //chaine de connexion
 string connexionString = builder.Configuration.GetConnectionString("MainConnexionString") ??
-    throw (new Exception("Connection string is missing"));
+	throw (new Exception("Connection string is missing"));
 
 // On ajoute le contexte
 builder.Services.AddDbContext<NegoSudDBContext>(options => options
-        .UseMySql(connexionString, ServerVersion.AutoDetect(connexionString)));
+		.UseMySql(connexionString, ServerVersion.AutoDetect(connexionString)));
 //builder.Services.AddScoped<NegoSudDBContext>();
 // On ajoute les services nécessaires
 builder.Services.AddScoped<IRolesService, RolesService>();
@@ -66,9 +86,10 @@ app.MapIdentityApi<User>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
+app.UseCors("AllowWebApp");
 
 app.UseHttpsRedirection();
 
