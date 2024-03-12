@@ -50,7 +50,7 @@ namespace NegoSudWeb.Controllers
         }
 
 
-        public async Task<ActionResult> ValiderCommande(string Password)
+        public async Task<ActionResult> ValiderCommande(string password)
         {
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -62,12 +62,14 @@ namespace NegoSudWeb.Controllers
             {
                 panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
             }
+            else
+            { return Json(new { success = false }); };
+
             panier.SetTotaux();
             var infoClientJson = _session.GetString("InfoClient");
             var client = JsonConvert.DeserializeObject<ClientDTO>(infoClientJson);
             panier.ClientId = client.Id;
 
-            var identityCookie = HttpContext.Request.Cookies[".AspNetCore.Identity.Application"]; // Replace with your actual cookie name
 
             /*var venteToAdd = panier;
             foreach (var lgn in venteToAdd.DetailMouvementStocks)
@@ -76,6 +78,9 @@ namespace NegoSudWeb.Controllers
             }*/
 
             panier.EmployeId = 1;
+            var connectedToAPI = await httpClientService.Login(user.UserName, password); ;
+            if (!connectedToAPI) { return Json(new { success = false }); };
+
             var venteAdded = await httpClientService.AddVente(panier, user);
             if (venteAdded != null)
             { return Json(new { success = true }); }
