@@ -27,7 +27,7 @@ namespace NegoSud.Commands
         {
             return true;
         }
-
+        
         public void Execute(object? parameter)
         {
             if(parameter is ViewType)
