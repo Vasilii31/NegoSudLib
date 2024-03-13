@@ -21,6 +21,13 @@ body {
     margin-bottom: 60px;
 }
 
+.title-header {
+    padding-top: 30px;
+    font-size: 25px;
+    margin-right: 60px;
+    color: #460A26;
+}
+
 .product-container {
     display: flex;
     flex-direction: row;
@@ -46,6 +53,14 @@ body {
     color: white;
 }
 
+.CategorieNom {
+    width: 300px;
+    height: 30px;
+    text-align: center;
+    color: black;
+    text-decoration: none;
+}
+
 .product-picInfo {
     width: 300px;
     margin:10px;
@@ -59,13 +74,33 @@ body {
 }
 
 .img-categorieRouge {
-    width: 180px;
-    margin: 30px 50px 0px 50px;
+    height: 300px;
+    margin: 30px 0px 25px 68px;
 }
 
 .img-categorieBlanc {
+    height: 304px;
+    margin: 20px 0px 30px 0px;
+}
+
+.img-categorieRose {
     height: 300px;
-    margin: 40px 10px 10px 0px;
+    margin: 40px 0px 20px 0px;
+}
+
+.img-categoriePetillant {
+    height: 270px;
+    margin: 45px 0px 45px 0px;
+}
+
+.img-categorieChampagne {
+    height: 370px;
+    margin: -15px 0px 0px 0px
+}
+
+.img-categorieDigestifs {
+    height: 360px;
+    margin: -5px 0px 0px 15px;
 }
 
 .product-info {
@@ -84,59 +119,6 @@ product-prices {
     flex-direction: row;
 }
 
-.panier-button path {
-    fill: #460A26;
-    color: #460A26;
-}
-
-.page-panier-container {
-    display: flex;
-    flex-direction: row;
-    background-color: wheat;
-    justify-content: space-between;
-}
-
-.recap-panier {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    background-color: aquamarine;
-    border: solid 1px #460A26;
-    border-radius: 10px;
-    width: 25%;
-    font-weight: bold;
-    font-size: 20px;
-    max-height: 250px
-}
-
-.recap-panier div button{
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.panier {
-    background-color: blueviolet;
-    border: solid 1px #460A26;
-    border-radius: 10px;
-    width: 70%
-}
-
-.item-panier{
-    display: flex;
-    flex-direction: row;
-    margin: 20px;
-    justify-content:space-between;
-}
-
-.pic-infos {
-    display:flex;
-
-}
-
-.img-item-panier{
-    max-height:150px;
-}
 
 .product-prices {
     display: flex;
@@ -193,6 +175,10 @@ button {
     border-radius: 5px;
 }
 
+.buttonNormal{
+    padding:10px;
+    margin: 10px, 0px;
+}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -201,4 +187,129 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield; /* Firefox */
+}
+
+.panier-deleteBtn {
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    margin: 5px;
+    display:flex;
+    justify-content:space-around;
+}
+
+.deleteIcon{
+    height:15px;
+    width:15px;
+    align-self:center;
+
+}
+
+.panier-item {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    justify-content: space-between;
+    border: solid 1px #460A26;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.panier-img {
+    width: 100px;
+    height: 100px;
+    align-self:center;
+    margin-right:20px;
+}
+
+.panier-button path {
+    fill: #460A26;
+    color: #460A26;
+}
+
+.panier-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.panier-gestion{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.panier-gestion *{
+    margin: 10px;
+}
+
+.recap-panier {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: wheat;
+    border: solid 1px #460A26;
+    border-radius: 10px;
+    width: 25%;
+    font-weight: bold;
+    font-size: 20px;
+    max-height: 250px
+}
+
+
+.panier {
+    width: 70%
+}
+
+
+.panier-picInfo {
+    display: flex;
+}
+
+
+#header-accueil {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 80px;
+    white-space: nowrap;
+    background-image: url('../img/vinAccueil.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px;
+}
+
+#header-accueil a {
+        margin-left: 200px; 
+        margin-top: 20px;
+        background: #460A26;
+        border-color: #460A26;
+        padding: 15px;
+}
+
+#info-accueil section {
+
+}
+
+.social-icon {
+    max-width: 100%; 
+    height: auto; 
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+.social-icons li {
+        margin-right: 10px;
+}
+
+#navbarNav {
+display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

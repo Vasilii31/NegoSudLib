@@ -26,20 +26,20 @@ namespace NegoSudLib.NegosudDbContext
         public DbSet<Inventaire> Inventaires { get; set; }
         public DbSet<LigneInventaire> LignesInventaires { get; set; }
 
-    }
+	}
 
 
 
-    public class NegoSudDBContextFactory : IDesignTimeDbContextFactory<NegoSudDBContext>
-    {
-        public NegoSudDBContext CreateDbContext(string[] args)
-        {
-            var connexionString = "server=localhost;port=3306;userid=root;password=;database=NegoSuddb;";
-            var optionsBuilder = new DbContextOptionsBuilder<NegoSudDBContext>();
-            optionsBuilder.UseMySql(connexionString, ServerVersion.AutoDetect(connexionString));
+	public class NegoSudDBContextFactory : IDesignTimeDbContextFactory<NegoSudDBContext>
+	{
+		public NegoSudDBContext CreateDbContext(string[] args)
+		{
+			var connexionString = "server=localhost;port=3306;userid=root;password=;database=NegoSuddb;";
+			var optionsBuilder = new DbContextOptionsBuilder<NegoSudDBContext>();
+			optionsBuilder.UseMySql(connexionString, ServerVersion.AutoDetect(connexionString));
 
-            return new NegoSudDBContext(optionsBuilder.Options);
-        }
-    }
+			return new NegoSudDBContext(optionsBuilder.Options);
+		}
+	}
 
 }

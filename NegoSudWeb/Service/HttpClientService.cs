@@ -4,15 +4,16 @@ using NegoSudLib.DTO.write;
 using NegoSudLib.DTO.Write;
 using NegoSudWeb.Models;
 using Newtonsoft.Json;
-using System.Diagnostics;
 using System.Net;
 using System.Text;
 
 namespace NegoSudWeb.Services
 {
-    public class httpClientService
+    public static class httpClientService
     {
-        private const string baseAddress = "https://localhost:7211/";
+        private const string apiAdresse = "https://localhost:7211/";
+        private const string webAdresse = "https://localhost:7070/";
+        //private readonly UserManager<User> _userManager;
 
         //private static HttpClient Client = new() { BaseAddress = new Uri(baseAddress) };
         //private static HttpClient Client { get => new() { BaseAddress = new Uri(baseAddress) }; }
@@ -21,15 +22,25 @@ namespace NegoSudWeb.Services
         private static CookieContainer cookieContainer = new();
 
 
+
         private static HttpClient Client
         {
             get
             {
+
                 if (client == null)
                 {
-                    var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
-                    client = new(handler) { BaseAddress = new Uri(baseAddress) };
+                    var handler = new HttpClientHandler()
+                    {
+                        UseCookies = true,
+                        AllowAutoRedirect = true,
+                        UseDefaultCredentials = true,
+                        CookieContainer = cookieContainer
+                    };
+                    client = new(handler) { BaseAddress = new Uri(apiAdresse) };
                 }
+                //var cookie = new Cookie(".AspNetCore.Identity.Application",);
+                //cookieContainer.Add(client.BaseAddress, cookie);
                 return client;
             }
         }
@@ -49,14 +60,15 @@ namespace NegoSudWeb.Services
 
         public static async Task<bool> Login(string email, string password)
         {
-            //var jsonString = "{ \"email\": \"" + email +"\", \"password\": \""+ password + "\" }";
-            var jsonString = "{ \"email\": \"JulietteDu31\", \"password\": \"mdpMDP&1\", \"twoFactorCode\": \"string\", \"twoFactorRecoveryCode\": \"string\" }";
+
+            var jsonString = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
+            //var jsonString = "{ \"email\": \"JulietteDu31\", \"password\": \"mdpMDP&1\", \"twoFactorCode\": \"string\", \"twoFactorRecoveryCode\": \"string\" }";
             var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync("login?useCookies=true&useSessionCookies=true", httpContent);
-            var cookies = cookieContainer.GetCookies(new Uri(baseAddress));
-            Debug.WriteLine(cookies);
+
             return response.IsSuccessStatusCode;
         }
+
 
         public static async Task<List<EmployeDTO>> GetEmployes()
         {
@@ -81,6 +93,7 @@ namespace NegoSudWeb.Services
 
         public static async Task<EmployeDTO> GetEmployeByUserName(string userName)
         {
+
             //Debug.WriteLine();
             string route = $"api/Employes/userName/{userName}";
             var response = await Client.GetAsync(route);
@@ -113,7 +126,8 @@ namespace NegoSudWeb.Services
             }
             return resultModel;
         }
-        public static async Task<List<ProduitLightDTO>> SearchProduits(int? IdCat, int? IdDom, int four, string? nom, bool? Envente)
+
+        public static async Task<List<ProduitsViewModel>> SearchProduits(int? IdCat, int? IdDom, int four, string? nom, bool? Envente)
         {
             string route = $"api/Produits/Recherche?";
             //cat=0&dom=0&four=0&nom=string
@@ -123,13 +137,21 @@ namespace NegoSudWeb.Services
             if (!string.IsNullOrEmpty(nom)) { route += $"&nom={nom}"; }
             if (Envente != null) { route += $"&Envente={Envente}"; }
             var response = await Client.GetAsync(route);
+            var resultDTO = new List<ProduitLightDTO>();
+
             if (response.IsSuccessStatusCode)
             {
                 string resultat = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
+                resultDTO = JsonConvert.DeserializeObject<List<ProduitLightDTO>>(resultat)
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
-            return new List<ProduitLightDTO>();
+            var resultModel = new List<ProduitsViewModel>();
+
+            foreach (var pdt in resultDTO)
+            {
+                resultModel.Add(new ProduitsViewModel(pdt));
+            }
+            return resultModel;
         }
 
         public static async Task<ProduitLightDTO> GetProductById(int id)
@@ -145,17 +167,17 @@ namespace NegoSudWeb.Services
             return new ProduitLightDTO();
         }
 
-        internal static async Task<List<ClientDTO>> GetClients()
+        internal static async Task<ClientDTO> GetClientByUserName(string userName)
         {
-            string route = $"api/Client/";
+            string route = $"api/Client/userName/" + userName;
             var response = await Client.GetAsync(route);
             if (response.IsSuccessStatusCode)
             {
                 string resultat = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ClientDTO>>(resultat)
+                return JsonConvert.DeserializeObject<ClientDTO>(resultat)
                 ?? throw new FormatException($"Erreur Http : {route}");
             }
-            return new List<ClientDTO>();
+            return new ClientDTO();
         }
 
         internal static async Task<List<Fournisseur>> GetFournisseurs()
@@ -171,15 +193,14 @@ namespace NegoSudWeb.Services
             return new List<Fournisseur>();
         }
 
-        internal static async Task<VentesDTO> AddVente(VentesWriteDTO vente)
+        internal static async Task<VentesDTO> AddVente(VentesWriteDTO vente, User user)
         {
+
             var venteJson = JsonConvert.SerializeObject(vente);
             string route = $"api/Ventes";
 
             var content = new StringContent(venteJson, Encoding.UTF8, "application/json");
-
             var response = await Client.PostAsync(route, content);
-
             if (response.IsSuccessStatusCode)
             {
                 string resultat = await response.Content.ReadAsStringAsync();

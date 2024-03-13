@@ -451,7 +451,7 @@ namespace NegoSud.MVVM.ViewModel
             // TODO chercher comment recup l'id, sinon combo avec liste des employés
             Vente.EmployeId = int.Parse(Application.Current.Properties["EmployeID"].ToString());
 
-            Vente.SetTotal();
+            Vente.SetTotaux();
 
             try
             {

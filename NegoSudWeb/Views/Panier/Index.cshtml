@@ -1,84 +1,121 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+﻿@using NegoSudLib.DTO.Write
+@using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model VentesWriteDTO
 @{
-	ViewData["Title"] = "Index";
-	var panier = HttpContextAccessor.HttpContext.Session.GetString("Panier");
-	
+	ViewData["Title"] = "Panier";	
 }
 
 <h1>Votre panier</h1>
-<h2>@panier</h2>
-<div class="page-panier-container">
+
+	
+<div class="panier-container">
 	<div class="panier">
-		<div class="item-panier">
-			<div class="pic-infos">
-				<img class="img-item-panier" src="~/img/vinRouge.png"/>
-				<div class="item-panier-infos">
-					<div class="description-item-panier">
-						<h1>Nom Article</h1>
-						<P>En stock</P>
-					</div>
-					<div class="gestion-item-panier">
-						<select name="Qté">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
-						</select>
+@for (int i = 0; i < Model.DetailMouvementStocks.Count(); i++)
+{
+			var dtMvt = Model.DetailMouvementStocks[i];
+			var pdt = new ProduitsViewModel(dtMvt.Produit);
+			var auCarton = dtMvt.AuCarton ? "carton(s)" :"bouteille(s)";
+
+
+			<div class="panier-item">
+				<div class="panier-picInfo">
+					<img class="panier-img" src="@pdt.Produit.PhotoProduitPath"/>
+					<div class="panier-infos">
+						<div class="panier-desc">
+							<h1> @pdt.Produit.NomProduit</h1>
+							<p> @auCarton</p>
+							<P> @pdt.enStock </P>
+						</div>
+
+						<div class="panier-gestion">
+							@* <input type="number" value="@dtMvt.QteProduit" /> *@
+							<button type="button" class="product-plusMinus" onclick="modifyCart(@i,false)"> - </button>
+							<input class="product-qtValue" id="qtePanier_@i" type="number" value="@dtMvt.QteProduit" />
+							<button type="button" class="product-plusMinus" onclick="modifyCart(@i,true)">+</button>
 						<p>Supprimer</p>
+						</div>
+
+					</div>
 					
-					</div>
 				</div>
-			</div>
-			<div class="item-recap-prix">
-				<p>Promotion</p>
-				<p>55,99 $</p>
-			</div>
-		</div>
 
 
-		<div class="item-panier">
-			<div class="pic-infos">
-				<img class="img-item-panier" src="~/img/vinRouge.png"/>
-				<div class="item-panier-infos">
-					<div class="description-item-panier">
-						<h1>Nom Article</h1>
-						<P>En stock</P>
+				
+					<div class="item-recap-prix">
+						@* <p>Promotion</p>  Axe d'amélioration' *@
+						<h3 class="sousTotal_@i">@dtMvt.SousTotal €</h3>
 					</div>
-					<div class="gestion-item-panier">
-						<select name="Qté"> 
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
-						</select>
-						<p> Supprimer</p>
-
-					</div>
-				</div>
+				
 			</div>
-			<div class="item-recap-prix">
-				<p>Promotion</p>
-				<p>55,99 $</p>
-			</div>
-		</div>
-		
+}
 	</div>
 
 	<div class="recap-panier">
 		<div class="infos-green">Votre commande est éligible à la livraison Standard gratuite en France métropolitaine. Restrictions applicables</div>
-		<div>Sous-total (4 articles) :</div>
-		<div>455,55$</div>
-		<button class="button-passer-commande">Passer la commande</button>
+		<div>Total (4 articles) :</div>
+		<div id="totalPanier">@Model.Total</div>
+		<form asp-action="ValiderPanier">
+			<button class="button-passer-commande buttonNormal">Passer la commande</button>
+		</form>
 	</div>
+		
 </div>
+
+<script>
+
+	var panier = @Html.Raw(JsonConvert.SerializeObject(Model));
+
+	function modifyCart(dtMvtIndice, add) {
+		var inputQte =$("#qtePanier_" + dtMvtIndice)
+		var valQte = inputQte.val()
+		if (add) {
+			valQte++;
+		} else {
+			
+			valQte--;
+			if (valQte < 1) {
+				valQte = 1; 
+			}
+
+		}
+		inputQte.val(valQte)
+
+
+		panier.DetailMouvementStocks[dtMvtIndice].QteProduit = valQte;
+		if (panier.DetailMouvementStocks[dtMvtIndice].AuCarton) {
+			panier.DetailMouvementStocks[dtMvtIndice].SousTotal = panier.DetailMouvementStocks[dtMvtIndice].QteProduit * panier.DetailMouvementStocks[dtMvtIndice].Produit.PrixVenteCarton
+		} else {
+			panier.DetailMouvementStocks[dtMvtIndice].SousTotal = panier.DetailMouvementStocks[dtMvtIndice].QteProduit * panier.DetailMouvementStocks[dtMvtIndice].Produit.PrixVente
+		}
+
+		panier.Total = 0;
+		for (var i = 0; i < panier.DetailMouvementStocks.length; i++) {
+			panier.Total += panier.DetailMouvementStocks[i].SousTotal;
+		}
+
+		$('.sousTotal_' + dtMvtIndice).text(panier.DetailMouvementStocks[dtMvtIndice].SousTotal + " €");
+		$('#totalPanier').text(panier.Total);
+
+		
+
+		    $.ajax({
+		        url: '@Url.Action("UpdateCart", "Produits")',
+		        type: 'POST',
+		        data: {
+				panierJson: JSON.stringify(panier)
+		        },
+		        success: function () {
+
+		        },
+		        error: function () {
+		            alert('Erreur lors de la modification');
+		        }
+		    });
+
+
+
+    }
+
+</script>
 

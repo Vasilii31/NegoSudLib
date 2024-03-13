@@ -1,16 +1,19 @@
-﻿@model IEnumerable<NegoSudLib.DAO.Categorie>
+﻿@model IEnumerable<NegoSudLib.DTO.Read.CategorieDTO>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Accueil</h1>
+<h1>Nos catégories à explorer :</h1>
 
 <div class="product-container">
 	@foreach (var categorie in Model)
-	{	
-	<div class="product-card">
-		<div class="product-domaine">Catalogue à explorer : @categorie.NomCategorie</div>
+	{
+		<a class="product-card-link" asp-area="" asp-controller="Produits" asp-action="Categorie" asp-route-id="@categorie.Id">
+
+		<div class="product-card">
+			
+		
 			<div class="product-picInfo">
 				@if (categorie.NomCategorie == "Rouge")
 				{
@@ -22,14 +25,29 @@
 				}
 				else if (categorie.NomCategorie == "Rosé")
 				{
-					<img class="img-categorieBlanc" src="~/img/vinRose.png">
+					<img class="img-categorieRose" src="~/img/vinRose.png">
 				}
-										
-							@*<div class="product-action">
-								<a href="#" class="btn btn-primary">Voir les produits</a>
-							</div>*@
+				else if (categorie.NomCategorie == "Pétillant")
+				{
+					<img class="img-categoriePetillant" src="~/img/vinPetillant.png">
+				}
+				else if (categorie.NomCategorie == "Champagne")
+				{
+					<img class="img-categorieChampagne" src="~/img/vinChampagne.png">
+				}
+				else if (categorie.NomCategorie == "Digestifs")
+				{
+					<img class="img-categorieDigestifs" src="~/img/vinDigestif.png">
+				}
 			</div>
-	</div>
+			<h2 class="CategorieNom">@categorie.NomCategorie
+			</h2>
+		</div>
+		</a>
+		@*<div class="product-action">
+								<a href="#" class="btn btn-primary">Voir les produits</a>
+							</div>*@			
+	
 	}
 </div>
 

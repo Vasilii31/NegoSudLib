@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.DTO.Write;
+using NegoSudWeb.Models;
 using NegoSudWeb.Services;
 using Newtonsoft.Json;
 
@@ -10,22 +13,54 @@ namespace NegoSudWeb.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private ISession _session;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public ProduitsController(IHttpContextAccessor httpContextAccessor)
+        public ProduitsController(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager,
+                              SignInManager<User> signInManager)
         {
             _httpContextAccessor = httpContextAccessor;
             _session = _httpContextAccessor.HttpContext.Session;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
 
-        // GET: Produits
+        // GET: Produits/Index
         public async Task<IActionResult> Index()
         {
-
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user != null)
+            {
+                ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
+                var clientJson = JsonConvert.SerializeObject(clientConnecté);
+                _session.SetString("InfoClient", clientJson);
+            }
             var produits = await httpClientService.GetProduitsAll();
             return View(produits);
+        }
 
-            //return View(await negoSudDBContext.ToListAsync());
+        // GET: Produits
+        public async Task<IActionResult> Categorie(int id)
+        {
+            var produits = new List<ProduitsViewModel>();
+
+            if (id <= 0) return NotFound();
+
+            produits = await httpClientService.SearchProduits(id, 0, 0, null, null);
+
+            return View(produits);
+
+        }
+        // GET: Produits
+        public async Task<IActionResult> Recherche(string nom)
+        {
+            var produits = new List<ProduitsViewModel>();
+
+            produits = await httpClientService.SearchProduits(0, 0, 0, nom, null);
+
+            return PartialView("_Produit", produits);
+
         }
 
         // GET: Produits/Details/5
@@ -50,6 +85,8 @@ namespace NegoSudWeb.Controllers
         }
 
 
+
+
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId, int qteUnite, int qteCarton)
         {
@@ -67,6 +104,7 @@ namespace NegoSudWeb.Controllers
                 dtMvtUnite.Produit = product;
                 dtMvtUnite.AuCarton = false;
                 dtMvtUnite.QteProduit = qteUnite;
+                dtMvtUnite.PrixApresRistourne = -1;
 
             }
             if (qteCarton != 0)
@@ -75,10 +113,14 @@ namespace NegoSudWeb.Controllers
                 dtMvtCarton.Produit = product;
                 dtMvtCarton.AuCarton = true;
                 dtMvtCarton.QteProduit = qteCarton;
+                dtMvtCarton.PrixApresRistourne = -1;
+
             };
 
             //var shoppingCart = HttpContext.Session.Get<VentesWriteDTO>("Panier") ?? new VentesWriteDTO();
-            var panierJson = _session.GetString("Panier");
+            var panierJson = Request.Cookies["Panier"];
+
+
             var panier = new VentesWriteDTO();
             if (panierJson != null)
             {
@@ -109,15 +151,25 @@ namespace NegoSudWeb.Controllers
                 }
             }
             panierJson = JsonConvert.SerializeObject(panier);
-            _session.SetString("Panier", panierJson);
-            var test = _session.GetString("Panier");
-            Console.Write(test);
-            return Json(new { success = true });
+
+            Response.Cookies.Append("Panier", panierJson);
+            //_session.SetString("Panier", panierJson);
+            /*var test = _session.GetString("Panier");
+			Console.Write(test);*/
+            TempData["SuccessMessage"] = "Commande validée";
+
+            return RedirectToAction("Index", "Home");
         }
 
 
 
-
+        [HttpPost]
+        public async Task<IActionResult> UpdateCart(string panierJson)
+        {
+            //_session.SetString("Panier", panierJson);
+            Response.Cookies.Append("Panier", panierJson);
+            return Json(new { success = true });
+        }
 
 
     }

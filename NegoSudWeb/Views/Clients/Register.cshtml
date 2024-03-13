@@ -9,53 +9,55 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label">Pseudo</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="NomUtilisateur" class="control-label">Nom</label>
-                <input asp-for="NomUtilisateur" class="form-control" value="@Model.NomUtilisateur" />
+                <input asp-for="NomUtilisateur" class="form-control" />
                 <span asp-validation-for="NomUtilisateur" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PrenomUtilisateur" class="control-label">Prénom</label>
-                <input asp-for="PrenomUtilisateur" class="form-control" value="@Model.PrenomUtilisateur" />
+                <input asp-for="PrenomUtilisateur" class="form-control" />
                 <span asp-validation-for="PrenomUtilisateur" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AdresseUtilisateur" class="control-label">Adresse</label>
-                <input asp-for="AdresseUtilisateur" class="form-control" value="@Model.AdresseUtilisateur" />
+                <input asp-for="AdresseUtilisateur" class="form-control" />
                 <span asp-validation-for="AdresseUtilisateur" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MailUtilisateur" class="control-label">E-mail</label>
-                <input type="mail" asp-for="MailUtilisateur" class="form-control" value="@Model.MailUtilisateur" />
+                <input type="mail" asp-for="MailUtilisateur" class="form-control" />
                 <span asp-validation-for="MailUtilisateur" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumTelUtilisateur" class="control-label">Numéro de télephone</label>
-                <input asp-for="NumTelUtilisateur" class="form-control" value="@Model.NumTelUtilisateur" />
+                <input asp-for="NumTelUtilisateur" class="form-control" />
                 <span asp-validation-for="NumTelUtilisateur" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MotDePasse" class="control-label">Mot de passe</label>
                 <input type="password" asp-for="MotDePasse" class="form-control" />
                 <span asp-validation-for="MotDePasse" class="text-danger"></span>
-            </div>
+            </div>      
             <div class="form-group">
                 <label asp-for="ConfirmMotDePasse" class="control-label"> Confirmer le Mot de passe</label>
                 <input type="password" asp-for="ConfirmMotDePasse" class="form-control" />
                 <span asp-validation-for="ConfirmMotDePasse" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-primary" />
+                <button type="submit" value="Create" class="buttonNormal">S'inscrire</button> 
             </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

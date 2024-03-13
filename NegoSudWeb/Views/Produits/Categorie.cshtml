@@ -1,0 +1,28 @@
+﻿@using NegoSudLib.DTO.Write
+@using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<ProduitsViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+    var panierJson = HttpContextAccessor.HttpContext.Session.GetString("Panier");
+    var panier = new VentesWriteDTO();
+    if (!string.IsNullOrEmpty(panierJson))
+    {
+        panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
+        panier.SetTotaux();
+    }
+}
+
+@if(Model.Count() != 0)
+{
+    @Html.Partial("_Produit", Model)
+}
+else
+{
+    @Html.Partial("_NoProduit")
+}
+
+
+
+

@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NegoSudLib.DAO;
 using NegoSudWeb.Models;
 using System.Diagnostics;
 
@@ -6,17 +8,32 @@ namespace NegoSudWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger; private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager,
+                              SignInManager<User> signInManager)
         {
-            _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+            _session = _httpContextAccessor.HttpContext.Session;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user != null && string.IsNullOrEmpty(_session.GetString("InfoClient")))
+            {
+                string token = Request.Cookies[".AspNetCore.Identity.Application"];
+                //httpClientService.Refresh(token);
+            }
             return View();
         }
+
+
 
         public IActionResult Privacy()
         {

@@ -42,6 +42,20 @@ namespace NegoSudAPI.Controllers
             return NotFound();
         }
 
+        //[Authorize(Roles = "Gérant,Employe,Client")]
+        // GET: api/Clients/5
+        [HttpGet("userName/{userName}")]
+        public async Task<ActionResult<ClientDTO>> GetByUserName(string userName)
+        {
+
+            var Clients = await _clientsService.GetByUserName(userName);
+            if (Clients != null)
+            {
+                return Ok(Clients);
+            }
+            return NotFound();
+        }
+
         // PUT: api/Clients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Roles = "Gérant,Employe,Client")]

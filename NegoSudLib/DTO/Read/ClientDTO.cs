@@ -17,6 +17,7 @@ public class ClientDTO
     public string NumTelUtilisateur { get; set; } = string.Empty;
 
     public string MotDePasse { get; set; } = string.Empty;
+    public string ConfirmMotDePasse { get; set; } = string.Empty;
 
     public string NumClient { get; set; } = string.Empty;
 }

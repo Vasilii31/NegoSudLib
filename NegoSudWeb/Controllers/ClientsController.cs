@@ -1,54 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using NegoSudLib.DAO;
-using NegoSudLib.NegosudDbContext;
+using NegoSudLib.DTO.Read;
+using NegoSudWeb.Models;
+using NegoSudWeb.Services;
+using Newtonsoft.Json;
 
 namespace NegoSudWeb.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly NegoSudDBContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public ClientsController(NegoSudDBContext context)
+
+        public ClientsController(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager,
+                              SignInManager<User> signInManager)
         {
-            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+            _session = _httpContextAccessor.HttpContext.Session;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
+
 
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-            var negoSudDBContext = _context.Clients.Include(c => c.User);
-            return View(await negoSudDBContext.ToListAsync());
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null) { RedirectToAction(nameof(Register)); }
+            ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
+            return View(clientConnecté);
         }
 
-        // GET: Clients/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+        // GET: Clients/register
+        public IActionResult Register()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _context.Clients
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return View(client);
-        }
-
-        // GET: Clients/Create
-        public IActionResult Create()
-        {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -57,108 +47,132 @@ namespace NegoSudWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NumClient,Id,UserId,NomUtilisateur,PrenomUtilisateur,AdresseUtilisateur,NumTelUtilisateur")] Client client)
+        public async Task<IActionResult> Register([Bind("UserName,NomUtilisateur,PrenomUtilisateur,AdresseUtilisateur,MailUtilisateur,NumTelUtilisateur,MotDePasse")] ClientDTO client)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var clientAdded = await httpClientService.AddClient(client);
+                var result = _signInManager.PasswordSignInAsync(client.UserName, client.MotDePasse, true, lockoutOnFailure: false).Result;
+                if (result.Succeeded)
+                {
+                    var logApi = await httpClientService.Login(client.UserName, client.MotDePasse);
+                    if (logApi)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
             return View(client);
         }
 
-        // GET: Clients/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+
+
+
+
+        // GET: Clients/Login
+        public IActionResult Login(string returnUrl)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _context.Clients.FindAsync(id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
-            return View(client);
+            ViewData["returnUrl"] = returnUrl;
+            return View();
         }
-
-        // POST: Clients/Edit/5
+        // POST: Clients/Login
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details,see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NumClient,Id,UserId,NomUtilisateur,PrenomUtilisateur,AdresseUtilisateur,NumTelUtilisateur")] Client client)
+        public async Task<IActionResult> Login([Bind("Username,Password,RememberMe,ReturnUrl")] LoginViewModel client)
         {
-            if (id != client.Id)
+            if (!ModelState.IsValid) return View();
+
+            var resultSign = _signInManager.PasswordSignInAsync(client.Username, client.Password, client.RememberMe, lockoutOnFailure: false).Result;
+            var result = await httpClientService.Login(client.Username, client.Password);
+
+
+            if (result && resultSign.Succeeded)
             {
-                return NotFound();
+                ClientDTO clientConnecté = await httpClientService.GetClientByUserName(client.Username);
+                HttpContext.Session.SetString("InfoClient", JsonConvert.SerializeObject(clientConnecté));
+                return Redirect(client.ReturnUrl ?? "~/");
             }
+            return View(client);
+        }
+
+
+
+
+
+        // GET: Clients/LogOut
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            Response.Cookies.Delete("Panier");
+            return RedirectToAction("Index", "Home");
+        }
+
+        // GET: Clients/Edit
+        public async Task<IActionResult> Edit()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
+            if (user != null) return View(clientConnecté);
+            return RedirectToAction("Index", "Home");
+        }
+        // POST: Clients/Edit
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("UserName,NomUtilisateur,PrenomUtilisateur,AdresseUtilisateur,MailUtilisateur,NumTelUtilisateur,MotDePasse")] ClientDTO client)
+        {
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
-            return View(client);
-        }
-
-        // GET: Clients/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _context.Clients
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
-            {
-                return NotFound();
+                var result = _signInManager.PasswordSignInAsync(client.UserName, client.MotDePasse, true, lockoutOnFailure: false).Result;
+                if (result.Succeeded) return RedirectToAction(nameof(Index));
             }
 
             return View(client);
         }
 
-        // POST: Clients/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
-            {
-                _context.Clients.Remove(client);
-            }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
-        private bool ClientExists(int id)
-        {
-            return _context.Clients.Any(e => e.Id == id);
-        }
+
+
+        /*  // GET: Clients/Delete/5
+          public async Task<IActionResult> Delete(int? id)
+          {
+              if (id == null)
+              {
+                  return NotFound();
+              }
+
+              var client = await _context.Clients
+                  .Include(c => c.User)
+                  .FirstOrDefaultAsync(m => m.Id == id);
+              if (client == null)
+              {
+                  return NotFound();
+              }
+
+              return View(client);
+          }
+
+          // POST: Clients/Delete/5
+          [HttpPost, ActionName("Delete")]
+          [ValidateAntiForgeryToken]
+          public async Task<IActionResult> DeleteConfirmed(int id)
+          {
+              var client = await _context.Clients.FindAsync(id);
+              if (client != null)
+              {
+                  _context.Clients.Remove(client);
+              }
+
+              await _context.SaveChangesAsync();
+              return RedirectToAction(nameof(Index));
+          }
+    */
+
     }
 }

@@ -1,83 +1,96 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NegoSudLib.DAO;
+using NegoSudLib.DTO.Read;
+using NegoSudLib.DTO.Write;
+using NegoSudWeb.Services;
+using Newtonsoft.Json;
 
 namespace NegoSudWeb.Controllers
 {
-	public class PanierController : Controller
-	{
-		// GET: PanierController
-		public ActionResult Index()
-		{
-			return View();
-		}
+    public class PanierController : Controller
+    {
 
-		// GET: PanierController/Details/5
-		public ActionResult Details(int id)
-		{
-			return View();
-		}
+        private readonly ILogger<HomeController> _logger; private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-		// GET: PanierController/Create
-		public ActionResult Create()
-		{
-			return View();
-		}
+        public PanierController(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager,
+                              SignInManager<User> signInManager)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _session = _httpContextAccessor.HttpContext.Session;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+        // GET: PanierController
+        public async Task<ActionResult> Index()
+        {
+            var panierJson = Request.Cookies["Panier"];
+            var panier = new VentesWriteDTO();
+            if (panierJson != null)
+            {
+                panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
+            }
+            panier.SetTotaux();
+            return View(panier);
+        }
 
-		// POST: PanierController/Create
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create(IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
+        // GET: PanierController
+        public async Task<ActionResult> ValiderPanier()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-		// GET: PanierController/Edit/5
-		public ActionResult Edit(int id)
-		{
-			return View();
-		}
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Clients", new { returnUrl = "/Panier/ValiderPanier" });
+            }
+            return View();
+        }
 
-		// POST: PanierController/Edit/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
 
-		// GET: PanierController/Delete/5
-		public ActionResult Delete(int id)
-		{
-			return View();
-		}
+        public async Task<ActionResult> ValiderCommande(string password)
+        {
 
-		// POST: PanierController/Delete/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
-	}
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+
+            var panierJson = Request.Cookies["Panier"];
+            var panier = new VentesWriteDTO();
+            if (panierJson != null)
+            {
+                panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
+            }
+            else
+            { return Json(new { success = false }); };
+
+            panier.SetTotaux();
+            var infoClientJson = _session.GetString("InfoClient");
+            var client = JsonConvert.DeserializeObject<ClientDTO>(infoClientJson);
+            panier.ClientId = client.Id;
+
+
+            /*var venteToAdd = panier;
+            foreach (var lgn in venteToAdd.DetailMouvementStocks)
+            {
+                lgn.Produit = null;
+            }*/
+
+            panier.EmployeId = 1;
+            var connectedToAPI = await httpClientService.Login(user.UserName, password); ;
+            if (!connectedToAPI) { return Json(new { success = false }); };
+
+            var venteAdded = await httpClientService.AddVente(panier, user);
+            if (venteAdded != null)
+            { return Json(new { success = true }); }
+            else
+            { return Json(new { success = false }); };
+        }
+
+
+
+
+
+    }
 }
