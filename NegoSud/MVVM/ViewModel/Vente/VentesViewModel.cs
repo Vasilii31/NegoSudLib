@@ -15,6 +15,7 @@ namespace NegoSud.MVVM.ViewModel
         public ObservableCollection<PanierItemViewModel> Panier { get; set; } = new();
 
 		public ObservableCollection<ConsultVenteItemViewModel> ListeVentes { get; set; } = new();
+		public ObservableCollection<ConsultVenteItemViewModel> ListeVentesEnLigne { get; set; } = new();
 
 		private VentesWriteDTO Vente = new VentesWriteDTO();
 
@@ -198,12 +199,38 @@ namespace NegoSud.MVVM.ViewModel
 		public VentesViewModel()
         {
 			CreateListeVentes();
+			CreateListeVentesEnLigne();
 			GetProductsAll();
             GetClients();
 
             AfficherVenteLocaleCommand = new RelayCommand(AfficherVenteLocale);
 			AfficherVenteEnLigneCommand = new RelayCommand(AfficherVenteEnLigne);
 			FermerVenteConsultCommand = new RelayCommand(FermerEcranConsult);
+		}
+
+		private void CreateListeVentesEnLigne()
+		{
+			ListeVentesEnLigne.Clear();
+
+			Task.Run(async () =>
+			{
+				return await httpClientService.GetVentesEnLigne();
+
+			})
+			.ContinueWith(t =>
+			{
+				foreach (var vente in t.Result)
+				{
+					var item = new ConsultVenteItemViewModel(vente);
+					//item.deleted += Item_deleted;
+					//item.modify += Item_modifyPopup;
+					item.Ventes.SetTotaux();
+					item.ouvrirVenteForm += OuvrirForm;
+					ListeVentesEnLigne.Add(item);
+
+				}
+
+			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
 		private void FermerEcranConsult(object obj)
@@ -217,7 +244,7 @@ namespace NegoSud.MVVM.ViewModel
 
 			Task.Run(async () =>
 			{
-				return await httpClientService.GetVentesEnLigne();
+				return await httpClientService.GetVentes();
 
 			})
 			.ContinueWith(t =>

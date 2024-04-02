@@ -119,5 +119,18 @@ namespace NegoSudLib.Repositories
         {
             return await _context.Ventes.AnyAsync(c => c.Id == id);
         }
-    }
+
+		public async Task<IEnumerable<VentesDTO>> GetAllOnline()
+		{
+			return await _context.Ventes.Where(c => c.EmployeId == 1)
+				.Include(c => c.Client)
+				.Include(c => c.Employe)
+				.Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixAchats)
+				 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Categorie)
+				 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(p => p.Domaine)
+				 .Include(c => c.DetailMouvementStocks).ThenInclude(p => p.Produit).ThenInclude(prix => prix.PrixVentes)
+				.Select(c => c.ToDTO())
+				.ToListAsync();
+		}
+	}
 }

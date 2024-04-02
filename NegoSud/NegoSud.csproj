@@ -66,6 +66,9 @@
     <Compile Update="MVVM\View\Template\TableauCommandes.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\Template\TableauVentesEnLigne.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

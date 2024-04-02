@@ -38,8 +38,23 @@ namespace NegoSudAPI.Controllers
 
         }
 
-        // GET api/Commandes/5
-        [Authorize(Roles = "Gérant,Employé,Client")]
+		// GET: api/Commandes    => Tous les Commandes en ligne 
+		[Authorize(Roles = "Gérant,Employé")]
+		[HttpGet("Website/")]
+		public async Task<ActionResult<IEnumerable<VentesDTO>>> GetAllOnline()
+		{
+
+			var ventes = await _ventesService.GetAllOnline();
+			if (ventes.Any())
+			{
+				return Ok(ventes);
+			}
+			return NotFound();
+
+		}
+
+		// GET api/Commandes/5
+		[Authorize(Roles = "Gérant,Employé,Client")]
         [HttpGet("{idNum}")]
         public async Task<ActionResult<VentesDTO?>> Getby(string idNum)
         {

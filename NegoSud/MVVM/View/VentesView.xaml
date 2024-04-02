@@ -37,7 +37,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Templates:TableauVentes Grid.Row="1" Grid.Column="1" />
+            <Templates:TableauVentesEnLigne Grid.Row="1" Grid.Column="1" />
             <Templates:ConsultVente Grid.Row="1" Grid.Column="1" Visibility="{Binding ConsultVenteVisible}" Panel.ZIndex="10"/>
         </Grid>
 

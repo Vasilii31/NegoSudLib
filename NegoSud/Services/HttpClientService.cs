@@ -561,7 +561,7 @@ namespace NegoSud.Services
 
 		public static async Task<List<VentesDTO>> GetVentesEnLigne()
 		{
-			string route = $"api/Ventes/";
+			string route = $"api/Ventes/Website/";
 			var response = await Client.GetAsync(route);
 			if (response.IsSuccessStatusCode)
 			{
