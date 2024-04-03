@@ -27,9 +27,9 @@ POST {{NegoSudAPI_HostAddress}}/api/employes
 Content-Type: application/json
 
 {
-  "userName": "JulietteDu31",
-  "nomUtilisateur": "Legendre",
-  "prenomUtilisateur": "Juliette",
+  "userName": "CommandesInternet",
+  "nomUtilisateur": "Commandes",
+  "prenomUtilisateur": "Internet",
   "adresseUtilisateur": "rue du test",
   "mailUtilisateur": "juliette@mail.fr",
   "numTelUtilisateur": "0123456789",
