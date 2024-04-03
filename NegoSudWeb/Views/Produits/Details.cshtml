@@ -1,4 +1,4 @@
-﻿@model NegoSudLib.DAO.Produit
+﻿@model NegoSudLib.DTO.Read.ProduitLightDTO
 
 @{
     ViewData["Title"] = "Details";
@@ -8,19 +8,18 @@
 
 <div>
     <h4>Produit</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.QteEnStock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.QteEnStock)
-        </dd>
+    <dl class="row">        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NomProduit)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NomProduit)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QteEnStock)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QteEnStock)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ContenanceCl)
@@ -46,51 +45,8 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DescriptionProduit)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SeuilCommandeMin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SeuilCommandeMin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CommandeMin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CommandeMin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.QteCarton)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.QteCarton)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhotoProduitPath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhotoProduitPath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AlaVente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AlaVente)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Domaine)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Domaine.NomDomaine)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categorie)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categorie.NomCategorie)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retour Produits</a>
 </div>

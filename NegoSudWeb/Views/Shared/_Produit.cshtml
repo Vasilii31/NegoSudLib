@@ -9,7 +9,7 @@
                     <img class="product-pic" src="@product.Produit.PhotoProduitPath" alt="@product.Produit.NomProduit">
                     <div class="product-info">
                         <div class="product-title">@product.Produit.NomProduit</div>
-                        <div class="product-description">@product.infoCard</div>
+                     @* <div class="product-description">@product.infoCard</div> *@
                     </div>
                 </div>
                 <form class="product-form" method="post" onsubmit="false">
@@ -40,7 +40,13 @@
                     @* <input type="hidden" name="productQuantity" value="@product.Quantity" /> *@
                     @* <input type="hidden" name="productCarton" value="@product.AuCarton" /> *@
                     <button type="button" class="product-AddToCart" onclick="addToCart(@product.Produit.Id)">Ajouter au panier</button>
+                <div class="consult-link">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Produits" asp-route-id="@product.Produit.Id" asp-action="Details">
+                        @Html.Partial("_Consult")
+                    </a>
+                </div>
                 </form>
+                
             </div>
         }
 </div>

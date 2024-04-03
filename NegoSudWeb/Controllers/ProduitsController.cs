@@ -64,24 +64,16 @@ namespace NegoSudWeb.Controllers
         }
 
         // GET: Produits/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            /*if (id == null)
-            {
-                return NotFound();
-            }
+            var produit = await httpClientService.GetProductById(id);
 
-            var produit = await _context.Produits
-                .Include(p => p.Categorie)
-                .Include(p => p.Domaine)
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (produit == null)
             {
                 return NotFound();
             }
 
-            return View(produit);*/
-            throw new NotImplementedException();
+            return View(produit);
         }
 
 
