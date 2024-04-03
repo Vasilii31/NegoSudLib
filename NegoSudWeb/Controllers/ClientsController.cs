@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DAO;
 using NegoSudLib.DTO.Read;
+using NegoSudWeb.Models;
 using NegoSudWeb.Services;
+using Newtonsoft.Json;
 
 namespace NegoSudWeb.Controllers
 {
@@ -52,7 +54,15 @@ namespace NegoSudWeb.Controllers
             {
                 var clientAdded = await httpClientService.AddClient(client);
                 var result = _signInManager.PasswordSignInAsync(client.UserName, client.MotDePasse, true, lockoutOnFailure: false).Result;
-                return RedirectToAction(nameof(Index));
+                if (result.Succeeded)
+                {
+                    var logApi = await httpClientService.Login(client.UserName, client.MotDePasse);
+                    if (logApi)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
             }
             return View(client);
         }
@@ -62,29 +72,35 @@ namespace NegoSudWeb.Controllers
 
 
         // GET: Clients/Login
-        public async Task<IActionResult> Login()
+        public IActionResult Login(string returnUrl)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (user == null) return View();
-            return RedirectToAction(nameof(Index));
-
+            ViewData["returnUrl"] = returnUrl;
+            return View();
         }
         // POST: Clients/Login
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details,see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("UserName,MotDePasse")] ClientDTO client)
+        public async Task<IActionResult> Login([Bind("Username,Password,RememberMe,ReturnUrl")] LoginViewModel client)
         {
+            if (!ModelState.IsValid) return View();
 
-            if (ModelState.IsValid)
+            var resultSign = _signInManager.PasswordSignInAsync(client.Username, client.Password, client.RememberMe, lockoutOnFailure: false).Result;
+            var result = await httpClientService.Login(client.Username, client.Password);
+
+
+            if (result && resultSign.Succeeded)
             {
-                var result = _signInManager.PasswordSignInAsync(client.UserName, client.MotDePasse, true, lockoutOnFailure: false).Result;
-                if (result.Succeeded) return RedirectToAction(nameof(Index));
+                ClientDTO clientConnecté = await httpClientService.GetClientByUserName(client.Username);
+                HttpContext.Session.SetString("InfoClient", JsonConvert.SerializeObject(clientConnecté));
+                return Redirect(client.ReturnUrl ?? "~/");
             }
-
             return View(client);
         }
+
+
+
 
 
         // GET: Clients/LogOut
@@ -92,7 +108,7 @@ namespace NegoSudWeb.Controllers
         {
             await _signInManager.SignOutAsync();
             Response.Cookies.Delete("Panier");
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Clients/Edit

@@ -497,5 +497,79 @@ namespace NegoSud.Services
             var response = await Client.PutAsync(route, data);
             return response.IsSuccessStatusCode;
         }
-    }
+
+		public static async Task<List<Inventaire>> GetInventaireHistorique()
+		{
+			string route = $"api/Inventaires?isValidated=true";
+			var reponse = await Client.GetAsync(route);
+			if (reponse.IsSuccessStatusCode)
+			{
+				string resultat = await reponse.Content.ReadAsStringAsync();
+				return JsonConvert.DeserializeObject<List<Inventaire>>(resultat)
+					?? throw new FormatException($"Erreur Http : {route}");
+			}
+			throw new Exception(reponse.ReasonPhrase);
+		}
+
+		public static async Task<List<Inventaire>> GetInventaireEnCours()
+		{
+			string route = $"api/Inventaires?isValidated=false";
+			var reponse = await Client.GetAsync(route);
+			if (reponse.IsSuccessStatusCode)
+			{
+				string resultat = await reponse.Content.ReadAsStringAsync();
+				return JsonConvert.DeserializeObject<List<Inventaire>>(resultat)
+					?? throw new FormatException($"Erreur Http : {route}");
+			}
+			return new List<Inventaire>();
+		}
+
+		public static async Task<Inventaire> CreateNewInventaire(Inventaire inventaire)
+		{
+			var inventaireJson = JsonConvert.SerializeObject(inventaire);
+			string route = $"api/Inventaires";
+
+			var content = new StringContent(inventaireJson, Encoding.UTF8, "application/json");
+
+			var response = await Client.PostAsync(route, content);
+
+			if (response.IsSuccessStatusCode)
+			{
+				string resultat = await response.Content.ReadAsStringAsync();
+				return JsonConvert.DeserializeObject<Inventaire>(resultat)
+					?? throw new FormatException($"Erreur lors de la désérialisation de la réponse HTTP : {route}");
+			}
+			else
+			{
+				string errorMessage = $"Erreur HTTP : {response.StatusCode} - {response.ReasonPhrase}";
+				throw new HttpRequestException(errorMessage);
+			}
+		}
+
+		public static async Task<Inventaire?> GetInventaire(int id)
+		{
+			string route = $"api/Inventaires/{id}";
+			var response = await Client.GetAsync(route);
+			if (response.IsSuccessStatusCode)
+			{
+				string resultat = await response.Content.ReadAsStringAsync();
+				return JsonConvert.DeserializeObject<Inventaire>(resultat)
+				?? throw new FormatException($"Erreur Http : {route}");
+			}
+			return new Inventaire();
+		}
+
+		public static async Task<List<VentesDTO>> GetVentesEnLigne()
+		{
+			string route = $"api/Ventes/Website/";
+			var response = await Client.GetAsync(route);
+			if (response.IsSuccessStatusCode)
+			{
+				string resultat = await response.Content.ReadAsStringAsync();
+				return JsonConvert.DeserializeObject<List<VentesDTO>>(resultat)
+				?? throw new FormatException($"Erreur Http : {route}");
+			}
+			return new List<VentesDTO>();
+		}
+	}
 }

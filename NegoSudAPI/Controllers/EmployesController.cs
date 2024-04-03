@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NegoSudLib.DTO.Read;
 using NegoSudLib.Interfaces;
 
 namespace NegoSudAPI.Controllers
 {
-    [Authorize(Roles = "Gérant,Employé")]
+    //[Authorize(Roles = "Gérant,Employé")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployesController : ControllerBase

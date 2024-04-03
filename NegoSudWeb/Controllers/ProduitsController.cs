@@ -148,7 +148,9 @@ namespace NegoSudWeb.Controllers
             //_session.SetString("Panier", panierJson);
             /*var test = _session.GetString("Panier");
 			Console.Write(test);*/
-            return Json(new { success = true });
+            TempData["SuccessMessage"] = "Commande validée";
+
+            return RedirectToAction("Index", "Home");
         }
 
 

@@ -27,17 +27,6 @@ namespace NegoSudWeb.Controllers
         // GET: PanierController
         public async Task<ActionResult> Index()
         {
-            if (_session == null)
-            {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                if (user != null)
-                {
-                    ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
-                    var clientJson = JsonConvert.SerializeObject(clientConnecté);
-                    _session.SetString("InfoClient", clientJson);
-                }
-            }
-
             var panierJson = Request.Cookies["Panier"];
             var panier = new VentesWriteDTO();
             if (panierJson != null)
@@ -51,34 +40,21 @@ namespace NegoSudWeb.Controllers
         // GET: PanierController
         public async Task<ActionResult> ValiderPanier()
         {
-            if (_session == null)
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                if (user != null)
-                {
-                    ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
-                    var clientJson = JsonConvert.SerializeObject(clientConnecté);
-                    _session.SetString("InfoClient", clientJson);
-                }
+                return RedirectToAction("Login", "Clients", new { returnUrl = "/Panier/ValiderPanier" });
             }
-
-
             return View();
         }
 
 
-        public async Task<ActionResult> ValiderCommande()
+        public async Task<ActionResult> ValiderCommande(string password)
         {
-            if (_session == null)
-            {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                if (user != null)
-                {
-                    ClientDTO clientConnecté = await httpClientService.GetClientByUserName(user.UserName);
-                    var clientJson = JsonConvert.SerializeObject(clientConnecté);
-                    _session.SetString("InfoClient", clientJson);
-                }
-            }
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
 
             var panierJson = Request.Cookies["Panier"];
             var panier = new VentesWriteDTO();
@@ -86,11 +62,26 @@ namespace NegoSudWeb.Controllers
             {
                 panier = JsonConvert.DeserializeObject<VentesWriteDTO>(panierJson);
             }
+            else
+            { return Json(new { success = false }); };
+
             panier.SetTotaux();
             var infoClientJson = _session.GetString("InfoClient");
             var client = JsonConvert.DeserializeObject<ClientDTO>(infoClientJson);
             panier.ClientId = client.Id;
-            var venteAdded = await httpClientService.AddVente(panier);
+
+
+            /*var venteToAdd = panier;
+            foreach (var lgn in venteToAdd.DetailMouvementStocks)
+            {
+                lgn.Produit = null;
+            }*/
+
+            panier.EmployeId = 1;
+            var connectedToAPI = await httpClientService.Login(user.UserName, password); ;
+            if (!connectedToAPI) { return Json(new { success = false }); };
+
+            var venteAdded = await httpClientService.AddVente(panier, user);
             if (venteAdded != null)
             { return Json(new { success = true }); }
             else

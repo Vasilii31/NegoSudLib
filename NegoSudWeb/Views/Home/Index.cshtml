@@ -1,4 +1,19 @@
-﻿<div id="footer" class="container">
+﻿@{
+    var successMessage = TempData["SuccessMessage"]?.ToString();
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <script>
+        // Display success alert using JavaScript
+        alert('@successMessage');
+        // Redirect to the home page
+        window.location.href = '/';
+    </script>
+}
+
+
+<div id="footer" class="container">
     <div class="row" id="header-accueil">
 			<div class="col-md-4">
 				<section>
@@ -44,3 +59,4 @@
         </div>
     </div>
 </div>
+

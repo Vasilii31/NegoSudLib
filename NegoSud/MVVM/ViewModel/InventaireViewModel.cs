@@ -96,6 +96,7 @@ namespace NegoSud.MVVM.ViewModel
 
         public InventaireViewModel()
         {
+            
             GetProductsAll();
             GetTypesMouvementsAll();
             ValiderMvTCommand = new RelayCommand(Post_Command);
@@ -121,6 +122,7 @@ namespace NegoSud.MVVM.ViewModel
 
             Task.Run(async () =>
             {
+
                 return await httpClientService.AddTypeMouvement(typeMouvement);
 
             })
@@ -230,6 +232,7 @@ namespace NegoSud.MVVM.ViewModel
                     TypeMouvementSelectionne = null;
                     Commentaire = "";
                     IsFormValidationVisible = Visibility.Hidden;
+                    GetProductsAll();
                 }
 
             }, TaskScheduler.FromCurrentSynchronizationContext());

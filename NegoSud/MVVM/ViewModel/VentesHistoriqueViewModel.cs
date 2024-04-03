@@ -1,4 +1,5 @@
-﻿using NegoSud.Services;
+﻿using NegoSud.Core;
+using NegoSud.Services;
 using NegoSudLib.DTO.Read;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NegoSud.MVVM.ViewModel
 {
@@ -52,12 +54,21 @@ namespace NegoSud.MVVM.ViewModel
             }
         }
 
-        public VentesHistoriqueViewModel()
+        public ICommand FermerVenteConsultCommand { get; set; }
+
+		public VentesHistoriqueViewModel()
         {
             CreateListeVentes();
-        }
+            FermerVenteConsultCommand = new RelayCommand(FermerEcranConsult);
 
-        private void CreateListeVentes()
+		}
+
+		private void FermerEcranConsult(object obj)
+		{
+            ConsultVenteVisible = Visibility.Hidden;
+		}
+
+		private void CreateListeVentes()
         {
             ListeVentes.Clear();
 

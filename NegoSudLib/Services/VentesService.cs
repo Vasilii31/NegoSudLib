@@ -21,7 +21,13 @@ namespace NegoSudLib.Services
         {
             return await _ventesRepository.GetAll();
         }
-        public async Task<VentesDTO?> GetById(int id)
+
+		public async Task<IEnumerable<VentesDTO>> GetAllOnline()
+		{
+			return await _ventesRepository.GetAllOnline();
+		}
+
+		public async Task<VentesDTO?> GetById(int id)
         {
             var com = await _ventesRepository.GetById(id);
             if (com != null)

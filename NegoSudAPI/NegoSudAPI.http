@@ -27,9 +27,9 @@ POST {{NegoSudAPI_HostAddress}}/api/employes
 Content-Type: application/json
 
 {
-  "userName": "JulietteDu31",
-  "nomUtilisateur": "Legendre",
-  "prenomUtilisateur": "Juliette",
+  "userName": "CommandesInternet",
+  "nomUtilisateur": "Commandes",
+  "prenomUtilisateur": "Internet",
   "adresseUtilisateur": "rue du test",
   "mailUtilisateur": "juliette@mail.fr",
   "numTelUtilisateur": "0123456789",
@@ -117,29 +117,7 @@ GET {{NegoSudAPI_HostAddress}}/api/ventes/
 POST {{NegoSudAPI_HostAddress}}/api/ventes/
 Content-Type: application/json
 
-{
-  "qteMouvement": 1,
-  "commentaire": "Ceci est une vente TEST",
-  "employeId": 1,
-  "detailMouvementStocks": [
-    {
-      "qteProduit": 1,
-      "prixApresRistourne": 12,
-      "auCarton": false,
-      "mouvementStockId": 0,
-      "produitId": 5
-    },
-    {
-        "qteProduit": 2,
-        "prixApresRistourne": -1,
-        "auCarton": false,
-        "mouvementStockId": 0,
-        "produitId": 6
-     }
-  ],
-  "clientId": 7
-}
-
+{"NumFacture":"","Commentaire":"","EmployeId":1,"ClientId":2,"DetailMouvementStocks":[{"Id":0,"QteProduit":1,"PrixApresRistourne":-1.0,"AuCarton":true,"MouvementStockId":0,"ProduitId":2,"Produit":{"Id":2,"NomProduit":"Colombard Sauvignon Blanc","ContenanceCl":75,"QteEnStock":0,"CommandeMin":10,"SeuilCommandeMin":10,"DegreeAlcool":11.0,"Millesime":2020,"QteCarton":12,"PhotoProduitPath":"","DescriptionProduit":"","IdDomaine":4,"NomDomaine":"Domaine d'Uby","IdCategorie":2,"NomCategorie":"Blanc","ALaVente":true,"IdFournisseur":1,"Fournisseur":"Cave du Jurançon","PrixVente":10.0,"PrixVenteCarton":120.0,"PrixAchat":10.0,"PrixAchatCarton":120.0},"SousTotal":120.0}],"Total":120.0}
 ###
 POST {{NegoSudAPI_HostAddress}}/api/autreMouvement
 Content-Type: application/json
@@ -205,6 +183,18 @@ Content-Type: application/json
 
 {
   "email": "JulietteDu31",
+  "password": "mdpMDP&1",
+  "twoFactorCode": "string",
+  "twoFactorRecoveryCode": "string"
+}
+
+###
+
+POST {{NegoSudAPI_HostAddress}}/login?useCookies=true&useSessionCookies=false
+Content-Type: application/json
+
+{
+  "email": "OliTheBoss",
   "password": "mdpMDP&1",
   "twoFactorCode": "string",
   "twoFactorRecoveryCode": "string"
@@ -282,5 +272,10 @@ GET {{NegoSudAPI_HostAddress}}/api/produits/recherche?cat=0&dom=0&four=0&nom=str
 ###
 
 GET {{NegoSudAPI_HostAddress}}/api/produits/Recherche?cat=0&dom=0&four=0&nom=string
+
+###
+
+
+GET {{NegoSudAPI_HostAddress}}/manage/info
 
 ###

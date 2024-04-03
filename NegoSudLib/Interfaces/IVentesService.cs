@@ -12,5 +12,6 @@ namespace NegoSudLib.Interfaces
         Task<VentesDTO?> Put(int id, VentesWriteDTO vente);
         Task Delete(int id);
         Task<bool> Exists(int id);
-    }
+		Task<IEnumerable<VentesDTO>> GetAllOnline();
+	}
 }

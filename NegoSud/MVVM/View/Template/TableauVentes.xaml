@@ -9,12 +9,12 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="POur la barre de tri"></TextBlock>
+            <!--<TextBlock Grid.Row="0" Text="POur la barre de tri"></TextBlock>-->
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
